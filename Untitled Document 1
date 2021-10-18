@@ -1,0 +1,19 @@
+In this assignment we will build off of your previous assignment to add some visuals, including:
+
+1) Player sprites (3pts)
+2) Tile sets (4pts)
+3) Collectibles (2pts)
+
+Working off of your assignment from last time, use your character's motion to add sprite animations.  You may use a sprite sheet from another source (please indicate it in your README) or you can make your own.  Your sprite functionality should use its own class (2pts) called from your game or player object.  The sprite manager should control the speed and cycling of animation.  You must use at least two sprite animations and decide how to organize and implement the selection/change of animation as it pertains to state (1pt) (e.g. run vs. jump sprites).
+
+Next, we will build our background environment from a tile sheet. The goal here is to build the tile handler (2pts) as its own class, including tiles and a tilemap and then render the viewable set of tiles from the map based on your camera in game (2pt).  The map need not be complicated, it can be an input file with a list of locations for tile image (better), or can just be a set of hard-coded values that are defined explicitly in the code (less good, but acceptable).  However, the tile world should be larger than the camera view and the players' movement will control the viewable subsection of the game world for this assignment.  Ask for details if this is confusing.  
+
+Adding collectibles (2pts) is a simple part of this assignment, placing the collectibles in the playable area in a pattern or at random.  Each collectibles will be an instance of a game object class.  Placing many of these in the environment should be done in an organized, scalable manner.  Again, ask for details if this is confusing.  
+
+Given all three of these parts are taking in images, an image handler that imports and serves the image data to other parts of the code would be a worthy addition of this assignment.  This is optional, but if you do include this as an explicit class, you will receive 1pt of extra credit.
+
+As before, neat code is happy code - you will be evaluated on your software organization and documentation (1pt).  For the turn-in, please "tar" from one directory above the code you are submitting and call your directory something distinct (e.g. assn#_lastname).   Be sure your code compiles and runs on the lab machines using the virtual desktop if you are working from home - http://virtual.computing.clemson.edu/(Links to an external site.) Add a README in your hand-in to describe your inputs and the sources of your images if they are not your own.
+
+As an aside, no collisions or enemies are due at this time - but you may want to think ahead about how you would add such and plan accordingly in your software organization.  But as is, your character may pass through walls, collectibles, etc.  This is acceptable for this turn-in
+
+Questions? Ask on Piazza where we can discuss and clarify... Good luck, work hard, have fun!
