@@ -19,13 +19,15 @@ namespace Alalba{
 		
 		winID = SDL_GetWindowID((SDL_Window*)m_Window->GetNativeWindow());
 		Renderer::Init(winID);
-	
-		std::string prefix = "../../../asset/"	;
-		background = new Object(winID, prefix+"sky.png");
-		background->SetScale(0,0,m_Window->GetWidth(),m_Window->GetHeight());
 
-		face = new Object(winID, prefix+"awesomeface.png");
-		face->SetScale(100,100,20,20);
+		m_Scene = new Scene();
+		m_Scene->Init();
+		// std::string prefix = "../../../asset/"	;
+		// background = new Object(winID, prefix+"sky.png");
+		// background->SetScale(0,0,m_Window->GetWidth(),m_Window->GetHeight());
+
+		// face = new Object(winID, prefix+"awesomeface.png");
+		// face->SetScale(100,100,20,20);
 	}
   Application::~Application(){
 		// SDL_DestroyRenderer(m_Renderer->GetRenderer());
@@ -41,27 +43,27 @@ namespace Alalba{
 	}
 	void Application::OnUpdate(){
 
-		float t = 0.001;
+		// float t = 0.001;
 
-    face->SetVel( face->GetVel()+(Vec2(0,9.8))*t );
-		face->SetPos( face->GetPos()+face->GetVel()*t);
+    // face->SetVel( face->GetVel()+(Vec2(0,9.8))*t );
+		// face->SetPos( face->GetPos()+face->GetVel()*t);
 
-		face->SetPosition((face->GetPos().x)*m_Window->GetWidth(),
-						(face->GetPos().y)*m_Window->GetHeight());
+		// face->SetPosition((face->GetPos().x)*m_Window->GetWidth(),
+		// 				(face->GetPos().y)*m_Window->GetHeight());
 
-		if(face->GetPos().y>1-20.0/m_Window->GetHeight())
-		{
-			face->SetPos({face->GetPos().x,1-20.0/m_Window->GetHeight()});
-			face->SetVel( {face->GetVel().x,-face->GetVel().y*0.5} );
-		}
+		// if(face->GetPos().y>1-20.0/m_Window->GetHeight())
+		// {
+		// 	face->SetPos({face->GetPos().x,1-20.0/m_Window->GetHeight()});
+		// 	face->SetVel( {face->GetVel().x,-face->GetVel().y*0.5} );
+		// }
 	}
 	bool Application::OnMousePressed(MouseButtonPressedEvent& e)
 	{
-		if(Input::IsMouseButtonPressed(ALALBA_MOUSE_BUTTON_LEFT)){
-			face->SetPosition(e.GetX()-10,e.GetY()-10);
-			face->SetVel({0,0});
-			face->SetPos({(e.GetX()-10.0)/m_Window->GetWidth(),(e.GetY()-10.0)/m_Window->GetHeight()});
-		}return false;
+		// if(Input::IsMouseButtonPressed(ALALBA_MOUSE_BUTTON_LEFT)){
+		// 	face->SetPosition(e.GetX()-10,e.GetY()-10);
+		// 	face->SetVel({0,0});
+		// 	face->SetPos({(e.GetX()-10.0)/m_Window->GetWidth(),(e.GetY()-10.0)/m_Window->GetHeight()});
+		// }return false;
 	}
 	bool Application::OnMouseMove(MouseMovedEvent& e)
 	{
@@ -87,8 +89,7 @@ namespace Alalba{
     while(m_Running){
 			this->OnUpdate();
 			m_Window->OnUpdate();
-			Renderer::Submit(*background);
-			Renderer::Submit(*face);
+			Renderer::Submit(*m_Scene);
 			Renderer::Render();
     }
   }

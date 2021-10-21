@@ -10,7 +10,8 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 
 --Include directories relatice to root folder (solution directory)
--- IncludeDir = {}
+IncludeDir = {}
+IncludeDir["Entt"] = "Alalba_6160/vendor/entt"
 -- IncludeDir["GLFW"] = "Alalba/vendor/GLFW/include"
 -- IncludeDir["Glad"] = "Alalba/vendor/Glad/include"
 -- IncludeDir["spdlog"] = "Alalba/vendor/spdlog/include"
@@ -45,6 +46,7 @@ project "Alalba_6160"
 	includedirs
 	{
 		"%{prj.name}/src"
+		, "%{IncludeDir.Entt}"
 		-- ,"%{IncludeDir.spdlog}",
 		-- "%{IncludeDir.Glad}",
 		-- "%{IncludeDir.GLFW}",

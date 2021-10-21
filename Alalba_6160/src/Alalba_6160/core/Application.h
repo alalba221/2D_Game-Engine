@@ -6,6 +6,8 @@
 #include "Object.h"
 #include "Alalba_6160/Renderer/Renderer.h"
 #include "Alalba.h"
+#include "Scene.h"
+#include "Entity.h"
 namespace Alalba{
   class ALALBA_API Application{
     
@@ -38,5 +40,6 @@ namespace Alalba{
 
 		Object* background;
 		Object* face;
+		Scene* m_Scene;
   };
 }
