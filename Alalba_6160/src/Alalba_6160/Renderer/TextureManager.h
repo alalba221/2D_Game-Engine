@@ -7,8 +7,8 @@
 #include "Alalba_6160/core/Base.h"
 // #include "Constants.h"
 namespace Alalba{
-	enum class TextureId {
-		EMPTY,
+	enum  TextureId {
+		EMPTY = 0,
 		MARIO_STAND,
 		MARIO_RUN_1,
 		MARIO_RUN_2,

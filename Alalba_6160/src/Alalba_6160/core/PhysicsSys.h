@@ -1,5 +1,6 @@
 #pragma once
 #include "Scene.h"
+#include "AABB.h"
 namespace Alalba
 {
 	class PhysicsSys
@@ -8,6 +9,8 @@ namespace Alalba
 		// AnimateSys(){};
 		// ~AnimateSys(){};
 
-		static void OnUpdate(const Scene& scene);
+		static void OnUpdate(Scene& scene);
+	private:
+
 	};
 }

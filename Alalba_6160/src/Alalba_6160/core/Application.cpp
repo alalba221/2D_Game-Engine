@@ -54,7 +54,7 @@ namespace Alalba{
 
 		// auto trans=entity->GetComponent<TransformComponent>();
 		// auto kinetic = entity->GetComponent<KineticComponent>();
-		// m_Scene->OnUpdate();
+		m_Scene->OnUpdate();
 		
 	}
 	bool Application::OnMousePressed(MouseButtonPressedEvent& e)

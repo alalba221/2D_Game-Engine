@@ -8,6 +8,6 @@ namespace Alalba
 		// AnimateSys(){};
 		// ~AnimateSys(){};
 
-		static void OnUpdate(const Scene& scene);
+		static void OnUpdate(Scene& scene);
 	};
 }

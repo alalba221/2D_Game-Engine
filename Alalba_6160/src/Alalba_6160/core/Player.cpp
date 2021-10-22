@@ -105,7 +105,7 @@ namespace Alalba {
         } else {
             kinetic.accX = (float) (dirX) * (MARIO_ACCELERATION_X);
             if (sprint) kinetic.accX *= 1.5;
-            setAnimation(ANIMATION_STATE::JUMPING);
+            //setAnimation(ANIMATION_STATE::JUMPING);
         }
     }
 
@@ -124,10 +124,11 @@ namespace Alalba {
 			{
 				case ALALBA_A:
 					left = true;
-					setAnimation(ANIMATION_STATE::RUNNING);
+					//setAnimation(ANIMATION_STATE::RUNNING);
           break;
 				case ALALBA_D:
 					right = true;
+					//setAnimation(ANIMATION_STATE::RUNNING);
 					break;
 				case ALALBA_W:
 					jump = true;
@@ -144,9 +145,11 @@ namespace Alalba {
 			{
 				case ALALBA_A:
 					left = false;
+					//setAnimation(ANIMATION_STATE::STANDING);
           break;
 				case ALALBA_D:
 					right = false;
+					//setAnimation(ANIMATION_STATE::STANDING);
 					break;
 				case ALALBA_W:
 					jump = false;

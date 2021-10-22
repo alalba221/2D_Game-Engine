@@ -16,7 +16,6 @@
 #define ALALBA_API 
 #define BIT(x) (1<<x)
 
-
 constexpr int FPS = 60;
 constexpr int ZOOM = 4;
 constexpr int FRAME_DURATION = 1000 / FPS;

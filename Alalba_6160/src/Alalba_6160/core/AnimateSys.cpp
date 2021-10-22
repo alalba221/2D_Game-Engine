@@ -3,7 +3,7 @@
 #include "Entity.h"
 namespace Alalba
 {
-	void AnimateSys::OnUpdate(const Scene& scene){
+	void AnimateSys::OnUpdate(Scene& scene){
 	
 		auto entities = scene.GetEntities();
 		
