@@ -17,8 +17,8 @@ namespace Alalba
 		unsigned int Height;
 
 		WindowProps(const std::string& title="Alalba Engine",
-			unsigned int width = 1280,
-			unsigned int height = 720)
+			unsigned int width = SNES_RESOLUTION_WIDTH * ZOOM,
+			unsigned int height = SNES_RESOLUTION_HEIGHT * ZOOM)
 			: Title(title),Width(width),Height(height)
 		{
 

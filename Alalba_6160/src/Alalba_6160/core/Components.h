@@ -194,19 +194,19 @@ namespace Alalba{
 	};
   }
 
-  struct EnemyComponent : public Component {
-		EnemyComponent(Enemy::Type type) : type{type} {}
+  // struct EnemyComponent : public Component {
+	// 	EnemyComponent(Enemy::Type type) : type{type} {}
 
-		Enemy::Type type;
-  };
+	// 	Enemy::Type type;
+  // };
 
-  struct WalkComponent : public Component {
-		WalkComponent() = default;
+  // struct WalkComponent : public Component {
+	// 	WalkComponent() = default;
 
-		WalkComponent(float speed) : speed{speed} {}
+	// 	WalkComponent(float speed) : speed{speed} {}
 
-		float speed = -.6;
-  };
+	// 	float speed = -.6;
+  // };
 
   enum class Direction {
 		NONE,
@@ -386,7 +386,7 @@ namespace Alalba{
 
   struct CameraComponent : public Component {
 
-		CameraComponent() = delete;
+		CameraComponent() = default;
 
 		explicit CameraComponent(int x, int y, int width, int height) : x{x}, y{y}, width{width}, height{height} {}
 

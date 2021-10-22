@@ -77,41 +77,40 @@ namespace Alalba {
 
 	void Player::OnUpdate()
 	{
-		auto transform = this->GetComponent<TransformComponent>();
-		auto texture = this->GetComponent<TextureComponent>();
-		auto kinetic = this->GetComponent<KineticComponent>();
+		auto& transform = this->GetComponent<TransformComponent>();
+		auto& texture = this->GetComponent<TextureComponent>();
+		auto& kinetic = this->GetComponent<KineticComponent>();
 
-		// if (duck && this->HasComponent<SuperMarioComponent>()) {
-		// 	setAnimation(ANIMATION_STATE::DUCKING);
-		// 	kinetic.accX = 0;
-    // } else {
-    //     if (this->HasComponent<BottomCollisionComponent>()) {
-    //         kinetic.speedX = (float) dirX * MARIO_ACCELERATION_X * 1.7f;
-    //         if (sprint) kinetic.accX *= 1.5;
-    //         if (jump) {
-    //             this->GetComponent<KineticComponent>().accY = -MARIO_JUMP_ACCELERATION;
-    //             // world->create()->assign<SoundComponent>(Sound::Id::JUMP);
-    //         }
-    //         if ((bool) std::abs(kinetic.speedX) || (bool) std::abs(kinetic.accX)) {
-    //             if ((kinetic.speedX > 0 && kinetic.accX < 0) ||
-    //                 (kinetic.speedX < 0 && kinetic.accX > 0)) {
-    //                 setAnimation(ANIMATION_STATE::DRIFTING);
-    //             } else {
-    //                 setAnimation(ANIMATION_STATE::RUNNING);
-    //             }
-    //         } else {
-    //             setAnimation(ANIMATION_STATE::STANDING);
-    //         }
+		if (duck && this->HasComponent<SuperMarioComponent>()) {
+			kinetic.accX = 0;
+    } else {
+        if (this->HasComponent<BottomCollisionComponent>()) {
+            kinetic.speedX = (float) dirX * MARIO_ACCELERATION_X * 1.7f;
+            if (sprint) kinetic.accX *= 1.5;
+            if (jump) {
+                this->GetComponent<KineticComponent>().accY = -MARIO_JUMP_ACCELERATION;
+                // world->create()->assign<SoundComponent>(Sound::Id::JUMP);
+            }
+            if ((bool) std::abs(kinetic.speedX) || (bool) std::abs(kinetic.accX)) {
+                if ((kinetic.speedX > 0 && kinetic.accX < 0) ||
+                    (kinetic.speedX < 0 && kinetic.accX > 0)) {
+                    setAnimation(ANIMATION_STATE::DRIFTING);
+                } else {
+                    setAnimation(ANIMATION_STATE::RUNNING);
+                }
+            } else {
+                setAnimation(ANIMATION_STATE::STANDING);
+            }
 
-    //     } else {
-    //         kinetic.accX = (float) (dirX) * (MARIO_ACCELERATION_X);
-    //         if (sprint) kinetic.accX *= 1.5;
-    //         setAnimation(ANIMATION_STATE::JUMPING);
-    //     }
-    // }
+        } else {
+            kinetic.accX = (float) (dirX) * (MARIO_ACCELERATION_X);
+            if (sprint) kinetic.accX *= 1.5;
+            setAnimation(ANIMATION_STATE::JUMPING);
+        }
+    }
 
 		if (left || right) lookingLeft = left;
-    this->GetComponent<TextureComponent>().flipH = lookingLeft;
+		this->GetComponent<TextureComponent>().flipH = lookingLeft;
     jump = false;
 	}
 
@@ -125,6 +124,7 @@ namespace Alalba {
 			{
 				case ALALBA_A:
 					left = true;
+					setAnimation(ANIMATION_STATE::RUNNING);
           break;
 				case ALALBA_D:
 					right = true;

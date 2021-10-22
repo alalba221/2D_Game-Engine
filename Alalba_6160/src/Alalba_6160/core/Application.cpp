@@ -5,7 +5,8 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_timer.h>
 #include "Player.h"
-
+#include "AnimateSys.h"
+#include "PhysicsSys.h"
 namespace Alalba{
   #define BIND_ENVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
@@ -46,21 +47,15 @@ namespace Alalba{
 
 	}
 	void Application::OnUpdate(){
+		
+		PhysicsSys::OnUpdate(*m_Scene);
+		AnimateSys::OnUpdate(*m_Scene);
+		// auto entity = m_Scene->GetEntities()[0];
 
-		m_Scene->OnUpdate();
-		// float t = 0.001;
-
-    // face->SetVel( face->GetVel()+(Vec2(0,9.8))*t );
-		// face->SetPos( face->GetPos()+face->GetVel()*t);
-
-		// face->SetPosition((face->GetPos().x)*m_Window->GetWidth(),
-		// 				(face->GetPos().y)*m_Window->GetHeight());
-
-		// if(face->GetPos().y>1-20.0/m_Window->GetHeight())
-		// {
-		// 	face->SetPos({face->GetPos().x,1-20.0/m_Window->GetHeight()});
-		// 	face->SetVel( {face->GetVel().x,-face->GetVel().y*0.5} );
-		// }
+		// auto trans=entity->GetComponent<TransformComponent>();
+		// auto kinetic = entity->GetComponent<KineticComponent>();
+		// m_Scene->OnUpdate();
+		
 	}
 	bool Application::OnMousePressed(MouseButtonPressedEvent& e)
 	{

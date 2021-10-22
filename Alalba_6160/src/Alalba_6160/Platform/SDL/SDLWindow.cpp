@@ -125,7 +125,7 @@ namespace Alalba
                               SDL_WINDOWPOS_CENTERED,
                               (int)props.Width,
                               (int)props.Height,
-                             0);
+                             SDL_WINDOW_ALLOW_HIGHDPI);
 		SDL_SetWindowData(m_Window,"data",&m_Data);
 		// SetVSync(true);
 	}

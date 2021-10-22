@@ -7,6 +7,7 @@
 #include "Vec2.h"
 #include "Entity.h"
 #include "Player.h"
+#include "Camera.h"
 namespace Alalba {
 	Scene::Scene()
 	{
@@ -49,18 +50,27 @@ namespace Alalba {
 	}
 	void Scene::Init()
 	{
+		// player
 		Player* player = new Player(m_Registry.create(),this);
 		AddEntity(player,"Player");
+
+		player->AddComponent<TextureComponent>(TextureId::MARIO_STAND);
+		
 		player->AddComponent<PlayerComponent>();
 		player->AddComponent<GravityComponent>();
 		player->AddComponent<SolidComponent>();
 		player->AddComponent<KineticComponent>();
-		player->AddComponent<TextureComponent>(TextureId::MARIO_JUMP);
 		player->AddComponent<TransformComponent>(40, 140, 
 																						TILE_SIZE-4, 
 																						SMALL_MARIO_COLLIDER_HEIGHT);
 
-			//std::cout<<m_Entities.size()<<std::endl;
+		// camera
+		Camera* camera = new Camera(m_Registry.create(),this);
+		AddEntity(camera, "Camera");
+		camera->AddComponent<CameraComponent>(SNES_RESOLUTION_WIDTH / 2,
+                                    SNES_RESOLUTION_WIDTH / 2,
+                                    SNES_RESOLUTION_WIDTH,
+                                    SNES_RESOLUTION_WIDTH);
 	}
 	void Scene::OnUpdate()
 	{
