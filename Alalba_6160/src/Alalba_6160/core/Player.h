@@ -37,5 +37,6 @@ namespace Alalba {
 		void setAnimation(ANIMATION_STATE animationState);
 	public:
 		virtual void OnEvent(Event& event) override;
+		virtual void OnUpdate() override;
 	};
 }

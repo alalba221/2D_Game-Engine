@@ -47,6 +47,7 @@ namespace Alalba{
 	}
 	void Application::OnUpdate(){
 
+		m_Scene->OnUpdate();
 		// float t = 0.001;
 
     // face->SetVel( face->GetVel()+(Vec2(0,9.8))*t );

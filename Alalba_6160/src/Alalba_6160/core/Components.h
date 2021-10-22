@@ -87,6 +87,7 @@ namespace Alalba{
   };
 
   struct SuperMarioComponent : public Component {
+		SuperMarioComponent() = default;
   };
 
   // struct BlinkingComponent : public Component {
@@ -222,6 +223,7 @@ namespace Alalba{
   struct TopCollisionComponent : public Component {
   };
   struct BottomCollisionComponent : public Component {
+		BottomCollisionComponent() = default;
   };
 
   // struct QuestionBlockComponent : public Component {
@@ -281,6 +283,7 @@ namespace Alalba{
   // };
 
   struct TileComponent : public Component {
+		TileComponent() = default;
   };
 
   struct CrushedComponent : public Component {
@@ -321,33 +324,34 @@ namespace Alalba{
   // };
 
   // struct TileMapComponent : public Component {
-  //     TileMapComponent(uint16_t width, uint16_t height) : mapWidth{width},
-  //                                                         mapHeight{height},
-  //                                                         tiles{new Entity* [width * height]{}} {}
+	// 	TileComponent() = default;
+	// 	TileMapComponent(uint16_t width, uint16_t height) : mapWidth{width},
+	// 																											mapHeight{height},
+	// 																											tiles{new Entity* [width * height]{}} {}
 
-  //     Entity* get(int x, int y) {
-  //         if (x < 0 || y < 0) return nullptr;
-  //         if (x >= mapWidth || y >= mapHeight) return nullptr;
-  //         return tiles[x + y * mapWidth];
-  //     }
+	// 	Entity* get(int x, int y) {
+	// 		if (x < 0 || y < 0) return nullptr;
+	// 		if (x >= mapWidth || y >= mapHeight) return nullptr;
+	// 		return tiles[x + y * mapWidth];
+	// 	}
 
-  //     void set(int x, int y, Entity* value) {
-  //         tiles[x + y * mapWidth] = value;
-  //     }
+	// 	void set(int x, int y, Entity* value) {
+	// 		tiles[x + y * mapWidth] = value;
+	// 	}
 
-  //     void clear() {
-  //         for (int i = 0; i < mapWidth * mapHeight; i++) tiles[i] = nullptr;
-  //     }
+	// 	void clear() {
+	// 		for (int i = 0; i < mapWidth * mapHeight; i++) tiles[i] = nullptr;
+	// 	}
 
-  //     const uint16_t mapWidth;
-  //     const uint16_t mapHeight;
+	// 	const uint16_t mapWidth;
+	// 	const uint16_t mapHeight;
 
-  //     ~TileMapComponent() override {
-  //         delete[] tiles;
-  //     }
+	// 	~TileMapComponent() override {
+	// 		delete[] tiles;
+	// 	}
 
-  // private:
-  //     // Entity** tiles{};
+	// private:
+	// 	Entity** tiles{};
   // };
 
 

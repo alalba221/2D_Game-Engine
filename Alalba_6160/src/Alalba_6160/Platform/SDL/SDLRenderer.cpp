@@ -24,31 +24,11 @@ namespace Alalba
     SDL_RenderCopy(m_Renderer,obj.GetTExture(),NULL,obj.GetRect());
   }
 	void SDLRenderer::SubmitImpl(const Scene& scene){
-  
-		// auto group1 = scene.Reg().group<TransformComponent>(entt::get<TextureComponent>);
 		
-		// for (auto entity : group1)
-		// {
-		// 	auto[transform, texture] = scene.Reg().get<TransformComponent, TextureComponent>(entity);
-		// 	auto dstRect = SDL_Rect();
-    // // if (followCamera) {
-    // //     dstRect.x = transform->left() - camera->left() + texture->offSetX;
-    // //     dstRect.y = transform->top() - camera->top() + texture->offSetY;
-    // // } else {
-    //     dstRect.x = transform.left() + texture.offSetX;
-    //     dstRect.y = transform.top() + texture.offSetY;
-    // // }
-
-		// 	dstRect.w = texture.w > 0 ? texture.w : transform.w;
-		// 	dstRect.h = texture.h > 0 ? texture.h : transform.h;
-
-		// 	m_TextureManager->renderTexture(texture.id, dstRect, texture.flipH, texture.flipV);
-		// }
+		SDL_RenderClear(m_Renderer);
 		auto entities = scene.GetEntities();
 		for(Entity* entity: entities)
-		{
-			//auto[transform, texture] = scene.Reg().get<TransformComponent, TextureComponent>(entity);
-			
+		{			
 			if(!entity->HasComponent<TextureComponent>())
 				continue;
 			auto transform = entity->GetComponent<TransformComponent>();

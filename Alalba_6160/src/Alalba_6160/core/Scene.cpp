@@ -64,7 +64,12 @@ namespace Alalba {
 	}
 	void Scene::OnUpdate()
 	{
-		
+		auto entities = this->GetEntities();
+	
+		for(auto entity: entities)
+		{
+			entity->OnUpdate();	
+		}
 
 	}
 

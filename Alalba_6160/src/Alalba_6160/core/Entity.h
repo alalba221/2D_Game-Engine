@@ -16,15 +16,16 @@ namespace Alalba {
 		template<typename T, typename... Args>
 		T& AddComponent(Args&&... args)
 		{
-		
+			if(m_Scene->m_Registry.all_of<T>(m_EntityHandle))
+				m_Scene->m_Registry.remove<T>(m_EntityHandle);
 			return m_Scene->m_Registry.emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
 		}
 
 		template<typename T>
 		T& GetComponent()
 		{
-			
-			return m_Scene->m_Registry.get<T>(m_EntityHandle);
+			if(m_Scene->m_Registry.all_of<T>(m_EntityHandle))
+				return m_Scene->m_Registry.get<T>(m_EntityHandle);
 		}
 
 		template<typename T>
@@ -40,9 +41,7 @@ namespace Alalba {
 			m_Scene->m_Registry.remove<T>(m_EntityHandle);
 		}
 		virtual void OnEvent(Event& event) = 0;
-		// {
-		// 	std::cout<<"Entity OnEvent"<<std::endl;
-		// }
+		virtual void OnUpdate() = 0;
 		operator bool() const { return m_EntityHandle != entt::null; }
 	protected:
 		entt::entity m_EntityHandle{ entt::null };
