@@ -10,6 +10,7 @@
 namespace Alalba {
 	Scene::Scene()
 	{
+		m_Entities.clear();
 #if ENTT_EXAMPLE_CODE
 		entt::entity entity = m_Registry.create();
 		m_Registry.emplace<TransformComponent>(entity, glm::mat4(1.0f));
@@ -40,31 +41,17 @@ namespace Alalba {
 	{
 	}
 
-	// entt::entity Scene::CreateEntity()
-	// {
-	// 	return m_Registry.create();
-	// }
-	Entity* Scene::CreateEntity(const std::string& name)
+	void Scene::AddEntity(Entity* entity,const std::string& name)
 	{
-		Entity* entity = new Entity{ m_Registry.create(), this };
-		//entity.AddComponent<TransformComponent>();
+		this->m_Entities.emplace_back(entity);
 		auto& tag = entity->AddComponent<TagComponent>();
 		tag.Tag = name.empty() ? "Entity" : name;
-		this->m_Entities.emplace_back(entity);
-		return entity;
 	}
 	void Scene::Init()
 	{
-		Entity* mario = this->CreateEntity();
-		int width = 72;
-		mario->AddComponent<TextureComponent>(TextureId::MARIO_STAND);
-		mario->AddComponent<TransformComponent>(SNES_RESOLUTION_WIDTH/2-width/2-20,
-																									SNES_RESOLUTION_HEIGHT/2-30,
-																									TILE_SIZE,TILE_SIZE);
-	
-		Player* player = this->CreateEntity();
+		Player* player = new Player(m_Registry.create(),this);
+		AddEntity(player,"Player");
 		player->AddComponent<PlayerComponent>();
-
 		player->AddComponent<GravityComponent>();
 		player->AddComponent<SolidComponent>();
 		player->AddComponent<KineticComponent>();
@@ -72,6 +59,8 @@ namespace Alalba {
 		player->AddComponent<TransformComponent>(40, 140, 
 																						TILE_SIZE-4, 
 																						SMALL_MARIO_COLLIDER_HEIGHT);
+
+			//std::cout<<m_Entities.size()<<std::endl;
 	}
 	void Scene::OnUpdate()
 	{

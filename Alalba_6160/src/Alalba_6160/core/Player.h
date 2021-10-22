@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Entity.h"
-
+#include "Events/Event.h"
 namespace Alalba {
 
 	enum class ANIMATION_STATE {
@@ -24,8 +24,6 @@ namespace Alalba {
 		Player(entt::entity handle, Scene* scene);
 		Player(const Player& other) = default;
 	private:
-		void setAnimation(ANIMATION_STATE animationState);
-	private:
 		int dirX = 0;
 		bool jump = false;
 		bool duck = false;
@@ -34,5 +32,10 @@ namespace Alalba {
 		int right = 0;
 		int lookingLeft = 0;
 		ANIMATION_STATE currentState = ANIMATION_STATE::STANDING;
+
+	private:
+		void setAnimation(ANIMATION_STATE animationState);
+	public:
+		virtual void OnEvent(Event& event) override;
 	};
 }

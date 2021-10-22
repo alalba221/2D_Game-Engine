@@ -4,7 +4,7 @@
 // #include "Alalba/Core/Log.h"
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_timer.h>
-
+#include "Player.h"
 
 namespace Alalba{
   #define BIND_ENVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
@@ -35,11 +35,23 @@ namespace Alalba{
     SDL_Quit();
   }
   void Application::OnEvent(Event& e){
-		std::cout<<e<<std::endl;
+
     EventDispatcher dispatcher(e);
     dispatcher.Dispatch<WindowCloseEvent>(BIND_ENVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<MouseButtonPressedEvent>(BIND_ENVENT_FN(Application::OnMousePressed));
+
+		auto entities = m_Scene->GetEntities();
 	
+		for(auto entity: entities)
+		{
+			if(entity->GetComponent<TagComponent>().Tag == "Player")
+			{
+				Player* player = static_cast<Player*>(entity);
+				player->OnEvent(e);
+				
+			}
+		}
+
 	}
 	void Application::OnUpdate(){
 

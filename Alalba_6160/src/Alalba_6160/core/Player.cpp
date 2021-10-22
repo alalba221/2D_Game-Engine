@@ -1,13 +1,15 @@
 #include "alalbapch.h"
 #include "Player.h"
-
+#include "Events/KeyEvent.h"
+#include "KeyCodes.h"
 namespace Alalba {
 
 	Player::Player(entt::entity handle, Scene* scene)
 		: Entity(handle, scene)
 	{
 	}
-	void Player::setAnimation(ANIMATION_STATE animationState)
+
+	void Player::setAnimation(ANIMATION_STATE state)
 	{
 		if (currentState == state) return;
     this->RemoveComponent<AnimationComponent>();
@@ -66,10 +68,21 @@ namespace Alalba {
 			this->GetComponent<TextureComponent>().offSetY = -3;
     } else {
 			this->GetComponent<TextureComponent>().h = TILE_SIZE;
-			this->GetComponentet<TextureComponent>().offSetY = -1;
+			this->GetComponent<TextureComponent>().offSetY = -1;
     }
     this->GetComponent<TextureComponent>().w = TILE_SIZE;
     this->GetComponent<TextureComponent>().offSetX = -2;
     currentState = state;
+	}
+
+	void Player::OnEvent(Event& event)
+	{
+		if (event.GetEventType() == Alalba::EventType::KeyPressed)
+		{
+			Alalba::KeyPressedEvent& e = (Alalba::KeyPressedEvent&)event;
+			if (e.GetKeyCode() == ALALBA_TAB)
+					std::cout<<"PLayer OnEvent"<<event<<std::endl;
+			//	ALALBA_APP_TRACE("{0}", (char)e.GetKeyCode());
+		}
 	}
 }

@@ -2,7 +2,7 @@
 
 #include "Scene.h"
 #include "entt.hpp"
-
+#include "Events/Event.h"
 namespace Alalba {
 
 	class Entity
@@ -12,6 +12,7 @@ namespace Alalba {
 		Entity(entt::entity handle, Scene* scene);
 		Entity(const Entity& other) = default;
 
+		virtual ~Entity() = default;
 		template<typename T, typename... Args>
 		T& AddComponent(Args&&... args)
 		{
@@ -38,7 +39,10 @@ namespace Alalba {
 			
 			m_Scene->m_Registry.remove<T>(m_EntityHandle);
 		}
-
+		virtual void OnEvent(Event& event) = 0;
+		// {
+		// 	std::cout<<"Entity OnEvent"<<std::endl;
+		// }
 		operator bool() const { return m_EntityHandle != entt::null; }
 	protected:
 		entt::entity m_EntityHandle{ entt::null };
