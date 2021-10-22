@@ -80,9 +80,42 @@ namespace Alalba {
 		if (event.GetEventType() == Alalba::EventType::KeyPressed)
 		{
 			Alalba::KeyPressedEvent& e = (Alalba::KeyPressedEvent&)event;
-			if (e.GetKeyCode() == ALALBA_TAB)
-					std::cout<<"PLayer OnEvent"<<event<<std::endl;
-			//	ALALBA_APP_TRACE("{0}", (char)e.GetKeyCode());
+			
+			switch(e.GetKeyCode())
+			{
+				case ALALBA_A:
+					left = true;
+          break;
+				case ALALBA_D:
+					right = true;
+					break;
+				case ALALBA_W:
+					jump = true;
+					break;
+				case ALALBA_S:
+					duck = true;
+          break;
+			}
+		}
+		if (event.GetEventType() == Alalba::EventType::KeyReleased)
+		{
+			Alalba::KeyPressedEvent& e = (Alalba::KeyPressedEvent&)event;
+			switch(e.GetKeyCode())
+			{
+				case ALALBA_A:
+					left = false;
+          break;
+				case ALALBA_D:
+					right = false;
+					break;
+				case ALALBA_W:
+					jump = false;
+					break;
+				case ALALBA_S:
+					duck = false;
+          break;
+			}
+
 		}
 	}
 }

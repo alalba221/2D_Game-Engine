@@ -22,12 +22,6 @@ namespace Alalba{
 
 		m_Scene = new Scene();
 		m_Scene->Init();
-		// std::string prefix = "../../../asset/"	;
-		// background = new Object(winID, prefix+"sky.png");
-		// background->SetScale(0,0,m_Window->GetWidth(),m_Window->GetHeight());
-
-		// face = new Object(winID, prefix+"awesomeface.png");
-		// face->SetScale(100,100,20,20);
 	}
   Application::~Application(){
 		// SDL_DestroyRenderer(m_Renderer->GetRenderer());
@@ -46,9 +40,7 @@ namespace Alalba{
 		{
 			if(entity->GetComponent<TagComponent>().Tag == "Player")
 			{
-				Player* player = static_cast<Player*>(entity);
-				player->OnEvent(e);
-				
+				entity->OnEvent(e);	
 			}
 		}
 
