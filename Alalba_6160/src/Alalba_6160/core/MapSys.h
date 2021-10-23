@@ -12,10 +12,9 @@ namespace Alalba{
 		int x, y, w, h;
 		TextureId textureId;
 		uint32_t properties;
-
-		// [[nodiscard]] bool hasProperty(Properties property) const {
-		// 	return properties & property;
-		// }
+		bool hasProperty(Properties property) const {
+			return properties & property;
+		}
 	};
 
 	class Map {
@@ -60,13 +59,12 @@ namespace Alalba{
 
 	class MapSys {
 	public:
-
-
 		static void Init(Scene& scene);
 
 		static void OnUpdate(Scene& scene) ;
 	private:
 		static Map map;
 		//CameraComponent* camera{};
+		static Scene* m_Scene;
 	};
 }

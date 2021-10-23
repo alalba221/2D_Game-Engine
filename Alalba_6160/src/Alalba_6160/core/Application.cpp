@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "AnimateSys.h"
 #include "PhysicsSys.h"
+#include "MapSys.h"
 namespace Alalba{
   #define BIND_ENVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
@@ -19,10 +20,13 @@ namespace Alalba{
     m_Window->SetEventCallback(BIND_ENVENT_FN(Application::OnEvent));
 		
 		winID = SDL_GetWindowID((SDL_Window*)m_Window->GetNativeWindow());
+		
+		
 		Renderer::Init(winID);
 
 		m_Scene = new Scene();
 		m_Scene->Init();
+		MapSys::Init(*m_Scene);
 	}
   Application::~Application(){
 		// SDL_DestroyRenderer(m_Renderer->GetRenderer());
