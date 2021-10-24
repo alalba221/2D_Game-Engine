@@ -22,6 +22,7 @@
   * ### tile handler: Class MapSys (2pts)
   * ### render the viewable set of tiles from the map based on your camera (2pts)
   * ### Adding collectibles (2pts)
+	
 	* ### software organization and documentation (1 pts)
 		Based on your feedback previously, I organizied the filespace and put ECS architexture into this project
 ## Others 
