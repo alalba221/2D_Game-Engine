@@ -22,19 +22,19 @@ namespace Alalba{
 	struct TileType {
 			TileType() = default;
 
-			TileType(TextureId texture, uint32_t properties) :
+			TileType(TextureId texture, Properties properties) :
 							texture{texture},
 							editor_texture{texture},
 							properties{properties} {}
 
-			TileType(TextureId texture, uint32_t properties, TextureId editor_texture) :
+			TileType(TextureId texture, Properties properties, TextureId editor_texture) :
 							texture{texture},
 							editor_texture{editor_texture},
 							properties{properties} {}
 
 			TextureId texture = TextureId::EMPTY;
 			TextureId editor_texture = texture;
-			uint32_t properties = NONE;
+			uint32_t properties = Properties::NONE;
 	};
 
 	

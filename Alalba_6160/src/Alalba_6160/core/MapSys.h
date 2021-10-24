@@ -7,6 +7,7 @@
 #include <exception>
 #include "Scene.h"
 #include "TileType.h"
+#include "TileEntity.h"
 namespace Alalba{
 	struct Tile {
 		int x, y, w, h;
@@ -42,7 +43,7 @@ namespace Alalba{
 																	TILE_SIZE,
 																	TILE_SIZE,
 																	static_cast<TextureId>(texture_id),
-																	static_cast<TextureId>(texture_id)
+																	Properties::VISIBLE
 						};
 						tiles.emplace(tile);
 					}
@@ -62,9 +63,26 @@ namespace Alalba{
 		static void Init(Scene& scene);
 
 		static void OnUpdate(Scene& scene) ;
+	
+
+    static void Set(int x, int y, TileEntity* value) {
+			tiles.at(x + y * mapWidth) = value;
+    }
+
+		static TileEntity* Get(int x, int y){
+			if (x < 0 || y < 0) return nullptr;
+			if (x >= mapWidth || y >= mapHeight) return nullptr;
+			return tiles[x + y * mapWidth];
+		}
+	public:
+		// measure unit: tile size
+		static int mapWidth;
+    static int mapHeight;
+		static std::vector<TileEntity*> tiles;
 	private:
 		static Map map;
 		//CameraComponent* camera{};
 		static Scene* m_Scene;
+		
 	};
 }

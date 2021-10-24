@@ -98,6 +98,21 @@ namespace Alalba
 			{
 				entity->GetComponent<KineticComponent>().accY += GRAVITY;
 			}
+			// Checn Kinetic - Tile Collision 
+
+			if(entity->HasComponent<TransformComponent>() && 
+						entity->HasComponent<KineticComponent>() && 
+						entity->HasComponent<SolidComponent>())
+			{
+				auto transform = entity->GetComponent<TransformComponent>();
+        auto kinetic = entity->GetComponent<KineticComponent>();
+				
+				int futureLeft = (int) (transform.left() + kinetic.speedX) / TILE_SIZE;
+				int futureRight = (int) (transform.right() + kinetic.speedX) / TILE_SIZE;
+				int futureTop = (int) (transform.top() + kinetic.speedY) / TILE_SIZE;
+				int futureBottom = (int) (transform.bottom() + kinetic.speedY) / TILE_SIZE;
+
+			}
 
 			// Apply force
 			if(entity->HasComponent<TransformComponent>() && entity->HasComponent<KineticComponent>())
