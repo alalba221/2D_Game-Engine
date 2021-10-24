@@ -6,8 +6,6 @@ namespace Alalba
 	class PhysicsSys
 	{
 	public:
-		// AnimateSys(){};
-		// ~AnimateSys(){};
 
 		static void OnUpdate(Scene& scene);
 	private:
