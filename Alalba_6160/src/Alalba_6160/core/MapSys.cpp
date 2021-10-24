@@ -20,7 +20,7 @@ namespace Alalba{
 			TileEntity* entity = new TileEntity(scene.Reg().create(),&scene);
 			scene.AddEntity(entity,"MapTile");
 			entity->AddComponent<TransformComponent>(tile->x, tile->y, tile->w, tile->h);
-			
+	
 			Set((int)(tile->x/TILE_SIZE), (int)(tile->y/TILE_SIZE),entity);
 			
 			if (tile->hasProperty(Properties::VISIBLE)) {
@@ -38,7 +38,7 @@ namespace Alalba{
 					// );
         }
 			//
-			if(tile->textureId = TextureId::FLOOR)
+			if(tile->textureId == TextureId::FLOOR)
 				tile->properties |= Properties::SOLID;
 			//
 

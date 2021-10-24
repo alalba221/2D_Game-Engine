@@ -6,7 +6,7 @@ namespace Alalba
   {
     m_Renderer = SDL_CreateRenderer(SDL_GetWindowFromID(winID),-1,0);
 		m_TextureManager = new TextureManager(m_Renderer);
-		//SDL_RenderSetLogicalSize(m_Renderer, SNES_RESOLUTION_WIDTH , SNES_RESOLUTION_WIDTH);
+		SDL_RenderSetLogicalSize(m_Renderer, SNES_RESOLUTION_WIDTH , SNES_RESOLUTION_WIDTH);
 		SDL_SetRenderDrawColor(m_Renderer, SKY_RED, SKY_GREEN, SKY_BLUE, 255);
 		SDL_SetTextureBlendMode(m_TextureManager->texture, SDL_BLENDMODE_BLEND);
 	};

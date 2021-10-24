@@ -3,12 +3,12 @@
 #include "Components.h"
 namespace Alalba{
 	bool AABBCollision(
-			TransformComponent* a,
-			TransformComponent* b
+			const TransformComponent& a,
+			const TransformComponent& b
 	);
 
 	bool AABBCollision(
 			float x, float y, float w, float h,
-			TransformComponent* b
+			const TransformComponent& b
 	);
 }

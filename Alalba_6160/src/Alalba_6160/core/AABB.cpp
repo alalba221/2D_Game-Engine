@@ -2,22 +2,22 @@
 
 namespace Alalba{
 	bool AABBCollision(
-			TransformComponent* a,
-			TransformComponent* b) {
+			const TransformComponent& a,
+			const TransformComponent& b) {
 			
-		return a->x <= b->x + b->w &&
-					a->x + a->w >= b->x &&
-					a->y <= b->y + b->h &&
-					a->y + a->h >= b->y;
+		return a.x <= b.x + b.w &&
+					a.x + a.w >= b.x &&
+					a.y <= b.y + b.h &&
+					a.y + a.h >= b.y;
 	}
 
 	bool AABBCollision(
 					float x, float y, float w, float h,
-					TransformComponent* b) 
+					const TransformComponent& b) 
 	{
-		return x <= b->x + b->w &&
-					x + w >= b->x &&
-					y <= b->y + b->h &&
-					y + h >= b->y;
+		return x <= b.x + b.w &&
+					x + w >= b.x &&
+					y <= b.y + b.h &&
+					y + h >= b.y;
 	}
 }
