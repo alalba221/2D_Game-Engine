@@ -15,11 +15,11 @@ namespace Alalba
 		// Entity* CreateEntity(const std::string& name = std::string());
 		void Init();
 		void OnUpdate();
-		std::vector<Entity*> GetEntities(){return m_Entities;}
+		std::list<Entity*> GetEntities(){return m_Entities;}
 		void AddEntity(Entity* entity,const std::string& name = std::string());
 	private:
 		entt::registry m_Registry;
-		std::vector<Entity*> m_Entities;
+		std::list<Entity*> m_Entities;
 		friend class Entity;
 	};
 }

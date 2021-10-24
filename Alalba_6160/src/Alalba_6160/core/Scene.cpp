@@ -20,7 +20,7 @@ namespace Alalba {
 
 	void Scene::AddEntity(Entity* entity,const std::string& name)
 	{
-		this->m_Entities.emplace_back(entity);
+		this->m_Entities.emplace_front(entity);
 		auto& tag = entity->AddComponent<TagComponent>();
 		tag.Tag = name.empty() ? "Entity" : name;
 	}
@@ -48,6 +48,7 @@ namespace Alalba {
 		player->AddComponent<TransformComponent>(40, 140, 
 																						TILE_SIZE-4, 
 																						SMALL_MARIO_COLLIDER_HEIGHT);
+	
 	}
 	void Scene::OnUpdate()
 	{
