@@ -8,13 +8,13 @@ namespace Alalba
   class Renderer
   {
   public:
-    static void Init(unsigned int winID) {s_Instance->InitImpl(winID);};
+    static void Init(unsigned int winID, const Scene& scene) {s_Instance->InitImpl(winID,scene);};
     static void Render() {s_Instance->RenderImpl();};
     inline static Renderer* GetRenderer(){return s_Instance;}
     inline static  void Submit(const Object& obj){s_Instance->SubmitImpl(obj);}
 		inline static  void Submit(const Scene& scene){s_Instance->SubmitImpl(scene);}
   protected:
-    virtual void InitImpl(unsigned int winID)=0;
+    virtual void InitImpl(unsigned int winID, const Scene& scene)=0;
     virtual void RenderImpl()=0;
     virtual void SubmitImpl(const Object& obj)=0;
 		virtual void SubmitImpl(const Scene& scene)=0;

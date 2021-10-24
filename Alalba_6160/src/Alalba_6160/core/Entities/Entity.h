@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Scene.h"
+#include "Alalba_6160/core/Scene.h"
 #include "entt.hpp"
-#include "Events/Event.h"
+#include "Alalba_6160/core/Events/Event.h"
 namespace Alalba {
 
 	class Entity

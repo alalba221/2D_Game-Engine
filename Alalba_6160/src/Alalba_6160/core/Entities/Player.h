@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Entity.h"
-#include "Events/Event.h"
+#include "Alalba_6160/core/Events/Event.h"
+#include "Alalba_6160/core/Components.h"
 namespace Alalba {
 
 	enum class ANIMATION_STATE {
@@ -32,7 +33,7 @@ namespace Alalba {
 		int right = 0;
 		int lookingLeft = 0;
 		ANIMATION_STATE currentState = ANIMATION_STATE::STANDING;
-
+		CameraComponent* m_Camera;
 	private:
 		void setAnimation(ANIMATION_STATE animationState);
 	public:

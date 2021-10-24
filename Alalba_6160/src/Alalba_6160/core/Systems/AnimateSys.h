@@ -1,16 +1,13 @@
 #pragma once
-#include "Scene.h"
-#include "AABB.h"
+#include "Alalba_6160/core/Scene.h"
 namespace Alalba
 {
-	class PhysicsSys
+	class AnimateSys
 	{
 	public:
 		// AnimateSys(){};
 		// ~AnimateSys(){};
 
 		static void OnUpdate(Scene& scene);
-	private:
-
 	};
 }

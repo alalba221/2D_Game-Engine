@@ -5,7 +5,6 @@
 #include <SDL2/SDL_image.h>
 #include <unordered_map>
 #include "Alalba_6160/core/Base.h"
-// #include "Constants.h"
 namespace Alalba{
 	enum  TextureId {
 		EMPTY = 0,

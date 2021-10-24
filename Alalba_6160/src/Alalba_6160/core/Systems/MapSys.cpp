@@ -1,13 +1,24 @@
 #include "MapSys.h"
-#include "TileEntity.h"
+#include "Alalba_6160/core/Entities/TileEntity.h"
 namespace Alalba{
 	int MapSys::mapWidth=0;
 	int MapSys::mapHeight=0;
 	std::vector<TileEntity*> MapSys::tiles;
 	Map MapSys::map = Map{"../../../asset/map.txt"};
-	
+	CameraComponent* MapSys::m_Camera = nullptr;
+
 	Scene* MapSys::m_Scene = nullptr;
+
+
 	void MapSys::Init(Scene& scene){
+
+		auto entities = scene.GetEntities();
+			// find camera
+		for(Entity* entity: entities)	{	
+			if(entity->GetComponent<TagComponent>().Tag == "Camera")
+				m_Camera = &entity->GetComponent<CameraComponent>();
+		}
+
 		m_Scene = &scene;
 		
 		mapWidth = map.mapWidth;
@@ -38,7 +49,12 @@ namespace Alalba{
 					// );
         }
 			//
-			if(tile->textureId == TextureId::FLOOR)
+			if(tile->textureId == TextureId::FLOOR 	|| 
+					tile->textureId == TextureId::BRICK	||
+					tile->textureId == TextureId::BLOCK	||
+					tile->textureId == QUESTION_BLOCK_1	||
+					tile->textureId == QUESTION_BLOCK_2	||
+					tile->textureId == QUESTION_BLOCK_3	)
 				tile->properties |= Properties::SOLID;
 			//
 
@@ -47,5 +63,15 @@ namespace Alalba{
 			delete tile;
     }
 	}
-	void MapSys::OnUpdate(Scene& scene){}
+	void MapSys::OnUpdate(Scene& scene){
+		auto entities = scene.GetEntities();
+		for(Entity* entity: entities)	{	
+			if(entity->GetComponent<TagComponent>().Tag == "Player"){
+				auto& transform = entity->GetComponent<TransformComponent>();
+				m_Camera->x = std::max(m_Camera->x, (int) transform.getCenterX());
+			}
+		}
+  
+
+	}
 }

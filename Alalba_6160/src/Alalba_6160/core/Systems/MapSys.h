@@ -2,12 +2,12 @@
 
 
 #include <queue>
-#include "Components.h"
+#include "Alalba_6160/core/Components.h"
 #include <fstream>
 #include <exception>
-#include "Scene.h"
-#include "TileType.h"
-#include "TileEntity.h"
+#include "Alalba_6160/core/Scene.h"
+#include "Alalba_6160/core/TileType.h"
+#include "Alalba_6160/core/Entities/TileEntity.h"
 namespace Alalba{
 	struct Tile {
 		int x, y, w, h;
@@ -81,7 +81,7 @@ namespace Alalba{
 		static std::vector<TileEntity*> tiles;
 	private:
 		static Map map;
-		//CameraComponent* camera{};
+		static CameraComponent* m_Camera;
 		static Scene* m_Scene;
 		
 	};
