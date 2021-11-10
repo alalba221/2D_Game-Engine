@@ -47,6 +47,55 @@ namespace Alalba
   	return direction;
 	}
 	
+
+
+
+	Direction checkCollisionX(Entity* solid, TransformComponent& transform, KineticComponent& kinetic) {
+    auto& solidTransform = solid->GetComponent<TransformComponent>();
+    auto direction = Direction::NONE;
+
+    // X-AXIS CHECK
+    if (AABBCollision(
+            transform.x + kinetic.speedX,
+            transform.y + kinetic.speedY + 2,   // Check with updated y position
+            transform.w,
+            transform.h - 8, //Ideally should be -4, but this favours Mario ending up on TOP of a tile.
+            solidTransform)) {
+
+        float distanceLeft = abs((transform.left() + kinetic.speedX) - solidTransform.right());
+        float distanceRight = abs((transform.right() + kinetic.speedX) - solidTransform.left());
+        if (distanceLeft < distanceRight) {
+            if (transform.left() < solidTransform.right()) {
+                //item is inside block, push out
+                transform.x += std::min(.5f, solidTransform.right() - transform.left());
+            } else {
+                //item about to get inside the block
+                transform.setLeft(solidTransform.right());
+            }
+            solid->AddComponent<RightCollisionComponent>();
+            direction = Direction::LEFT;
+        } else {
+            if (transform.right() > solidTransform.left()) {
+                //item is inside block, push out
+                transform.x -= std::min(.5f, transform.right() - solidTransform.left());
+            } else {
+                //item about to get inside the block
+                transform.setRight(solidTransform.left());
+            }
+
+            solid->AddComponent<LeftCollisionComponent>();
+            direction = Direction::RIGHT;
+        }
+    }
+    return direction;
+	}
+
+
+
+
+
+
+
 	void PhysicsSys::OnUpdate(Scene& scene){
 	
 		auto entities = scene.GetEntities();
@@ -100,6 +149,43 @@ namespace Alalba
 								break;
 					}
 				}
+
+
+
+            futureLeft = (int) (transform.left() + kinetic.speedX) / TILE_SIZE;
+            futureRight = (int) (transform.right() + kinetic.speedX) / TILE_SIZE;
+            futureTop = (int) (transform.top() + 1) / TILE_SIZE;
+            futureBottom = (int) (transform.bottom() - 1) / TILE_SIZE;
+            coordinates = {
+							MapSys::Get(futureRight, futureBottom),
+							MapSys::Get(futureLeft, futureBottom),
+							MapSys::Get(futureLeft, futureTop),
+							MapSys::Get(futureRight, futureTop),
+            };
+
+            for (auto tile : coordinates) {
+                if (tile == entity) continue;
+                if (!tile) continue;
+               	if (!(tile->HasComponent<SolidComponent>())) continue;
+
+                switch (checkCollisionX(tile, transform, kinetic)) {
+                    case Direction::LEFT:
+                        kinetic.accX = std::max(0.0f, kinetic.accX);
+                        kinetic.speedX = std::max(0.0f, kinetic.speedX);
+                        entity->AddComponent<LeftCollisionComponent>();
+                        break;
+                    case Direction::RIGHT:
+                        kinetic.accX = std::min(0.0f, kinetic.accX);
+                        kinetic.speedX = std::min(0.0f, kinetic.speedX);
+                        entity->AddComponent<RightCollisionComponent>();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+
+
 			}
 
 			// Apply force

@@ -56,6 +56,9 @@ namespace Alalba{
 					tile->textureId == QUESTION_BLOCK_2	||
 					tile->textureId == QUESTION_BLOCK_3	)
 				tile->properties |= Properties::SOLID;
+			
+			if(tile->textureId == TextureId::BRICK)
+				tile->properties |= Properties::BREAKABLE;
 			//
 
 			if (tile->hasProperty(Properties::SOLID)) entity->AddComponent<SolidComponent>();
