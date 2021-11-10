@@ -17,6 +17,6 @@
   > - Breaking the bricks after mario hits the bricks from downside
   - Collision Handling
   > - [X] Detection (2 pts): Only Box collider
-	> - [X] Response (2 pts): Stop mario from walking or jumping
+  > - [X] Response (2 pts): Stop mario from walking or jumping
   - [X] Collision effect (1 pt)
   - [X] Software organization and documentation (1pt)
