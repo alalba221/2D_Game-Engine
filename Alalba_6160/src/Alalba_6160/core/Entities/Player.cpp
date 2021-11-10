@@ -2,8 +2,45 @@
 #include "Player.h"
 #include "Alalba_6160/core/Events/KeyEvent.h"
 #include "Alalba_6160/core/KeyCodes.h"
+#include "TileEntity.h"
+#include "Alalba_6160/core/AABB.h"
 namespace Alalba {
 
+void createDebris(Scene* scene, TransformComponent* brickTransform) {
+
+		TileEntity* debris1 = new TileEntity(scene->Reg().create(),scene);
+		scene->AddEntity(debris1,"debris1");
+
+    debris1->AddComponent<GravityComponent>();
+    debris1->AddComponent<KineticComponent>(-2.0f, -16.0f);
+    debris1->AddComponent<TileComponent>();
+    debris1->AddComponent<TextureComponent>(TextureId::BRICK_DEBRIS_1);
+    debris1->AddComponent<TransformComponent>(brickTransform->x, brickTransform->y, 8, 8);
+
+		TileEntity* debris2 = new TileEntity(scene->Reg().create(),scene);
+		scene->AddEntity(debris2,"debris2");
+    debris2->AddComponent<GravityComponent>();
+    debris2->AddComponent<KineticComponent>(2.0f, -16.0f);
+    debris2->AddComponent<TileComponent>();
+    debris2->AddComponent<TextureComponent>(TextureId::BRICK_DEBRIS_2);
+    debris2->AddComponent<TransformComponent>(brickTransform->x + 8, brickTransform->y, 8, 8);
+
+		TileEntity* debris3 = new TileEntity(scene->Reg().create(),scene);
+		scene->AddEntity(debris3,"debris3");
+    debris3->AddComponent<GravityComponent>();
+    debris3->AddComponent<KineticComponent>(-2.0f, -10.0f);
+    debris3->AddComponent<TileComponent>();
+    debris3->AddComponent<TextureComponent>(TextureId::BRICK_DEBRIS_3);
+    debris3->AddComponent<TransformComponent>(brickTransform->x, brickTransform->y + 8, 8, 8);
+
+		TileEntity* debris4 = new TileEntity(scene->Reg().create(),scene);
+		scene->AddEntity(debris4,"debris4");
+		debris4->AddComponent<GravityComponent>();
+    debris4->AddComponent<KineticComponent>(2.0f, -10.0f);
+    debris4->AddComponent<TileComponent>();
+    debris4->AddComponent<TextureComponent>(TextureId::BRICK_DEBRIS_4);
+    debris4->AddComponent<TransformComponent>(brickTransform->x + 8, brickTransform->y + 8, 8, 8);
+}
 	Player::Player(entt::entity handle, Scene* scene)
 		: Entity(handle, scene)
 	{
@@ -131,6 +168,25 @@ namespace Alalba {
 				setAnimation(ANIMATION_STATE::JUMPING);
 			}
     }
+
+		auto entities = m_Scene->GetEntities();
+		// Break bricks
+		for(Entity* breakable: entities)	{	
+			if(breakable->HasComponent<BreakableComponent>() && breakable->HasComponent<TransformComponent>()
+				&&breakable->HasComponent<BottomCollisionComponent>())
+			{
+				if(AABBCollision(breakable->GetComponent<TransformComponent>(), transform))
+				{
+					createDebris(m_Scene, &breakable->GetComponent<TransformComponent>());
+					breakable->RemoveComponent<SolidComponent>();
+					breakable->RemoveComponent<TextureComponent>();
+					breakable->RemoveComponent<BreakableComponent>();
+					//breakable->AddComponent<BreakableComponent>();
+					//breakable->GetComponent<BreakableComponent>().hit = true;
+
+				}
+			}
+		}
 
 		if (left || right) lookingLeft = left;
 		this->GetComponent<TextureComponent>().flipH = lookingLeft;

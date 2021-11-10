@@ -250,26 +250,26 @@ namespace Alalba{
   //     int frames = 64;
   // };
 
-  // struct BreakableComponent : public Component {
-  //     bool hit = false;
+  struct BreakableComponent : public Component {
+		bool hit = false;
 
-  //     int getHeight() {
-  //         frames--;
-  //         return height[frames];
-  //     }
+		int getHeight() {
+				frames--;
+				return height[frames];
+		}
 
-  //     [[nodiscard]] bool finished() const {
-  //         return frames == 0;
-  //     }
+		[[nodiscard]] bool finished() const {
+				return frames == 0;
+		}
 
-  //     void reset() {
-  //         frames = 13;
-  //     }
+		void reset() {
+				frames = 13;
+		}
 
-  // private:
-  //     int frames = 13;
-  //     int height[13] = {-2, 1, 3, 2, 1, 1, 1, 0, 0, -1, -1, -4, -1};
-  // };
+  private:
+		int frames = 13;
+		int height[13] = {-2, 1, 3, 2, 1, 1, 1, 0, 0, -1, -1, -4, -1};
+  };
 
   // struct MusicComponent : public Component {
   //     explicit MusicComponent(Music::Id music) : music{music} {};

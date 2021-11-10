@@ -62,6 +62,7 @@ namespace Alalba{
 			//
 
 			if (tile->hasProperty(Properties::SOLID)) entity->AddComponent<SolidComponent>();
+			if (tile->hasProperty(Properties::BREAKABLE)) entity->AddComponent<BreakableComponent>();
 			map.tiles.pop();
 			delete tile;
     }
