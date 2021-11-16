@@ -120,18 +120,18 @@ namespace Alalba
 			s_SDLInitialized = true;
 		}
 		
-    m_Window = SDL_CreateWindow(props.Title.c_str(),
-                              SDL_WINDOWPOS_CENTERED,
-                              SDL_WINDOWPOS_CENTERED,
-                              (int)props.Width,
-                              (int)props.Height,
-                             SDL_WINDOW_ALLOW_HIGHDPI);
+		m_Window = SDL_CreateWindow(props.Title.c_str(),
+														  SDL_WINDOWPOS_CENTERED,
+														  SDL_WINDOWPOS_CENTERED,
+														  (int)props.Width,
+														  (int)props.Height,
+														 SDL_WINDOW_ALLOW_HIGHDPI);
 		SDL_SetWindowData(m_Window,"data",&m_Data);
 		// SetVSync(true);
 	}
 	void SDLWindow::Shutdown()
 	{
 		SDL_DestroyWindow(m_Window);
-    SDL_Quit();
+		SDL_Quit();
 	}
 }

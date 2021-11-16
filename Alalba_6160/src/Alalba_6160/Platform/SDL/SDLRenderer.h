@@ -11,19 +11,19 @@ namespace Alalba
   class SDLRenderer : public Renderer
   {
   public:
-    SDLRenderer(){
-      lastFrame = SDL_GetTicks();
-    }
-    ~SDLRenderer(){}
-    virtual void InitImpl(unsigned int winID, const Scene& scene) override;
-    virtual void RenderImpl() override;
-    virtual void SubmitImpl(const Object& obj) override;
+		SDLRenderer(){
+		  lastFrame = SDL_GetTicks();
+		}
+		~SDLRenderer(){}
+		virtual void InitImpl(unsigned int winID, const Scene& scene) override;
+		virtual void RenderImpl() override;
+		virtual void SubmitImpl(const Object& obj) override;
 		virtual void SubmitImpl(const Scene& scene) override;
 
   private:
-    SDL_Renderer* m_Renderer;
-    unsigned int lastFrame, 
-    frametime, framestart;
+		SDL_Renderer* m_Renderer;
+		unsigned int lastFrame, 
+		frametime, framestart;
 		TextureManager* m_TextureManager;
 		CameraComponent* m_Camera;
   };

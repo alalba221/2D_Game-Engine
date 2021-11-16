@@ -12,19 +12,19 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 --Include directories relatice to root folder (solution directory)
 IncludeDir = {}
 IncludeDir["Entt"] = "Alalba_6160/vendor/entt"
--- IncludeDir["GLFW"] = "Alalba/vendor/GLFW/include"
+IncludeDir["Box2D"] = "Alalba_6160/vendor/Box2D/include"
 -- IncludeDir["Glad"] = "Alalba/vendor/Glad/include"
 -- IncludeDir["spdlog"] = "Alalba/vendor/spdlog/include"
 -- IncludeDir["imgui"] = "Alalba/vendor/imgui"
 -- IncludeDir["SDL"] = "Alalba/vendor/SDL"
--- IncludeDir["glm"] = "Alalba/vendor/glm"
+IncludeDir["glm"] = "Alalba_6160/vendor/glm"
 -- --startproject "Sandbox"
--- group"Dependencies"
--- 	include "Alalba/vendor/GLFW"
+group"Dependencies"
+	include "Alalba_6160/vendor/Box2D"
 -- 	include "Alalba/vendor/Glad"
 -- 	include "Alalba/vendor/imgui"
 -- 	--include "Alalba/vendor/SDL"
--- group""
+group""
 
 
 project "Alalba_6160"
@@ -51,7 +51,8 @@ project "Alalba_6160"
 		-- "%{IncludeDir.Glad}",
 		-- "%{IncludeDir.GLFW}",
 		-- "%{IncludeDir.imgui}",
-		-- "%{IncludeDir.glm}"
+		, "%{IncludeDir.glm}"
+		, "%{IncludeDir.Box2D}"
 	}
 	links
 	{
@@ -62,6 +63,7 @@ project "Alalba_6160"
 		-- "ImGui",
 		"SDL2",
 		"SDL2_image"
+		, "Box2D"
 	}
 	filter "system:linux"
 		cppdialect "C++17"

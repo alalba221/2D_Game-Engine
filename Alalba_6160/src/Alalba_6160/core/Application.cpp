@@ -4,10 +4,7 @@
 // #include "Alalba/Core/Log.h"
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_timer.h>
-#include "Entities/Player.h"
-#include "Systems/AnimateSys.h"
-#include "Systems/PhysicsSys.h"
-#include "Systems/MapSys.h"
+
 namespace Alalba{
   #define BIND_ENVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
@@ -17,24 +14,24 @@ namespace Alalba{
 		s_Instance = this;
 		
 	  m_Window = std::unique_ptr<Window>(Window::Create());
-    m_Window->SetEventCallback(BIND_ENVENT_FN(Application::OnEvent));
+		m_Window->SetEventCallback(BIND_ENVENT_FN(Application::OnEvent));
 		
 		winID = SDL_GetWindowID((SDL_Window*)m_Window->GetNativeWindow());
 		
 		m_Scene = new Scene();
 		m_Scene->Init();
 		Renderer::Init(winID, *m_Scene);
-		MapSys::Init(*m_Scene);
+		//MapSys::Init(*m_Scene);
 	}
   Application::~Application(){
 		// SDL_DestroyRenderer(m_Renderer->GetRenderer());
-    SDL_DestroyWindow((SDL_Window*)m_Window->GetNativeWindow());
-    SDL_Quit();
+		SDL_DestroyWindow((SDL_Window*)m_Window->GetNativeWindow());
+		SDL_Quit();
   }
   void Application::OnEvent(Event& e){
 
-    EventDispatcher dispatcher(e);
-    dispatcher.Dispatch<WindowCloseEvent>(BIND_ENVENT_FN(Application::OnWindowClose));
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<WindowCloseEvent>(BIND_ENVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<MouseButtonPressedEvent>(BIND_ENVENT_FN(Application::OnMousePressed));
 
 		auto entities = m_Scene->GetEntities();
@@ -50,9 +47,9 @@ namespace Alalba{
 	}
 	void Application::OnUpdate(){
 		
-		PhysicsSys::OnUpdate(*m_Scene);
-		AnimateSys::OnUpdate(*m_Scene);
-		MapSys::OnUpdate(*m_Scene);
+		// PhysicsSys::OnUpdate(*m_Scene);
+		// AnimateSys::OnUpdate(*m_Scene);
+		// MapSys::OnUpdate(*m_Scene);
 
 		m_Scene->OnUpdate();
 		
@@ -86,11 +83,11 @@ namespace Alalba{
 	}
   void Application::Run(){
 
-    while(m_Running){
+		while(m_Running){
 			this->OnUpdate();
 			m_Window->OnUpdate();
 			Renderer::Submit(*m_Scene);
 			Renderer::Render();
-    }
+		}
   }
 }

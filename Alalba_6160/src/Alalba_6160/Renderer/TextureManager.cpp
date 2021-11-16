@@ -106,12 +106,12 @@ namespace Alalba{
 		textures.insert_or_assign(TextureId::MARIO_FLAG_2, new SDL_Rect{187, 170, TILE_SIZE, TILE_SIZE});
   }
 
-	void TextureManager::renderTexture(TextureId textureId, SDL_Rect& dstRect, bool flipH, bool flipV) {
+	void TextureManager::renderTexture(TextureId textureId, SDL_Rect& dstRect, double angle, bool flipH, bool flipV) {
 		auto txt = textures.find(textureId);
 		if (txt != textures.end()) {
 			if (dstRect.w == 0) dstRect.w = txt->second->w;
 			if (dstRect.h == 0) dstRect.h = txt->second->h;
-			SDL_RenderCopyEx(renderer, texture, txt->second, &dstRect, 0.0, nullptr,
+			SDL_RenderCopyEx(renderer, texture, txt->second, &dstRect, angle, nullptr,
 											(SDL_RendererFlip) (SDL_FLIP_NONE | (SDL_FLIP_HORIZONTAL * flipH) |
 																					(SDL_FLIP_VERTICAL * flipV)));
 		}

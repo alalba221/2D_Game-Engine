@@ -11,7 +11,7 @@
 
 namespace Alalba{
   class ALALBA_API Application{
-    
+		
   public:
 		Application();
 		virtual ~Application();
@@ -38,9 +38,6 @@ namespace Alalba{
 		bool m_Running = true;
 		Renderer* m_Renderer;
 		static Application* s_Instance;
-
-		Object* background;
-		Object* face;
 		Scene* m_Scene;
   };
 }

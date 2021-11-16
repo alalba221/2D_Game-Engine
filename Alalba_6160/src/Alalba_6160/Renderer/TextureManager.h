@@ -93,7 +93,7 @@ namespace Alalba{
 	public:
 		explicit TextureManager(SDL_Renderer* renderer);
 
-		void renderTexture(TextureId textureId, SDL_Rect& dstRect, bool flipH = false, bool flipV = false);
+		void renderTexture(TextureId textureId, SDL_Rect& dstRect, double angle, bool flipH = false, bool flipV = false);
 
 		SDL_Texture* texture;
 

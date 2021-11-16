@@ -12,13 +12,14 @@
 
 // #define ALALBA_APP_ASSERT(x, ...) { if(!(x)) { ALALBA_APP_ERROR("Assertion Failed: {0}", __VA_ARGS__); abort(); } }
 // #define ALALBA_CORE_ASSERT(x, ...) { if(!(x)) { ALALBA_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); abort(); } }
-
+#include <cmath>
 #define ALALBA_API 
 #define BIT(x) (1<<x)
 
 constexpr int FPS = 60;
 constexpr int ZOOM = 4;
 constexpr int FRAME_DURATION = 1000 / FPS;
+
 
 constexpr int SNES_RESOLUTION_WIDTH = 256;
 constexpr int SNES_RESOLUTION_HEIGHT = 224;
@@ -50,3 +51,7 @@ constexpr int TILE_ROUNDNESS = 4;
 
 constexpr float MUSHROOM_GROW_SPEED = .25f;
 constexpr float MUSHROOM_MOVE_SPEED = 0.8f;
+
+
+constexpr	int Meter2Pix = 40; // 1 meter = 20 pixle
+const float RAD2DEG = 180 / M_PI;

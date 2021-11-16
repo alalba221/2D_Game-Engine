@@ -3,11 +3,15 @@
 #include <utility>
 #include <SDL2/SDL.h>
 #include "Alalba_6160/Renderer/TextureManager.h"
-// #include "TileType.h"
+
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/quaternion.hpp>
 
 namespace Alalba{
   struct Component {
-    virtual ~Component() = default;
+		virtual ~Component() = default;
   };
 
 	struct TagComponent: public Component
@@ -22,53 +26,45 @@ namespace Alalba{
   struct TransformComponent : public Component {
 
 		TransformComponent() = default;
-		//TransformComponent(const TransformComponent&) = default;
-    TransformComponent(int x, int y, int w, int h) : x(x), y(y), w(w), h(h) {};
+		TransformComponent(const TransformComponent&) = default;
+		TransformComponent(const glm::vec3& translation , float _w = 1.0, float _h = 1.0)
+			: Translation(translation) {
+			w = _w; h = _h;
+			x =  translation.x;
+			y = translation.y;
+		}
+		glm::vec3 Translation = { 0.0f, 0.0f, 0.0f };
+		glm::vec3 Rotation = { 0.0f, 0.0f, 0.0f };
+		glm::vec3 Scale = { 1.0f, 1.0f, 1.0f };
+		
+		float right() const {
+			return Translation.x + w/2.0;
+		}
 
-    [[nodiscard]] float right() const {
-			return x + w;
-    }
+		float left() const {
+			return Translation.x - w/2.0;
+		}
 
-    [[nodiscard]] float left() const {
-			return x;
-    }
+		float top() const {
+			return Translation.y - h/2.0;
+		}
 
-    [[nodiscard]] float top() const {
-			return y;
-    }
+		float bottom() const {
+			return Translation.y + h/2.0;
+		}
 
-    [[nodiscard]] float bottom() const {
-			return y + h;
-    }
+		float getCenterX() const {
+			return Translation.x;
+		}
 
-    [[nodiscard]] float getCenterX() const {
-			return x + w / 2.0f;
-    }
+		float getCenterY() const {
+			return Translation.y;
+		}
 
-    [[nodiscard]] float getCenterY() const {
-			return y + h / 2.0f;
-    }
+		float w, h;
+		float x, y;
 
-    void setTop(float value) {
-			y = value;
-    }
-
-    void setBottom(float value) {
-			y = value - h;
-    }
-
-    void setLeft(float value) {
-			x = value;
-    }
-
-    void setRight(float value) {
-			x = value - w;
-    }
-
-    float w, h;
-    float x, y;
-
-    ~TransformComponent() override = default;
+		~TransformComponent() override = default;
   };
 
   struct PlayerComponent : public Component {
@@ -90,24 +86,6 @@ namespace Alalba{
 		SuperMarioComponent() = default;
   };
 
-  // struct BlinkingComponent : public Component {
-  //     explicit BlinkingComponent(int blinkSpeed) : speed{blinkSpeed} {}
-
-  //     const int speed;
-  //     int current = 0;
-  // };
-
-  // struct DestroyDelayedComponent : public Component {
-  //     explicit DestroyDelayedComponent(int time) : timer{time} {}
-
-  //     bool shouldDestroy() {
-  //         timer--;
-  //         return timer < 0;
-  //     }
-
-  // private:
-  //     int timer;
-  // };
 
   struct KineticComponent : public Component {
 		KineticComponent() = default;
@@ -131,10 +109,10 @@ namespace Alalba{
   };
 
   // struct CallbackComponent : public Component {
-  //     CallbackComponent(std::function<void(void)> callback, int time) : callback{std::move(callback)}, time{time} {};
+  //		 CallbackComponent(std::function<void(void)> callback, int time) : callback{std::move(callback)}, time{time} {};
 
-  //     int time;
-  //     std::function<void(void)> callback;
+  //		 int time;
+  //		 std::function<void(void)> callback;
   // };
 
   struct FrozenComponent : public Component {
@@ -194,19 +172,6 @@ namespace Alalba{
 	};
   }
 
-  // struct EnemyComponent : public Component {
-	// 	EnemyComponent(Enemy::Type type) : type{type} {}
-
-	// 	Enemy::Type type;
-  // };
-
-  // struct WalkComponent : public Component {
-	// 	WalkComponent() = default;
-
-	// 	WalkComponent(float speed) : speed{speed} {}
-
-	// 	float speed = -.6;
-  // };
 
   enum class Direction {
 		NONE,
@@ -226,29 +191,7 @@ namespace Alalba{
 		BottomCollisionComponent() = default;
   };
 
-  // struct QuestionBlockComponent : public Component {
-  //     explicit QuestionBlockComponent(
-  //             bool spawn = false,
-  //             bool coin = false,
-  //             bool oneup = false
-  //     ) : spawn{spawn}, coin{coin}, oneup{oneup} {}
 
-  //     QuestionBlockComponent() = default;
-
-  //     bool spawn = false;
-  //     bool coin = false;
-  //     bool oneup = false;
-  // };
-
-  // struct GrowComponent : public Component {
-  //     [[nodiscard]] bool finished() {
-  //         frames--;
-  //         return frames <= 0;
-  //     }
-
-  // private:
-  //     int frames = 64;
-  // };
 
   struct BreakableComponent : public Component {
 		bool hit = false;
@@ -258,7 +201,7 @@ namespace Alalba{
 				return height[frames];
 		}
 
-		[[nodiscard]] bool finished() const {
+		 bool finished() const {
 				return frames == 0;
 		}
 
@@ -272,14 +215,14 @@ namespace Alalba{
   };
 
   // struct MusicComponent : public Component {
-  //     explicit MusicComponent(Music::Id music) : music{music} {};
-  //     Music::Id music;
+  //		 explicit MusicComponent(Music::Id music) : music{music} {};
+  //		 Music::Id music;
   // };
 
   // struct SoundComponent : public Component {
-  //     explicit SoundComponent(Sound::Id sound) : sound{sound} {}
+  //		 explicit SoundComponent(Sound::Id sound) : sound{sound} {}
 
-  //     Sound::Id sound;
+  //		 Sound::Id sound;
   // };
 
   struct TileComponent : public Component {
@@ -296,94 +239,6 @@ namespace Alalba{
 		ONETHOUSAND
   };
 
-  // struct FloatingPointsComponent : public Component {
-  //     explicit FloatingPointsComponent(Points points, int x, int y) :
-  //             points{points}, x{x}, y{y} {}
-
-  //     Points points;
-  //     int x;
-  //     int y;
-  // };
-
-  // struct TextComponent : public Component {
-  //     explicit TextComponent(std::string&& text) : text{std::move(text)} {}
-
-  //     std::string text;
-  //     SDL_Texture* texture = nullptr;
-
-  //     ~TextComponent() override {
-  //         SDL_DestroyTexture(texture);
-  //     }
-  // };
-
-  // struct AddScoreComponent : public Component {
-  //     explicit AddScoreComponent(int score, bool addCoin = false) : score{score}, coin{addCoin} {}
-
-  //     int score = 0;
-  //     bool coin = false;
-  // };
-
-  // struct TileMapComponent : public Component {
-	// 	TileComponent() = default;
-	// 	TileMapComponent(uint16_t width, uint16_t height) : mapWidth{width},
-	// 																											mapHeight{height},
-	// 																											tiles{new Entity* [width * height]{}} {}
-
-	// 	Entity* get(int x, int y) {
-	// 		if (x < 0 || y < 0) return nullptr;
-	// 		if (x >= mapWidth || y >= mapHeight) return nullptr;
-	// 		return tiles[x + y * mapWidth];
-	// 	}
-
-	// 	void set(int x, int y, Entity* value) {
-	// 		tiles[x + y * mapWidth] = value;
-	// 	}
-
-	// 	void clear() {
-	// 		for (int i = 0; i < mapWidth * mapHeight; i++) tiles[i] = nullptr;
-	// 	}
-
-	// 	const uint16_t mapWidth;
-	// 	const uint16_t mapHeight;
-
-	// 	~TileMapComponent() override {
-	// 		delete[] tiles;
-	// 	}
-
-	// private:
-	// 	Entity** tiles{};
-  // };
-
-
-  // struct TileSetComponent : public Component {
-  //     TileSetComponent(uint16_t width, uint16_t height) : mapWidth{width},
-  //                                                         mapHeight{height},
-  //                                                         tiles{new TileType[width * height]{}} {}
-
-  //     TileType get(int x, int y) {
-  //         return tiles[x + y * mapWidth];
-  //     }
-
-  //     void set(int x, int y, TileType value) {
-  //         tiles[x + y * mapWidth] = value;
-  //     }
-
-  //     void clear(int x, int y) {
-  //         tiles[x + y * mapWidth].properties = NONE;
-  //         tiles[x + y * mapWidth].texture = TextureId::EMPTY;
-  //     }
-
-  //     const uint16_t mapWidth;
-  //     const uint16_t mapHeight;
-
-  //     ~TileSetComponent() override {
-  //         delete[] tiles;
-  //     }
-
-  // private:
-  //     TileType* tiles;
-  // };
-
   struct CameraComponent : public Component {
 
 		CameraComponent() = default;
@@ -392,21 +247,53 @@ namespace Alalba{
 
 		int x, y, width, height;
 
-		[[nodiscard]] int left() const {
+		 int left() const {
 			return std::max(0, x - width / 2);
 		}
 
-		[[nodiscard]] int right() const {
+		 int right() const {
 			return x + width / 2;
 		}
 
-		[[nodiscard]] int top() const {
+		 int top() const {
 			return y - height / 2;
 		}
 
-		[[nodiscard]] int bottom() const {
+		 int bottom() const {
 			return y + height / 2;
 		}
 
   };
+
+	struct Rigidbody2DComponent : public Component
+	{
+		enum class BodyType { Static = 0, Dynamic, Kinematic };
+		BodyType Type = BodyType::Dynamic;
+		bool FixedRotation = false;
+
+		// Storage for runtime
+		void* RuntimeBody = nullptr;
+
+		Rigidbody2DComponent() = default;
+		Rigidbody2DComponent(const Rigidbody2DComponent&) = default;
+	};
+
+	struct BoxCollider2DComponent : public Component
+	{
+		glm::vec2 Offset = { 0.0f, 0.0f };
+		glm::vec2 Size = { 0.5f, 0.5f };
+
+		// TODO(Yan): move into physics material in the future maybe
+		float Density = 1.0f;
+		float Friction = 0.5f;
+		float Restitution = 0.6f;
+		float RestitutionThreshold = 0.5f;
+
+		// Storage for runtime
+		void* RuntimeFixture = nullptr;
+
+		BoxCollider2DComponent() = default;
+		BoxCollider2DComponent(const BoxCollider2DComponent&) = default;
+	};
+
 }

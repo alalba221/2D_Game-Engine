@@ -6,9 +6,20 @@
 #include "Base.h"
 #include "Vec2.h"
 #include "Alalba_6160/core/Entities/Entity.h"
-#include "Alalba_6160/core/Entities/Player.h"
 #include "Alalba_6160/core/Entities/Camera.h"
 namespace Alalba {
+
+	static b2BodyType Rigidbody2DTypeToBox2DBody(Rigidbody2DComponent::BodyType bodyType)
+	{
+		switch (bodyType)
+		{
+			case Rigidbody2DComponent::BodyType::Static:		return b2_staticBody;
+			case Rigidbody2DComponent::BodyType::Dynamic:   return b2_dynamicBody;
+			case Rigidbody2DComponent::BodyType::Kinematic: return b2_kinematicBody;
+		}
+		return b2_dynamicBody;
+	}
+
 	Scene::Scene()
 	{
 		m_Entities.clear();
@@ -31,24 +42,88 @@ namespace Alalba {
 		Camera* camera = new Camera(m_Registry.create(),this);
 		
 		camera->AddComponent<CameraComponent>(SNES_RESOLUTION_WIDTH / 2,
-                                    SNES_RESOLUTION_WIDTH / 2,
-                                    SNES_RESOLUTION_WIDTH,
-                                    SNES_RESOLUTION_WIDTH);
+																		SNES_RESOLUTION_WIDTH / 2,
+																		SNES_RESOLUTION_WIDTH,
+																		SNES_RESOLUTION_WIDTH);
 		AddEntity(camera, "Camera");
-		// player
-		Player* player = new Player(m_Registry.create(),this);
-		AddEntity(player,"Player");
+/// Physics
+		m_PhysicsWorld = new b2World({ 0.0f, 9.8f });
+		// puck1
+		Entity* puck  = new Entity(m_Registry.create(),this);
+		puck->AddComponent<TextureComponent>(TextureId::MARIO_STAND);
+		puck->AddComponent<TransformComponent>(glm::vec3(6.5,10,0));
+		puck->AddComponent<Rigidbody2DComponent>();
+		puck->AddComponent<BoxCollider2DComponent>();
+		AddEntity(puck,"Puck");
 
-		player->AddComponent<TextureComponent>(TextureId::MARIO_STAND);
+		// puck2
+		Entity* puck1  = new Entity(m_Registry.create(),this);
+		puck1->AddComponent<TextureComponent>(TextureId::MARIO_STAND);
+		puck1->AddComponent<TransformComponent>(glm::vec3(7,15,0));
+		puck1->AddComponent<Rigidbody2DComponent>();
+		puck1->AddComponent<BoxCollider2DComponent>();
+		AddEntity(puck1,"Puck");
+		// ground
+		Entity* ground  = new Entity(m_Registry.create(),this);
+		ground->AddComponent<TextureComponent>(TextureId::BLOCK);
+		ground->AddComponent<TransformComponent>(glm::vec3(20,20,0),40,1);
+		ground->AddComponent<Rigidbody2DComponent>();
+		ground->AddComponent<BoxCollider2DComponent>();
+		AddEntity(ground,"Ground");
+
+		// ground
+		Entity* ground1  = new Entity(m_Registry.create(),this);
+		ground1->AddComponent<TextureComponent>(TextureId::BLOCK);
+		ground1->AddComponent<TransformComponent>(glm::vec3(1,10,0),1,20);
+		ground1->AddComponent<Rigidbody2DComponent>();
+		ground1->AddComponent<BoxCollider2DComponent>();
+		AddEntity(ground1,"Ground");
+		// test
 		
-		player->AddComponent<PlayerComponent>();
-		player->AddComponent<GravityComponent>();
-		player->AddComponent<SolidComponent>();
-		player->AddComponent<KineticComponent>();
-		player->AddComponent<TransformComponent>(40, 140, 
-																						TILE_SIZE-4, 
-																						SMALL_MARIO_COLLIDER_HEIGHT);
-	
+		auto view = m_Registry.view<Rigidbody2DComponent>();
+		
+		for(auto e:view)
+		{
+			Entity entity = { e, this };
+			auto& transform = entity.GetComponent<TransformComponent>();
+			auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+			auto& bc2d = entity.GetComponent<BoxCollider2DComponent>();
+
+			b2BodyDef bodyDef;
+			if(entity.GetComponent<TagComponent>().Tag=="Ground")
+				rb2d.Type = Rigidbody2DComponent::BodyType::Static;
+			if(entity.GetComponent<TagComponent>().Tag=="Puck")
+				transform.Rotation.z = 0.7;
+
+			bodyDef.type = Rigidbody2DTypeToBox2DBody(rb2d.Type);
+			bodyDef.position.Set(transform.Translation.x, transform.Translation.y);
+			bodyDef.angle = transform.Rotation.z;
+
+			b2Body* body = m_PhysicsWorld->CreateBody(&bodyDef);
+			body->SetFixedRotation(rb2d.FixedRotation);
+			rb2d.RuntimeBody = body;
+
+			b2PolygonShape boxShape;
+			boxShape.SetAsBox(transform.w * 0.5, transform.h * 0.5);
+
+
+			b2CircleShape circle;
+			//circle.m_p.Set(transform.x, transform.y);
+			circle.m_radius = 0.5f;
+
+			b2FixtureDef fixtureDef;
+			if(entity.GetComponent<TagComponent>().Tag=="Puck")
+				fixtureDef.shape = &circle;
+			else
+				fixtureDef.shape = &boxShape;
+			fixtureDef.density = bc2d.Density;
+			fixtureDef.friction = bc2d.Friction;
+			fixtureDef.restitution = bc2d.Restitution;
+			fixtureDef.restitutionThreshold = bc2d.RestitutionThreshold;
+			body->CreateFixture(&fixtureDef);
+		}
+
+		
 	}
 	void Scene::OnUpdate()
 	{
@@ -58,7 +133,27 @@ namespace Alalba {
 		{
 			entity->OnUpdate();	
 		}
+		// test
+		{	
+			const int32_t velocityIterations = 6;
+			const int32_t positionIterations = 2;
+			m_PhysicsWorld->Step(1.0f / 60.0f, velocityIterations, positionIterations);
 
+			// Retrieve transform from Box2D
+			auto view = m_Registry.view<Rigidbody2DComponent>();
+			for (auto e : view)
+			{
+				Entity entity = { e, this };
+				auto& transform = entity.GetComponent<TransformComponent>();
+				auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+
+				b2Body* body = (b2Body*)rb2d.RuntimeBody;
+				const auto& position = body->GetPosition();
+				transform.Translation.x = position.x;
+				transform.Translation.y = position.y;
+				transform.Rotation.z = body->GetAngle();
+			}
+		}
 	}
 
 }
