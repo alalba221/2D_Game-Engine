@@ -86,12 +86,13 @@ namespace Alalba{
 	}
   void Application::Run(){
 	
-		// auto view = m_Scene->Reg().view<Rigidbody2DComponent>();
-		// for(auto e:view)
-		// {
-		// 	Entity entity = {e, m_Scene};
-		// 	PhysicsSys::AddEntity(entity);
-		// }
+		// For collision
+		auto view = m_Scene->Reg().view<Rigidbody2DComponent>();
+		for(auto e:view)
+		{
+			Entity entity = {e, m_Scene};
+			PhysicsSys::AddEntity(entity);
+		}
 
 		//PhysicsSys::testPh();
 		while(m_Running){

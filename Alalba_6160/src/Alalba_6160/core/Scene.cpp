@@ -49,7 +49,7 @@ namespace Alalba {
 
 		Entity* puck  = new Entity(m_Registry.create(),this);
 		puck->AddComponent<TextureComponent>(TextureId::MARIO_STAND);
-		puck->AddComponent<TransformComponent>(glm::vec3(6.5,10,0));
+		puck->AddComponent<TransformComponent>(glm::vec3(6.1,10,0));
 		puck->AddComponent<Rigidbody2DComponent>();
 		AddEntity(puck,"Puck");
 
@@ -58,6 +58,7 @@ namespace Alalba {
 		puck1->AddComponent<TextureComponent>(TextureId::MARIO_STAND);
 		puck1->AddComponent<TransformComponent>(glm::vec3(7,15,0));
 		puck1->AddComponent<Rigidbody2DComponent>();
+		puck1->GetComponent<Rigidbody2DComponent>().Type = Rigidbody2DComponent::BodyType::Static;
 		AddEntity(puck1,"Puck");
 		// ground
 		Entity* ground  = new Entity(m_Registry.create(),this);
