@@ -49,38 +49,40 @@ namespace Alalba {
 
 		// Player puck
 		Entity* player  = new Entity(m_Registry.create(),this);
-		player->AddComponent<TextureComponent>(TextureId::MARIO_STAND);
-		player->AddComponent<TransformComponent>(glm::vec3(6.3, 10,0));
+		player->AddComponent<TextureComponent>(TextureId::BLOCK);
+		player->AddComponent<TransformComponent>(glm::vec3(6.3, 2.2 ,0));
 		player->AddComponent<Rigidbody2DComponent>();
 		AddEntity(player,"Player");
 
 		// puck0
 		Entity* puck0  = new Entity(m_Registry.create(),this);
-		puck0->AddComponent<TextureComponent>(TextureId::MARIO_STAND);
-		puck0->AddComponent<TransformComponent>(glm::vec3(8.4,17.7,0));
+		puck0->AddComponent<TextureComponent>(TextureId::BLOCK);
+		puck0->AddComponent<TransformComponent>(glm::vec3(7, 6, 0));
 		puck0->AddComponent<Rigidbody2DComponent>();
 		AddEntity(puck0,"Puck");
 		// puck1
 		Entity* puck1  = new Entity(m_Registry.create(),this);
-		puck1->AddComponent<TextureComponent>(TextureId::MARIO_STAND);
-		puck1->AddComponent<TransformComponent>(glm::vec3(7,15,0));
+		puck1->AddComponent<TextureComponent>(TextureId::BLOCK);
+		puck1->AddComponent<TransformComponent>(glm::vec3(8.2, 8, 0));
 		puck1->AddComponent<Rigidbody2DComponent>();
 		AddEntity(puck1,"Puck");
-		// ground
-		Entity* ground  = new Entity(m_Registry.create(),this);
-		ground->AddComponent<TextureComponent>(TextureId::BLOCK);
-		ground->AddComponent<TransformComponent>(glm::vec3(20,20,0),40,1);
-		// ground->AddComponent<Rigidbody2DComponent>();
-		// ground->AddComponent<BoxCollider2DComponent>();
-		AddEntity(ground,"Ground");
 
-		// ground
-		Entity* ground1  = new Entity(m_Registry.create(),this);
-		ground1->AddComponent<TextureComponent>(TextureId::BLOCK);
-		ground1->AddComponent<TransformComponent>(glm::vec3(1,10,0),1,20);
-		// ground1->AddComponent<Rigidbody2DComponent>();
-		// ground1->AddComponent<BoxCollider2DComponent>();
-		AddEntity(ground1,"Ground");
+
+		// // ground
+		// Entity* ground  = new Entity(m_Registry.create(),this);
+		// ground->AddComponent<TextureComponent>(TextureId::BLOCK);
+		// ground->AddComponent<TransformComponent>(glm::vec3(20,20,0),40,1);
+		// // ground->AddComponent<Rigidbody2DComponent>();
+		// // ground->AddComponent<BoxCollider2DComponent>();
+		// AddEntity(ground,"Ground");
+
+		// // ground
+		// Entity* ground1  = new Entity(m_Registry.create(),this);
+		// ground1->AddComponent<TextureComponent>(TextureId::BLOCK);
+		// ground1->AddComponent<TransformComponent>(glm::vec3(1,10,0),1,20);
+		// // ground1->AddComponent<Rigidbody2DComponent>();
+		// // ground1->AddComponent<BoxCollider2DComponent>();
+		// AddEntity(ground1,"Ground");
 
 // /// Physics with Box2D
 // 		m_PhysicsWorld = new b2World({ 0.0f, 9.8f });

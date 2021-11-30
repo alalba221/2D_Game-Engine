@@ -9,6 +9,17 @@ namespace Alalba
 	
 	void PhysicsSys::Init(Scene& scene){
 		std::cout<<"Physic system init"<<std::endl;
+		auto view = scene.Reg().view<Rigidbody2DComponent>();
+		// Apply Impulse caused by gravity
+		for(auto e:view)
+		{
+			Entity entity = {e, &scene};
+			auto& transform = entity.GetComponent<TransformComponent>();
+			auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+
+			if(entity.GetComponent<TagComponent>().Tag == "Player")
+				AddImpluse(entity,transform.Translation, glm::vec3(0, 9.8, 0) * (float)(rb2d.Mass * 0.5));
+		}
 	}
 	void PhysicsSys::AddEntity(Entity& e){
 		m_Entities[nEntities] = e;
@@ -28,17 +39,17 @@ namespace Alalba
 
 	void PhysicsSys::OnUpdate(Scene& scene,float t){
 		
-		auto view = scene.Reg().view<Rigidbody2DComponent>();
-		// Apply Impulse caused by gravity
-		for(auto e:view)
-		{
-			Entity entity = {e, &scene};
-			auto& transform = entity.GetComponent<TransformComponent>();
-			auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+		// auto view = scene.Reg().view<Rigidbody2DComponent>();
+		// // Apply Impulse caused by gravity
+		// for(auto e:view)
+		// {
+		// 	Entity entity = {e, &scene};
+		// 	auto& transform = entity.GetComponent<TransformComponent>();
+		// 	auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
 
-			if(entity.GetComponent<TagComponent>().Tag == "Player")
-				AddImpluse(entity,transform.Translation, glm::vec3(0, 9.8, 0) * (float)(rb2d.Mass * t));
-		}
+		// 	if(entity.GetComponent<TagComponent>().Tag == "Player")
+		// 		AddImpluse(entity,transform.Translation, glm::vec3(0, 9.8, 0) * (float)(rb2d.Mass * t));
+		// }
 
 
 		for (int i = 0; i < nEntities; i++)
