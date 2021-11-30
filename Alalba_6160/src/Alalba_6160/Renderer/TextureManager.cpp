@@ -114,7 +114,7 @@ namespace Alalba{
 		texture = SDL_CreateTextureFromSurface(renderer, tempSurface);
 		SDL_FreeSurface(tempSurface);
 
-		textures.insert_or_assign(TextureId::BLOCK, new SDL_Rect{12*17, 4*17, TILE_SIZE, TILE_SIZE});
+		textures.insert_or_assign(TextureId::AWESOMEFACE, new SDL_Rect{12*17, 4*17, TILE_SIZE, TILE_SIZE});
 	}
 
 	void TextureManager::renderTexture(TextureId textureId, SDL_Rect& dstRect, double angle, bool flipH, bool flipV) {

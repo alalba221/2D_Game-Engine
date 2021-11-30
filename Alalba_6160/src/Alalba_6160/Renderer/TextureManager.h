@@ -8,6 +8,7 @@
 namespace Alalba{
 	enum  TextureId {
 		EMPTY = 0,
+		AWESOMEFACE,
 		MARIO_STAND,
 		MARIO_RUN_1,
 		MARIO_RUN_2,

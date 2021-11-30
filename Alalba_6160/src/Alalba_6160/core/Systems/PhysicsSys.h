@@ -82,30 +82,20 @@ namespace Alalba
 			float J = ((1 + mu_n ) * vn) /
 								( 1.0 / rb2d_A.Mass + 
 								1.0 / rb2d_B.Mass +
-								(-1)*glm::cross(r0,n).z * glm::cross(r0,n).z/ rb2d_A.MomentOfInertia + 
-								(-1)*glm::cross(r1,n).z * glm::cross(r1,n).z/ rb2d_B.MomentOfInertia );
+								(-1)*
+								glm::cross(r0,n).z * glm::cross(r0,n).z/ rb2d_A.MomentOfInertia + 
+								(-1)*
+								glm::cross(r1,n).z * glm::cross(r1,n).z/ rb2d_B.MomentOfInertia );
 
 			float j = (-alpha)* glm::dot(v,tao)/
 								( 1.0 / rb2d_A.Mass + 
 								1.0 / rb2d_B.Mass +
-								(-1)*glm::cross(r0,tao).z * glm::cross(r0,tao).z/ rb2d_A.MomentOfInertia + 
-								(-1)*glm::cross(r1,tao).z * glm::cross(r1,tao).z/ rb2d_B.MomentOfInertia );
+								(-1)*
+								glm::cross(r0,tao).z * glm::cross(r0,tao).z/ rb2d_A.MomentOfInertia + 
+								(-1)*
+								glm::cross(r1,tao).z * glm::cross(r1,tao).z/ rb2d_B.MomentOfInertia );
 			glm::vec3 impluse = n * J + tao * j;
 
-			//std::cout<<glm::to_string(transform_B.CenterVelocity)<<std::endl;
-			// glm::vec3 vn_new = vn * (-mu_n);			
-			// glm::vec3 vt_new = vt * alpha;
-
-			
-			// //double J = (0.4 / timeInterval * max(0., depth - 0.1) + (1 + 0) * v0) / 
-			// double J = ((1 + 0.5) * v0) / 
-			// 	(1 / shapeA->mass + 1 / shapeB->mass + sqr(r0 % n) / shapeA->momentOfInertia + sqr(r1 % n) / shapeB->momentOfInertia);
-			// if (J < 0) return;
-			// // Should consider the Coulomb's law
-			// double j = -0.2*(v10 * tao) / (1 / shapeA->mass + 1 / shapeB->mass + sqr(r0 % tao) / shapeA->momentOfInertia + sqr(r1 % tao) / shapeB->momentOfInertia);
-			
-			// //j = max(min(j, mu * J), -mu * J);
-			// Vector2D impluse = J * n + j * tao;
 			PhysicsSys::AddImpluse(A, p, -impluse);
 			PhysicsSys::AddImpluse(B, p, impluse);
 		}

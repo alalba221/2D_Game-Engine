@@ -49,20 +49,20 @@ namespace Alalba {
 
 		// Player puck
 		Entity* player  = new Entity(m_Registry.create(),this);
-		player->AddComponent<TextureComponent>(TextureId::BLOCK);
+		player->AddComponent<TextureComponent>(TextureId::AWESOMEFACE);
 		player->AddComponent<TransformComponent>(glm::vec3(6.3, 2.2 ,0));
 		player->AddComponent<Rigidbody2DComponent>();
 		AddEntity(player,"Player");
 
 		// puck0
 		Entity* puck0  = new Entity(m_Registry.create(),this);
-		puck0->AddComponent<TextureComponent>(TextureId::BLOCK);
+		puck0->AddComponent<TextureComponent>(TextureId::AWESOMEFACE);
 		puck0->AddComponent<TransformComponent>(glm::vec3(7, 6, 0));
 		puck0->AddComponent<Rigidbody2DComponent>();
 		AddEntity(puck0,"Puck");
 		// puck1
 		Entity* puck1  = new Entity(m_Registry.create(),this);
-		puck1->AddComponent<TextureComponent>(TextureId::BLOCK);
+		puck1->AddComponent<TextureComponent>(TextureId::AWESOMEFACE);
 		puck1->AddComponent<TransformComponent>(glm::vec3(8.2, 8, 0));
 		puck1->AddComponent<Rigidbody2DComponent>();
 		AddEntity(puck1,"Puck");
