@@ -20,7 +20,7 @@ namespace Alalba{
 
 		virtual void OnInit() {}
 		virtual void OnShutdown() {}
-		virtual void OnUpdate();
+		virtual void OnUpdate(float t);
 
 		virtual void OnEvent(Event& event);
 

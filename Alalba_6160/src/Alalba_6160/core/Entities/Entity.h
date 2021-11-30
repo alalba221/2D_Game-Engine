@@ -41,7 +41,7 @@ namespace Alalba {
 			m_Scene->m_Registry.remove<T>(m_EntityHandle);
 		}
 		virtual void OnEvent(Event& event){};
-		virtual void OnUpdate();
+		virtual void OnUpdate(float t);
 		operator bool() const { return m_EntityHandle != entt::null; }
 	protected:
 		entt::entity m_EntityHandle{ entt::null };

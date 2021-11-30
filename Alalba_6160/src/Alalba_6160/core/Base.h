@@ -55,3 +55,6 @@ constexpr float MUSHROOM_MOVE_SPEED = 0.8f;
 
 constexpr	int Meter2Pix = 40; // 1 meter = 20 pixle
 const float RAD2DEG = 180 / M_PI;
+
+const double eps = 1e-7;
+const double pi = acos(-1.);

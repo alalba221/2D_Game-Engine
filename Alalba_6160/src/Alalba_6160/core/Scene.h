@@ -15,7 +15,7 @@ namespace Alalba
 
 		// Entity* CreateEntity(const std::string& name = std::string());
 		void Init();
-		void OnUpdate();
+		void OnUpdate(float t);
 		std::list<Entity*> GetEntities(){return m_Entities;}
 		void AddEntity(Entity* entity,const std::string& name = std::string());
 	private:

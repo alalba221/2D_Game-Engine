@@ -1,6 +1,7 @@
 #include "alalbapch.h"
 #include "Application.h"
 #include "Events/ApplicationEvent.h"
+#include "Alalba_6160/core/Systems/PhysicsSys.h"
 // #include "Alalba/Core/Log.h"
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_timer.h>
@@ -20,7 +21,9 @@ namespace Alalba{
 		
 		m_Scene = new Scene();
 		m_Scene->Init();
+
 		Renderer::Init(winID, *m_Scene);
+		PhysicsSys::Init(*m_Scene);
 		//MapSys::Init(*m_Scene);
 	}
   Application::~Application(){
@@ -45,13 +48,13 @@ namespace Alalba{
 		}
 
 	}
-	void Application::OnUpdate(){
+	void Application::OnUpdate(float t){
 		
 		// PhysicsSys::OnUpdate(*m_Scene);
 		// AnimateSys::OnUpdate(*m_Scene);
 		// MapSys::OnUpdate(*m_Scene);
-
-		m_Scene->OnUpdate();
+		PhysicsSys::OnUpdate(*m_Scene , t);
+		m_Scene->OnUpdate(t);
 		
 	}
 	bool Application::OnMousePressed(MouseButtonPressedEvent& e)
@@ -82,9 +85,17 @@ namespace Alalba{
 		return true;
 	}
   void Application::Run(){
+	
+		// auto view = m_Scene->Reg().view<Rigidbody2DComponent>();
+		// for(auto e:view)
+		// {
+		// 	Entity entity = {e, m_Scene};
+		// 	PhysicsSys::AddEntity(entity);
+		// }
 
+		//PhysicsSys::testPh();
 		while(m_Running){
-			this->OnUpdate();
+			this->OnUpdate(0.01);
 			m_Window->OnUpdate();
 			Renderer::Submit(*m_Scene);
 			Renderer::Render();

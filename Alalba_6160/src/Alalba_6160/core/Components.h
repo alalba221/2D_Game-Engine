@@ -8,7 +8,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/quaternion.hpp>
-
+#include "Alalba_6160/core/Base.h"
 namespace Alalba{
   struct Component {
 		virtual ~Component() = default;
@@ -23,49 +23,7 @@ namespace Alalba{
 		TagComponent(const std::string& tag)
 			: Tag(tag) {}
 	};
-  struct TransformComponent : public Component {
-
-		TransformComponent() = default;
-		TransformComponent(const TransformComponent&) = default;
-		TransformComponent(const glm::vec3& translation , float _w = 1.0, float _h = 1.0)
-			: Translation(translation) {
-			w = _w; h = _h;
-			x =  translation.x;
-			y = translation.y;
-		}
-		glm::vec3 Translation = { 0.0f, 0.0f, 0.0f };
-		glm::vec3 Rotation = { 0.0f, 0.0f, 0.0f };
-		glm::vec3 Scale = { 1.0f, 1.0f, 1.0f };
-		
-		float right() const {
-			return Translation.x + w/2.0;
-		}
-
-		float left() const {
-			return Translation.x - w/2.0;
-		}
-
-		float top() const {
-			return Translation.y - h/2.0;
-		}
-
-		float bottom() const {
-			return Translation.y + h/2.0;
-		}
-
-		float getCenterX() const {
-			return Translation.x;
-		}
-
-		float getCenterY() const {
-			return Translation.y;
-		}
-
-		float w, h;
-		float x, y;
-
-		~TransformComponent() override = default;
-  };
+  
 
   struct PlayerComponent : public Component {
 		PlayerComponent() = default;
@@ -265,35 +223,110 @@ namespace Alalba{
 
   };
 
+	// struct Rigidbody2DComponent : public Component
+	// {
+	// 	enum class BodyType { Static = 0, Dynamic, Kinematic };
+	// 	BodyType Type = BodyType::Dynamic;
+	// 	bool FixedRotation = false;
+
+	// 	// Storage for runtime
+	// 	void* RuntimeBody = nullptr;
+
+	// 	Rigidbody2DComponent() = default;
+	// 	Rigidbody2DComponent(const Rigidbody2DComponent&) = default;
+	// };
+
+	// struct BoxCollider2DComponent : public Component
+	// {
+	// 	glm::vec2 Offset = { 0.0f, 0.0f };
+	// 	glm::vec2 Size = { 0.5f, 0.5f };
+
+	// 	// TODO(Yan): move into physics material in the future maybe
+	// 	float Density = 1.0f;
+	// 	float Friction = 0.5f;
+	// 	float Restitution = 0.6f;
+	// 	float RestitutionThreshold = 0.5f;
+
+	// 	// Storage for runtime
+	// 	void* RuntimeFixture = nullptr;
+
+	// 	BoxCollider2DComponent() = default;
+	// 	BoxCollider2DComponent(const BoxCollider2DComponent&) = default;
+	// };
+	struct TransformComponent : public Component {
+
+		TransformComponent() = default;
+		TransformComponent(const TransformComponent&) = default;
+		TransformComponent(const glm::vec3& translation , float _w = 1.0, float _h = 1.0)
+			: Translation(translation) {
+			w = _w; h = _h;
+			x =  translation.x;
+			y = translation.y;
+		}
+		glm::vec3 Translation = { 0.0f, 0.0f, 0.0f };// CenterPosition
+		glm::vec3 Rotation = { 0.0f, 0.0f, 0.0f }; // RotationAngle
+		glm::vec3 Scale = { 1.0f, 1.0f, 1.0f };
+		
+		glm::vec3 AngularVelocity = {0.0f,0.0f,0.0f};
+		glm::vec3 CenterVelocity = { 0.0f, 0.0f, 0.0f };// CenterPosition
+	
+		float right() const {
+			return Translation.x + w/2.0;
+		}
+
+		float left() const {
+			return Translation.x - w/2.0;
+		}
+
+		float top() const {
+			return Translation.y - h/2.0;
+		}
+
+		float bottom() const {
+			return Translation.y + h/2.0;
+		}
+
+		float getCenterX() const {
+			return Translation.x;
+		}
+
+		float getCenterY() const {
+			return Translation.y;
+		}
+
+		float w, h;
+		float x, y;
+
+		~TransformComponent() override = default;
+  };
 	struct Rigidbody2DComponent : public Component
 	{
 		enum class BodyType { Static = 0, Dynamic, Kinematic };
+		enum class BodyShape { Circle = 0, Polygon };
 		BodyType Type = BodyType::Dynamic;
+		BodyShape Shape = BodyShape::Circle;
 		bool FixedRotation = false;
-
-		// Storage for runtime
-		void* RuntimeBody = nullptr;
-
-		Rigidbody2DComponent() = default;
-		Rigidbody2DComponent(const Rigidbody2DComponent&) = default;
-	};
-
-	struct BoxCollider2DComponent : public Component
-	{
 		glm::vec2 Offset = { 0.0f, 0.0f };
 		glm::vec2 Size = { 0.5f, 0.5f };
+		float CircleRadius = 0.5;
 
 		// TODO(Yan): move into physics material in the future maybe
 		float Density = 1.0f;
 		float Friction = 0.5f;
 		float Restitution = 0.6f;
 		float RestitutionThreshold = 0.5f;
+		
+		// Only for circle
+		float Mass = Density * CircleRadius * CircleRadius * pi;
+		float MomentOfInertia = Density * 
+														CircleRadius * CircleRadius * CircleRadius * CircleRadius
+														 * pi / 2.0; ;
+
 
 		// Storage for runtime
-		void* RuntimeFixture = nullptr;
-
-		BoxCollider2DComponent() = default;
-		BoxCollider2DComponent(const BoxCollider2DComponent&) = default;
+		void* RuntimeBody = nullptr;
+		Rigidbody2DComponent() = default;
+		Rigidbody2DComponent(const Rigidbody2DComponent&) = default;
 	};
 
 }
