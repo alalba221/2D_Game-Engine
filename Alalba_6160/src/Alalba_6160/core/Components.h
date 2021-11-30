@@ -312,15 +312,15 @@ namespace Alalba{
 
 		// TODO(Yan): move into physics material in the future maybe
 		float Density = 1.0f;
-		float Friction = 0.6f;
-		float Restitution = 0.4f;
+		float Friction = 0.4f;
+		float Restitution = 0.0f;
 		float RestitutionThreshold = 0.5f;
 		
 		// Only for circle
 		float Mass = Density * CircleRadius * CircleRadius * pi;
 		float MomentOfInertia = Density * 
 														CircleRadius * CircleRadius * CircleRadius * CircleRadius
-														 * pi / 2.0; ;
+														 * pi / 4.0; ;
 
 
 		// Storage for runtime

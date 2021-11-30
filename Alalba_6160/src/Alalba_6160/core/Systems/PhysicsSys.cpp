@@ -18,7 +18,7 @@ namespace Alalba
 			auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
 
 			if(entity.GetComponent<TagComponent>().Tag == "Player")
-				AddImpluse(entity,transform.Translation, glm::vec3(0, 9.8, 0) * (float)(rb2d.Mass * 0.5));
+				AddImpluse(entity,transform.Translation, glm::vec3(0, 9.8, 0) * (float)(rb2d.Mass * 1.0));
 		}
 	}
 	void PhysicsSys::AddEntity(Entity& e){

@@ -94,11 +94,7 @@ namespace Alalba
 			glm::vec3 tao = glm::vec3{-n.y, n.x, n.z};
 
 			float vn = -glm::dot(n,v);
-			//std::cout<<vn<<std::endl;
-			float vt = glm::dot(v,tao);
-			//glm::vec3 vn = n * glm::dot(v10,n);
-			//glm::vec3 vt = v - vn;
-			
+			float vt = glm::dot(v,tao);			
 			float mu_n = rb2d_A.Restitution;
 			float mu_t = rb2d_A.Friction;
 			// Coulomb's law
@@ -106,18 +102,18 @@ namespace Alalba
 
 			float J = ((1 + mu_n ) * vn) /
 								( 1.0 / rb2d_A.Mass + 
-								1.0 / rb2d_B.Mass +
-								(-1)*
-								glm::cross(r0,n).z * glm::cross(r0,n).z/ rb2d_A.MomentOfInertia + 
-								(-1)*
+								// 1.0 / rb2d_B.Mass +
+								// (-1)*
+								// glm::cross(r0,n).z * glm::cross(r0,n).z/ rb2d_A.MomentOfInertia + 
+								// (-1)*
 								glm::cross(r1,n).z * glm::cross(r1,n).z/ rb2d_B.MomentOfInertia );
 
 			float j = (-alpha)* glm::dot(v,tao)/
 								( 1.0 / rb2d_A.Mass + 
-								1.0 / rb2d_B.Mass +
-								(-1)*
-								glm::cross(r0,tao).z * glm::cross(r0,tao).z/ rb2d_A.MomentOfInertia + 
-								(-1)*
+								// 1.0 / rb2d_B.Mass +
+								// (-1)*
+								// glm::cross(r0,tao).z * glm::cross(r0,tao).z/ rb2d_A.MomentOfInertia + 
+								// (-1)*
 								glm::cross(r1,tao).z * glm::cross(r1,tao).z/ rb2d_B.MomentOfInertia );
 			glm::vec3 impluse = n * J + tao * j;
 

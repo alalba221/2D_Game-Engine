@@ -96,7 +96,7 @@ namespace Alalba{
 
 		//PhysicsSys::testPh();
 		while(m_Running){
-			this->OnUpdate(0.01);
+			this->OnUpdate(0.005);
 			m_Window->OnUpdate();
 			Renderer::Submit(*m_Scene);
 			Renderer::Render();
