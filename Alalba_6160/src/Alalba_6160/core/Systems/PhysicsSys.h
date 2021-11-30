@@ -79,13 +79,13 @@ namespace Alalba
 			// Coulomb's law
 			float alpha = std::max(float(1-mu_t*(1+mu_n)*abs(vn)/abs(vt)),0.0f);
 
-			float J = ((1 ) * vn) /
+			float J = ((1 + mu_n ) * vn) /
 								( 1.0 / rb2d_A.Mass + 
 								1.0 / rb2d_B.Mass +
 								glm::cross(r0,n).z * glm::cross(r0,n).z/ rb2d_A.MomentOfInertia + 
 								glm::cross(r1,n).z * glm::cross(r1,n).z/ rb2d_B.MomentOfInertia );
 
-			float j = (-1)* glm::dot(v,tao)/
+			float j = (-alpha)* glm::dot(v,tao)/
 								( 1.0 / rb2d_A.Mass + 
 								1.0 / rb2d_B.Mass +
 								glm::cross(r0,tao).z * glm::cross(r0,tao).z/ rb2d_A.MomentOfInertia + 

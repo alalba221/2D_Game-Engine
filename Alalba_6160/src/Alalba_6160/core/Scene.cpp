@@ -47,24 +47,30 @@ namespace Alalba {
 																		SNES_RESOLUTION_WIDTH);
 		AddEntity(camera, "Camera");
 
-		Entity* puck  = new Entity(m_Registry.create(),this);
-		puck->AddComponent<TextureComponent>(TextureId::MARIO_STAND);
-		puck->AddComponent<TransformComponent>(glm::vec3(6.5,10,0));
-		puck->AddComponent<Rigidbody2DComponent>();
-		AddEntity(puck,"Puck");
+		// Player puck
+		Entity* player  = new Entity(m_Registry.create(),this);
+		player->AddComponent<TextureComponent>(TextureId::MARIO_STAND);
+		player->AddComponent<TransformComponent>(glm::vec3(6.3, 10,0));
+		player->AddComponent<Rigidbody2DComponent>();
+		AddEntity(player,"Player");
 
-		// puck2
+		// puck0
+		Entity* puck0  = new Entity(m_Registry.create(),this);
+		puck0->AddComponent<TextureComponent>(TextureId::MARIO_STAND);
+		puck0->AddComponent<TransformComponent>(glm::vec3(8.4,17.7,0));
+		puck0->AddComponent<Rigidbody2DComponent>();
+		AddEntity(puck0,"Puck");
+		// puck1
 		Entity* puck1  = new Entity(m_Registry.create(),this);
 		puck1->AddComponent<TextureComponent>(TextureId::MARIO_STAND);
 		puck1->AddComponent<TransformComponent>(glm::vec3(7,15,0));
 		puck1->AddComponent<Rigidbody2DComponent>();
-		puck1->GetComponent<Rigidbody2DComponent>().Type = Rigidbody2DComponent::BodyType::Static;
 		AddEntity(puck1,"Puck");
 		// ground
 		Entity* ground  = new Entity(m_Registry.create(),this);
 		ground->AddComponent<TextureComponent>(TextureId::BLOCK);
 		ground->AddComponent<TransformComponent>(glm::vec3(20,20,0),40,1);
-		ground->AddComponent<Rigidbody2DComponent>();
+		// ground->AddComponent<Rigidbody2DComponent>();
 		// ground->AddComponent<BoxCollider2DComponent>();
 		AddEntity(ground,"Ground");
 
@@ -72,7 +78,7 @@ namespace Alalba {
 		Entity* ground1  = new Entity(m_Registry.create(),this);
 		ground1->AddComponent<TextureComponent>(TextureId::BLOCK);
 		ground1->AddComponent<TransformComponent>(glm::vec3(1,10,0),1,20);
-		ground1->AddComponent<Rigidbody2DComponent>();
+		// ground1->AddComponent<Rigidbody2DComponent>();
 		// ground1->AddComponent<BoxCollider2DComponent>();
 		AddEntity(ground1,"Ground");
 

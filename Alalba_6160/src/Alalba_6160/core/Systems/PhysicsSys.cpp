@@ -35,7 +35,9 @@ namespace Alalba
 			Entity entity = {e, &scene};
 			auto& transform = entity.GetComponent<TransformComponent>();
 			auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
-			AddImpluse(entity,transform.Translation, glm::vec3(0, 9.8, 0) * (float)(rb2d.Mass * t));
+
+			if(entity.GetComponent<TagComponent>().Tag == "Player")
+				AddImpluse(entity,transform.Translation, glm::vec3(0, 9.8, 0) * (float)(rb2d.Mass * t));
 		}
 
 
