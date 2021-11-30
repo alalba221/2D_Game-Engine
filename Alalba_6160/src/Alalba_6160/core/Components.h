@@ -312,8 +312,8 @@ namespace Alalba{
 
 		// TODO(Yan): move into physics material in the future maybe
 		float Density = 1.0f;
-		float Friction = 0.5f;
-		float Restitution = 0.6f;
+		float Friction = 0.6f;
+		float Restitution = 0.4f;
 		float RestitutionThreshold = 0.5f;
 		
 		// Only for circle

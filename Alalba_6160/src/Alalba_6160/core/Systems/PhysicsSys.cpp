@@ -10,7 +10,7 @@ namespace Alalba
 	void PhysicsSys::Init(Scene& scene){
 		std::cout<<"Physic system init"<<std::endl;
 		auto view = scene.Reg().view<Rigidbody2DComponent>();
-		// Apply Impulse caused by gravity
+		// Apply Impulse 
 		for(auto e:view)
 		{
 			Entity entity = {e, &scene};
@@ -60,7 +60,7 @@ namespace Alalba
 		for (int i = 0; i < (int)m_Contact.size(); i++)
 		{
 			m_Contact[i]->Process();
-			std::cout<<i<<" "<<glm::to_string(m_Contact[i]->p)<<std::endl;
+			// std::cout<<i<<" "<<glm::to_string(m_Contact[i]->p)<<std::endl;
 		}
 		
 		for (; !m_Contact.empty(); ) {

@@ -63,7 +63,32 @@ namespace Alalba
 			glm::vec3 v = GetPointVelocity(B,p) - GetPointVelocity(A,p) ;
 
 			if(glm::dot(v,n)>0.0) return;
-			//glm::vec3 v10 = shapeB->PointVelocity(p) - shapeA->PointVelocity(p);
+			// /// Matrix form
+			// glm::vec3 vn = n*glm::dot(v,n);
+			// glm::vec3 vt = v-vn;
+			
+			// float mu_n = rb2d_A.Restitution;
+			// float mu_t = rb2d_A.Friction;
+			// // Coulomb's law
+			// float alpha = std::max(float(1-mu_t*(1+mu_n)*glm::length(vn)/glm::length(vt)),0.0f);
+
+			// glm::vec3 vn_new = vn * (-mu_n);
+			// glm::vec3 vt_new = vt * alpha;
+
+			// glm::vec3 v_new = vn_new + vt_new;
+			// glm::vec3 r0 = p - transform_A.Translation, r1 = p - transform_B.Translation;
+			// float K = 1.0/
+			// 					( 1.0 / rb2d_A.Mass + 
+			// 					// 1.0 / rb2d_B.Mass +
+			// 					// (-1)*
+			// 					// glm::cross(r0,n).z * glm::cross(r0,n).z/ rb2d_A.MomentOfInertia + 
+			// 					(-1)*
+			// 					glm::cross(r1,n).z * glm::cross(r1,n).z/ rb2d_B.MomentOfInertia );
+
+			// glm::vec3 j = (v_new-v) * (float(1.0/K));
+			// PhysicsSys::AddImpluse(A, p, -j);
+			// PhysicsSys::AddImpluse(B, p, j);
+
 			glm::vec3 r0 = p - transform_A.Translation, r1 = p - transform_B.Translation;
 			// |Vn|
 			glm::vec3 tao = glm::vec3{-n.y, n.x, n.z};
