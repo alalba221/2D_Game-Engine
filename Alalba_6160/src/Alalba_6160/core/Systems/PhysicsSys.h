@@ -33,7 +33,9 @@ namespace Alalba
 	// vector<Constraint *> constantConstraints;
 	};
 
-		class Contact {
+	class Contact {
+			
+	public:
 		Entity A, B;
 		glm::vec3 p, n;
 		// double elasticConstant;
@@ -59,13 +61,15 @@ namespace Alalba
 			auto& transform_B = B.GetComponent<TransformComponent>();
 			auto& rb2d_B = B.GetComponent<Rigidbody2DComponent>();
 			glm::vec3 v = GetPointVelocity(B,p) - GetPointVelocity(A,p) ;
+
+			if(glm::dot(v,n)>0.0) return;
 			//glm::vec3 v10 = shapeB->PointVelocity(p) - shapeA->PointVelocity(p);
 			glm::vec3 r0 = p - transform_A.Translation, r1 = p - transform_B.Translation;
 			// |Vn|
 			glm::vec3 tao = glm::vec3{-n.y, n.x, n.z};
 
 			float vn = -glm::dot(n,v);
-			std::cout<<-vn<<std::endl;
+			//std::cout<<vn<<std::endl;
 			float vt = glm::dot(v,tao);
 			//glm::vec3 vn = n * glm::dot(v10,n);
 			//glm::vec3 vt = v - vn;
@@ -75,14 +79,15 @@ namespace Alalba
 			// Coulomb's law
 			float alpha = std::max(float(1-mu_t*(1+mu_n)*abs(vn)/abs(vt)),0.0f);
 
-			float J = ((1 + mu_n) * vn) /
+			float J = ((1 ) * vn) /
 								( 1.0 / rb2d_A.Mass + 
-								1.0 / rb2d_B.Mass + 
+								1.0 / rb2d_B.Mass +
 								glm::cross(r0,n).z * glm::cross(r0,n).z/ rb2d_A.MomentOfInertia + 
 								glm::cross(r1,n).z * glm::cross(r1,n).z/ rb2d_B.MomentOfInertia );
 
-			float j = -mu_t * glm::dot(v,tao)/
-								( 1.0 / rb2d_A.Mass + 1.0 / rb2d_B.Mass + 
+			float j = (-1)* glm::dot(v,tao)/
+								( 1.0 / rb2d_A.Mass + 
+								1.0 / rb2d_B.Mass +
 								glm::cross(r0,tao).z * glm::cross(r0,tao).z/ rb2d_A.MomentOfInertia + 
 								glm::cross(r1,tao).z * glm::cross(r1,tao).z/ rb2d_B.MomentOfInertia );
 			glm::vec3 impluse = n * J + tao * j;

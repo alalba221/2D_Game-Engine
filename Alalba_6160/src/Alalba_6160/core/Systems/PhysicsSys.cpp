@@ -42,9 +42,14 @@ namespace Alalba
 		for (int i = 0; i < nEntities; i++)
 			for (int j = i + 1; j < nEntities; j++)
 				TestCircleCollision(m_Entities[i], m_Entities[j]);
-		for (int K = 0; K < 2; K++)
+		// for (int K = 0; K < 2; K++)
+		
 		for (int i = 0; i < (int)m_Contact.size(); i++)
+		{
 			m_Contact[i]->Process();
+			std::cout<<i<<" "<<glm::to_string(m_Contact[i]->p)<<std::endl;
+		}
+		
 		for (; !m_Contact.empty(); ) {
 			delete m_Contact.back();
 			m_Contact.pop_back();
