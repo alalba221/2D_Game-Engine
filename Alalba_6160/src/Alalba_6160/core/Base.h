@@ -58,3 +58,4 @@ const float RAD2DEG = 180 / M_PI;
 
 const double eps = 1e-7;
 const double pi = acos(-1.);
+const float pucksize = 0.5;

@@ -257,7 +257,7 @@ namespace Alalba{
 
 		TransformComponent() = default;
 		TransformComponent(const TransformComponent&) = default;
-		TransformComponent(const glm::vec3& translation , float _w = 1.0, float _h = 1.0)
+		TransformComponent(const glm::vec3& translation , float _w = pucksize, float _h = pucksize)
 			: Translation(translation) {
 			w = _w; h = _h;
 			x =  translation.x;
@@ -311,12 +311,12 @@ namespace Alalba{
 		bool FixedRotation = false;
 		glm::vec2 Offset = { 0.0f, 0.0f };
 		glm::vec2 Size = { 0.5f, 0.5f };
-		float CircleRadius = 0.5;
+		float CircleRadius = pucksize/2;
 
 		// TODO(Yan): move into physics material in the future maybe
 		float Density = 1.0f;
 		float Friction = 0.0f;
-		float Restitution = 0.5f;
+		float Restitution = 1.0f;
 		float RestitutionThreshold = 0.5f;
 		
 		// Only for circle
