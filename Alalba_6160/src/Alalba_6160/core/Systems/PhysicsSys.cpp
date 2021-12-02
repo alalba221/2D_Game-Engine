@@ -56,7 +56,7 @@ namespace Alalba
 
 			if(entity.GetComponent<TagComponent>().Tag == "Player")
 			{
-				AddImpluse(entity,transform.Translation, glm::vec3(0, 9.8, 0) * (float)(rb2d.Mass * 1.0));
+				AddImpluse(entity,transform.Translation, glm::vec3(0, -9.8, 0) * (float)(rb2d.Mass * 1.0));
 				entity.GetComponent<TagComponent>().Tag = "Puck";
 			}
 		}

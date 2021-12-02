@@ -69,6 +69,7 @@ namespace Alalba{
 	}
 	bool Application::OnMousePressed(MouseButtonPressedEvent& e)
 	{
+		// If mouse left pressed, put a puck
 		if(Input::IsMouseButtonPressed(ALALBA_MOUSE_BUTTON_LEFT)){
 			std::cout<<e<<std::endl;
 			// For test: place a puck at mouse position
@@ -82,7 +83,7 @@ namespace Alalba{
 			// Don't forgget add it into the physics system
 			PhysicsSys::AddEntity(*puck);
 		}
-
+		// If mouse right pressed, Put a player puch with a velocity
 		if(Input::IsMouseButtonPressed(ALALBA_MOUSE_BUTTON_RIGHT)){
 			std::cout<<e<<std::endl;
 			// For test: place a puck at mouse position
@@ -98,6 +99,7 @@ namespace Alalba{
 		}
 		return false;
 	}
+
 	bool Application::OnMouseMove(MouseMovedEvent& e)
 	{
 		if(Input::IsMouseButtonPressed(ALALBA_MOUSE_BUTTON_LEFT))

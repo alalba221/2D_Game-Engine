@@ -66,7 +66,7 @@ namespace Alalba
 			auto& rb2d_B = B.GetComponent<Rigidbody2DComponent>();
 			glm::vec3 v = GetPointVelocity(B,p) - GetPointVelocity(A,p) ;
 			
-			if(glm::dot(v,n)>0.0) return;
+			if(glm::dot(v,n)>=0.0) return;
 			// /// Matrix form
 			// glm::vec3 vn = n*glm::dot(v,n);
 			
@@ -111,15 +111,16 @@ namespace Alalba
 			float vt = glm::dot(v,tao);			
 			float mu_n = rb2d_A.Restitution;
 			float mu_t = rb2d_A.Friction;
-			// Coulomb's law
-			float alpha = std::max(float(1-mu_t*(1+mu_n)*abs(vn)/abs(vt)),0.0f);
+		
 			
 			float J = (-(1 + mu_n ) * vn) /
 								( 1.0 / rb2d_A.Mass + 1.0 / rb2d_B.Mass +
 								glm::dot(glm::cross(glm::cross(r0,n) * (float(1.0/rb2d_A.MomentOfInertia)),r0),n)  +
 								glm::dot(glm::cross(glm::cross(r1,n) * (float(1.0/rb2d_B.MomentOfInertia)),r1),n)   );
-	
-			float j = (-alpha)* glm::dot(v,tao)/
+			// Coulomb's law
+			float alpha = std::max(float(1-mu_t*(1+mu_n)*abs(vn)/abs(vt)),0.0f);
+			// float j = (alpha-1)* glm::dot(v,tao)/
+			float j = (mu_t-1)* glm::dot(v,tao)/
 								( 1.0 / rb2d_A.Mass + 1.0 / rb2d_B.Mass +
 								glm::dot(glm::cross(glm::cross(r0,tao) * (float(1.0/rb2d_A.MomentOfInertia)),r0),tao)  +
 								glm::dot(glm::cross(glm::cross(r1,tao) * (float(1.0/rb2d_B.MomentOfInertia)),r1),tao)   );

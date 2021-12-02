@@ -20,6 +20,7 @@ namespace Alalba {
 
 			transform.dV = glm::vec3{0,0,0};
 			transform.dW = glm::vec3{0,0,0};
+			std::cout<<transform.CenterVelocity.y<<std::endl;
 		}
 	}
 }
