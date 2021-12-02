@@ -25,16 +25,23 @@ namespace Alalba
 		m_Entities[nEntities] = e;
 		nEntities++;
 	}
+	
 	// r : the hiting point in the world coordinate
 	void PhysicsSys::AddImpluse(Entity& e, glm::vec3 r, glm::vec3 p) {
+
 		if(e.GetComponent<TagComponent>().Tag == "Ground")
 			e.GetComponent<Rigidbody2DComponent>().Type = Rigidbody2DComponent::BodyType::Static;
 		if(e.GetComponent<Rigidbody2DComponent>().Type == Rigidbody2DComponent::BodyType::Static) return;
 		auto& tranform = e.GetComponent<TransformComponent>();
 		auto rg2d = e.GetComponent<Rigidbody2DComponent>();
-		tranform.CenterVelocity += p * (float)(1.0/rg2d.Mass);
-		tranform.AngularVelocity += glm::cross((r - tranform.Translation),p) 
+		// tranform.CenterVelocity += p * (float)(1.0/rg2d.Mass);
+		// tranform.AngularVelocity += glm::cross((r - tranform.Translation),p) 
+		// 														* (float)(1.0/rg2d.MomentOfInertia);
+
+		tranform.dV = tranform.dV + p * (float)(1.0/rg2d.Mass);
+		tranform.dW = tranform.dW + glm::cross((r - tranform.Translation),p) 
 																* (float)(1.0/rg2d.MomentOfInertia);
+		// return {dV,dW};
 	}
 
 	void PhysicsSys::OnUpdate(Scene& scene,float t){
@@ -55,8 +62,8 @@ namespace Alalba
 		for (int i = 0; i < nEntities; i++)
 			for (int j = i + 1; j < nEntities; j++)
 				TestCircleCollision(m_Entities[i], m_Entities[j]);
-		// for (int K = 0; K < 2; K++)
 		
+		//for (int K = 0; K < 30; K++)
 		for (int i = 0; i < (int)m_Contact.size(); i++)
 		{
 			m_Contact[i]->Process();

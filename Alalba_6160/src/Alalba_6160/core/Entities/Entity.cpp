@@ -13,8 +13,16 @@ namespace Alalba {
 		{
 			auto& transform = this->GetComponent<TransformComponent>();
 			
+			transform.CenterVelocity += transform.dV;
+			transform.AngularVelocity += transform.dW;
 			transform.Translation += transform.CenterVelocity * t; 
 			transform.Rotation += transform.AngularVelocity * t;
+
+			transform.dV = glm::vec3{0,0,0};
+			transform.dW = glm::vec3{0,0,0};
 		}
+
+		if(this->GetComponent<TagComponent>().Tag == "Player")
+			std::cout<<this->GetComponent<TransformComponent>().CenterVelocity.y<<std::endl;
 	}
 }

@@ -269,7 +269,10 @@ namespace Alalba{
 		
 		glm::vec3 AngularVelocity = {0.0f,0.0f,0.0f};
 		glm::vec3 CenterVelocity = { 0.0f, 0.0f, 0.0f };// CenterPosition
-	
+
+		glm::vec3 dV = {0.0f,0.0f,0.0f};
+		glm::vec3 dW = { 0.0f, 0.0f, 0.0f };
+
 		float right() const {
 			return Translation.x + w/2.0;
 		}
@@ -312,15 +315,15 @@ namespace Alalba{
 
 		// TODO(Yan): move into physics material in the future maybe
 		float Density = 1.0f;
-		float Friction = 0.4f;
-		float Restitution = 0.4f;
+		float Friction = 0.0f;
+		float Restitution = 0.0f;
 		float RestitutionThreshold = 0.5f;
 		
 		// Only for circle
 		float Mass = Density * CircleRadius * CircleRadius * pi;
 		float MomentOfInertia = Density * 
 														CircleRadius * CircleRadius * CircleRadius * CircleRadius
-														 * pi / 4.0; ;
+														 * pi / 2.0; ;
 
 
 		// Storage for runtime

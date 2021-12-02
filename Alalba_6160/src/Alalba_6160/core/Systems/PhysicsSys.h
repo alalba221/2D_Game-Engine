@@ -11,6 +11,10 @@ namespace Alalba
 {
 
 	class Contact;
+	struct  Delta {
+		glm::vec3 deltaV;
+		glm::vec3 deltaAV;
+	};
 	class PhysicsSys
 	{
 		friend Contact;
@@ -61,11 +65,13 @@ namespace Alalba
 			auto& transform_B = B.GetComponent<TransformComponent>();
 			auto& rb2d_B = B.GetComponent<Rigidbody2DComponent>();
 			glm::vec3 v = GetPointVelocity(B,p) - GetPointVelocity(A,p) ;
-
+			
 			if(glm::dot(v,n)>0.0) return;
 			// /// Matrix form
 			// glm::vec3 vn = n*glm::dot(v,n);
+			
 			// glm::vec3 vt = v-vn;
+			// glm:: vec3 tao = glm:;vec3{-n.y,n.x,n.z};
 			
 			// float mu_n = rb2d_A.Restitution;
 			// float mu_t = rb2d_A.Friction;
@@ -77,49 +83,48 @@ namespace Alalba
 
 			// glm::vec3 v_new = vn_new + vt_new;
 			// glm::vec3 r0 = p - transform_A.Translation, r1 = p - transform_B.Translation;
-			// // float K = 1.0/
-			// // 					( 1.0 / rb2d_A.Mass + 
-			// // 					// 1.0 / rb2d_B.Mass +
-			// // 					// (-1)*
-			// // 					// glm::cross(r0,n).z * glm::cross(r0,n).z/ rb2d_A.MomentOfInertia + 
-			// // 					(-1)*
-			// // 					glm::cross(r1,n).z * glm::cross(r1,n).z/ rb2d_B.MomentOfInertia );
 			
-			// // glm::vec3 j = (v_new-v) * (float(1.0/K));
-			// // PhysicsSys::AddImpluse(A, p, -j);
-			// // PhysicsSys::AddImpluse(B, p, j);
+			// float K = 1.0/
+			// 					( 1.0 / rb2d_A.Mass + 1.0 / rb2d_B.Mass +
+			// 					(-1)*
+			// 					glm::dot(glm::cross(glm::cross(r0,n) * (float(1.0/rb2d_A.MomentOfInertia)),r0),n)  +
+			// 					(-1)*
+			// 					glm::dot(glm::cross(glm::cross(r1,n) * (float(1.0/rb2d_B.MomentOfInertia)),r1),n)   );
+			
+			// glm::vec3 j = (v_new-v) * (float(1.0/K));
+			
+			// PhysicsSys::AddImpluse(A, p, -j);
+			// PhysicsSys::AddImpluse(B, p, j);
 
-			// glm::mat3 K = glm::mat3(1.0f)*(float(1.0f/rb2d_A.Mass)) - 
 			
 
 //// 
 
 			glm::vec3 r0 = p - transform_A.Translation, r1 = p - transform_B.Translation;
 			// |Vn|
+			
 			glm::vec3 tao = glm::vec3{-n.y, n.x, n.z};
+			if(glm::dot(tao,n)<0)
+				tao = -tao;
 
-			float vn = -glm::dot(n,v);
+			float vn = glm::dot(n,v);
 			float vt = glm::dot(v,tao);			
 			float mu_n = rb2d_A.Restitution;
 			float mu_t = rb2d_A.Friction;
 			// Coulomb's law
 			float alpha = std::max(float(1-mu_t*(1+mu_n)*abs(vn)/abs(vt)),0.0f);
-
-			float J = ((1 + mu_n ) * vn) /
-								( 1.0 / rb2d_A.Mass + 
-								// 1.0 / rb2d_B.Mass +
-								// (-1)*
-								// glm::cross(r0,n).z * glm::cross(r0,n).z/ rb2d_A.MomentOfInertia + 
-								// (-1)*
-								glm::cross(r1,n).z * glm::cross(r1,n).z/ rb2d_B.MomentOfInertia );
-
+			
+			float J = (-(1 + mu_n ) * vn) /
+								( 1.0 / rb2d_A.Mass + 1.0 / rb2d_B.Mass +
+								glm::dot(glm::cross(glm::cross(r0,n) * (float(1.0/rb2d_A.MomentOfInertia)),r0),n)  +
+								glm::dot(glm::cross(glm::cross(r1,n) * (float(1.0/rb2d_B.MomentOfInertia)),r1),n)   );
+	
 			float j = (-alpha)* glm::dot(v,tao)/
-								( 1.0 / rb2d_A.Mass + 
-								// 1.0 / rb2d_B.Mass +
-								// (-1)*
-								// glm::cross(r0,tao).z * glm::cross(r0,tao).z/ rb2d_A.MomentOfInertia + 
-								// (-1)*
-								glm::cross(r1,tao).z * glm::cross(r1,tao).z/ rb2d_B.MomentOfInertia );
+								( 1.0 / rb2d_A.Mass + 1.0 / rb2d_B.Mass +
+								glm::dot(glm::cross(glm::cross(r0,tao) * (float(1.0/rb2d_A.MomentOfInertia)),r0),tao)  +
+								glm::dot(glm::cross(glm::cross(r1,tao) * (float(1.0/rb2d_B.MomentOfInertia)),r1),tao)   );
+
+
 			glm::vec3 impluse = n * J + tao * j;
 
 			PhysicsSys::AddImpluse(A, p, -impluse);
