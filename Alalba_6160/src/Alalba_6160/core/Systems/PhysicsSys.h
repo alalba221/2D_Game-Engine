@@ -27,7 +27,7 @@ namespace Alalba
 		static void testPh();
 		
 		static bool TestCircleCollision(Entity& a, Entity& b);
-	private:
+	//private:
 		static	Entity m_Entities[20];
 		static int nEntities;
 

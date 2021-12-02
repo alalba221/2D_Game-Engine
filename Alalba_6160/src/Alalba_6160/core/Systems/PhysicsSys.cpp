@@ -9,17 +9,17 @@ namespace Alalba
 	
 	void PhysicsSys::Init(Scene& scene){
 		std::cout<<"Physic system init"<<std::endl;
-		auto view = scene.Reg().view<Rigidbody2DComponent>();
-		// Apply Impulse 
-		for(auto e:view)
-		{
-			Entity entity = {e, &scene};
-			auto& transform = entity.GetComponent<TransformComponent>();
-			auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+		// auto view = scene.Reg().view<Rigidbody2DComponent>();
+		// // Apply Impulse 
+		// for(auto e:view)
+		// {
+		// 	Entity entity = {e, &scene};
+		// 	auto& transform = entity.GetComponent<TransformComponent>();
+		// 	auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
 
-			if(entity.GetComponent<TagComponent>().Tag == "Player")
-				AddImpluse(entity,transform.Translation, glm::vec3(0, 9.8, 0) * (float)(rb2d.Mass * 1.0));
-		}
+		// 	if(entity.GetComponent<TagComponent>().Tag == "Player")
+		// 		AddImpluse(entity,transform.Translation, glm::vec3(0, 9.8, 0) * (float)(rb2d.Mass * 1.0));
+		// }
 	}
 	void PhysicsSys::AddEntity(Entity& e){
 		m_Entities[nEntities] = e;
@@ -39,24 +39,27 @@ namespace Alalba
 		// 														* (float)(1.0/rg2d.MomentOfInertia);
 
 		tranform.dV = tranform.dV + p * (float)(1.0/rg2d.Mass);
-		tranform.dW = tranform.dW + glm::cross((r - tranform.Translation),p) 
+		tranform.dW = tranform.dW +glm::cross((r - tranform.Translation),p) 
 																* (float)(1.0/rg2d.MomentOfInertia);
 		// return {dV,dW};
 	}
 
 	void PhysicsSys::OnUpdate(Scene& scene,float t){
 		
-		// auto view = scene.Reg().view<Rigidbody2DComponent>();
-		// // Apply Impulse caused by gravity
-		// for(auto e:view)
-		// {
-		// 	Entity entity = {e, &scene};
-		// 	auto& transform = entity.GetComponent<TransformComponent>();
-		// 	auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+		auto view = scene.Reg().view<Rigidbody2DComponent>();
+		// Apply Impulse caused by gravity
+		for(auto e:view)
+		{
+			Entity entity = {e, &scene};
+			auto& transform = entity.GetComponent<TransformComponent>();
+			auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
 
-		// 	if(entity.GetComponent<TagComponent>().Tag == "Player")
-		// 		AddImpluse(entity,transform.Translation, glm::vec3(0, 9.8, 0) * (float)(rb2d.Mass * t));
-		// }
+			if(entity.GetComponent<TagComponent>().Tag == "Player")
+			{
+				AddImpluse(entity,transform.Translation, glm::vec3(0, 9.8, 0) * (float)(rb2d.Mass * 1.0));
+				entity.GetComponent<TagComponent>().Tag = "Puck";
+			}
+		}
 
 
 		for (int i = 0; i < nEntities; i++)

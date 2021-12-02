@@ -324,8 +324,6 @@ namespace Alalba{
 		float MomentOfInertia = Density * 
 														CircleRadius * CircleRadius * CircleRadius * CircleRadius
 														 * pi / 2.0; ;
-
-
 		// Storage for runtime
 		void* RuntimeBody = nullptr;
 		Rigidbody2DComponent() = default;

@@ -1,7 +1,6 @@
 #pragma once
 #include "entt.hpp"
 #include "Alalba_6160/core/Components.h"
-#include "box2d/box2d.h"
 namespace Alalba
 {
 	class Entity;
@@ -23,6 +22,5 @@ namespace Alalba
 		std::list<Entity*> m_Entities;
 		friend class Entity;
 		// physics
-		b2World* m_PhysicsWorld = nullptr;
 	};
 }

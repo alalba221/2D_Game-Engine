@@ -25,6 +25,7 @@ namespace Alalba{
 		Renderer::Init(winID, *m_Scene);
 		PhysicsSys::Init(*m_Scene);
 		//MapSys::Init(*m_Scene);
+		
 	}
   Application::~Application(){
 		// SDL_DestroyRenderer(m_Renderer->GetRenderer());
@@ -36,6 +37,8 @@ namespace Alalba{
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_ENVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<MouseButtonPressedEvent>(BIND_ENVENT_FN(Application::OnMousePressed));
+		dispatcher.Dispatch<KeyPressedEvent>(BIND_ENVENT_FN(Application::OnKeyPressed));
+
 
 		auto entities = m_Scene->GetEntities();
 	
@@ -57,13 +60,43 @@ namespace Alalba{
 		m_Scene->OnUpdate(t);
 		
 	}
+	bool Application::OnKeyPressed(KeyPressedEvent& e)
+	{
+	
+		std::cout<<e<<std::endl;
+
+		return false;
+	}
 	bool Application::OnMousePressed(MouseButtonPressedEvent& e)
 	{
-		// if(Input::IsMouseButtonPressed(ALALBA_MOUSE_BUTTON_LEFT)){
-		// 	face->SetPosition(e.GetX()-10,e.GetY()-10);
-		// 	face->SetVel({0,0});
-		// 	face->SetPos({(e.GetX()-10.0)/m_Window->GetWidth(),(e.GetY()-10.0)/m_Window->GetHeight()});
-		// }return false;
+		if(Input::IsMouseButtonPressed(ALALBA_MOUSE_BUTTON_LEFT)){
+			std::cout<<e<<std::endl;
+			// For test: place a puck at mouse position
+			Entity* puck  = new Entity(m_Scene->Reg().create(),m_Scene);
+			puck->AddComponent<TextureComponent>(TextureId::AWESOMEFACE);
+			float x = (float)e.GetX();
+			float y = (float)e.GetY();
+			puck->AddComponent<TransformComponent>(glm::vec3(x/Meter2Pix, y/Meter2Pix, 0));
+			puck->AddComponent<Rigidbody2DComponent>();
+			m_Scene->AddEntity(puck,"Puck");
+			// Don't forgget add it into the physics system
+			PhysicsSys::AddEntity(*puck);
+		}
+
+		if(Input::IsMouseButtonPressed(ALALBA_MOUSE_BUTTON_RIGHT)){
+			std::cout<<e<<std::endl;
+			// For test: place a puck at mouse position
+			Entity* puck  = new Entity(m_Scene->Reg().create(),m_Scene);
+			puck->AddComponent<TextureComponent>(TextureId::AWESOMEFACE);
+			float x = (float)e.GetX();
+			float y = (float)e.GetY();
+			puck->AddComponent<TransformComponent>(glm::vec3(x/Meter2Pix, y/Meter2Pix, 0));
+			puck->AddComponent<Rigidbody2DComponent>();
+			m_Scene->AddEntity(puck,"Player");
+			// Don't forgget add it into the physics system
+			PhysicsSys::AddEntity(*puck);
+		}
+		return false;
 	}
 	bool Application::OnMouseMove(MouseMovedEvent& e)
 	{
@@ -93,11 +126,11 @@ namespace Alalba{
 			Entity entity = {e, m_Scene};
 			PhysicsSys::AddEntity(entity);
 		}
-
 		//PhysicsSys::testPh();
 		while(m_Running){
-			for (int K = 0; K < 100; K++)
-				this->OnUpdate(0.00005);
+
+			for (int K = 0; K < 10; K++)
+				this->OnUpdate(0.0005);
 			m_Window->OnUpdate();
 			Renderer::Submit(*m_Scene);
 			Renderer::Render();

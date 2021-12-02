@@ -21,8 +21,5 @@ namespace Alalba {
 			transform.dV = glm::vec3{0,0,0};
 			transform.dW = glm::vec3{0,0,0};
 		}
-
-		if(this->GetComponent<TagComponent>().Tag == "Player")
-			std::cout<<this->GetComponent<TransformComponent>().CenterVelocity.y<<std::endl;
 	}
 }
