@@ -20,7 +20,7 @@ namespace Alalba {
 
 	void Scene::AddEntity(Entity* entity,const std::string& name)
 	{
-		this->m_Entities.emplace_front(entity);
+		this->m_Entities.emplace_back(entity);
 		auto& tag = entity->AddComponent<TagComponent>();
 		tag.Tag = name.empty() ? "Entity" : name;
 	}
@@ -35,24 +35,13 @@ namespace Alalba {
 																		SNES_RESOLUTION_WIDTH);
 		AddEntity(camera, "Camera");
 
-		//  puck
-		Entity* player  = new Entity(m_Registry.create(),this);
-		player->AddComponent<TextureComponent>(TextureId::AWESOMEFACE);
-		player->AddComponent<TransformComponent>(glm::vec3(7.1, 12.2 ,0));
-		player->AddComponent<Rigidbody2DComponent>();
-		AddEntity(player,"Puck");
-		// puck0
-		Entity* puck0  = new Entity(m_Registry.create(),this);
-		puck0->AddComponent<TextureComponent>(TextureId::AWESOMEFACE);
-		puck0->AddComponent<TransformComponent>(glm::vec3(6.5, 10, 0));
-		puck0->AddComponent<Rigidbody2DComponent>();
-		AddEntity(puck0,"Puck");
-		// puck1
-		Entity* puck1  = new Entity(m_Registry.create(),this);
-		puck1->AddComponent<TextureComponent>(TextureId::AWESOMEFACE);
-		puck1->AddComponent<TransformComponent>(glm::vec3(7.7, 10, 0));
-		puck1->AddComponent<Rigidbody2DComponent>();
-		AddEntity(puck1,"Puck");		
+		//  table
+		Entity* table  = new Entity(m_Registry.create(),this);
+		table->AddComponent<TextureComponent>(TextureId::TABLE);
+		table->AddComponent<TransformComponent>(glm::vec3(15, 12 ,0));
+		table->GetComponent<TransformComponent>().Scale = glm::vec3(30, 40 ,0);
+		//table->AddComponent<Rigidbody2DComponent>();
+		AddEntity(table,"Table");
 	}
 	void Scene::OnUpdate(float t)
 	{

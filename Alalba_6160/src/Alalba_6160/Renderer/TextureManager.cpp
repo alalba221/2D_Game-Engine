@@ -11,19 +11,26 @@ namespace Alalba{
 		SDL_FreeSurface(tempSurface);
 		textures.insert_or_assign(TextureId::AWESOMEFACE, new SDL_Rect{12*17, 4*17, TILE_SIZE, TILE_SIZE});
 		ShuffleBoardTextures.insert_or_assign(TextureId::AWESOMEFACE, texture);		
+		
 		// Add arrow and board images
 		tempSurface = IMG_Load("../../../asset/arrow.png");
 		textureArrow = SDL_CreateTextureFromSurface(renderer, tempSurface);
 		SDL_FreeSurface(tempSurface);
 		ShuffleBoardTextures.insert_or_assign(TextureId::ARROW, textureArrow);		
+
+
+		tempSurface = IMG_Load("../../../asset/table.png");
+		textureBoard = SDL_CreateTextureFromSurface(renderer, tempSurface);
+		SDL_FreeSurface(tempSurface);
+		ShuffleBoardTextures.insert_or_assign(TextureId::TABLE, textureBoard);		
 		// textures.insert_or_assign(TextureId::ARROW, new SDL_Rect{12*17, 4*17, TILE_SIZE, TILE_SIZE});
 	}
 
 	void TextureManager::renderTexture(TextureId textureId, SDL_Rect& dstRect, double angle, bool flipH, bool flipV) {
 		auto txt = ShuffleBoardTextures.find(textureId);
 		if (txt != ShuffleBoardTextures.end()) {
-			if (dstRect.w == 0) dstRect.w = TILE_SIZE;
-			if (dstRect.h == 0) dstRect.h = TILE_SIZE;
+			// if (dstRect.w == 0) dstRect.w = TILE_SIZE;
+			// if (dstRect.h == 0) dstRect.h = TILE_SIZE;
 			SDL_RenderCopyEx(renderer, txt->second, NULL, &dstRect, angle, nullptr,
 											(SDL_RendererFlip) (SDL_FLIP_NONE | (SDL_FLIP_HORIZONTAL * flipH) |
 																					(SDL_FLIP_VERTICAL * flipV)));
