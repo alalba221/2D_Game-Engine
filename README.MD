@@ -9,4 +9,6 @@
 
 ## How to play it 
 - Press left mouse button to place a still puck
-- Press right mouse button to place a "Player" puck with a fixed velocity
+- Hold left mouse button to move the puck
+- Press and hold right mouse button to adjust the shooting angle
+- Press space to shoot the puck
