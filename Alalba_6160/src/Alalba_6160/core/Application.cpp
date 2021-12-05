@@ -5,7 +5,6 @@
 // #include "Alalba/Core/Log.h"
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_timer.h>
-
 namespace Alalba{
   #define BIND_ENVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
@@ -38,8 +37,8 @@ namespace Alalba{
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_ENVENT_FN(Application::OnWindowClose));
 		dispatcher.Dispatch<MouseButtonPressedEvent>(BIND_ENVENT_FN(Application::OnMousePressed));
 		dispatcher.Dispatch<KeyPressedEvent>(BIND_ENVENT_FN(Application::OnKeyPressed));
-
-
+		dispatcher.Dispatch<MouseMovedEvent>(BIND_ENVENT_FN(Application::OnMouseMove));
+		dispatcher.Dispatch<MouseButtonReleasedEvent>(BIND_ENVENT_FN(Application::OnMouseReleased));
 		auto entities = m_Scene->GetEntities();
 	
 		for(auto entity: entities)
@@ -53,39 +52,58 @@ namespace Alalba{
 	}
 	void Application::OnUpdate(float t){
 		
-		// PhysicsSys::OnUpdate(*m_Scene);
-		// AnimateSys::OnUpdate(*m_Scene);
-		// MapSys::OnUpdate(*m_Scene);
 		PhysicsSys::OnUpdate(*m_Scene , t);
 		m_Scene->OnUpdate(t);
 		
 	}
 	bool Application::OnKeyPressed(KeyPressedEvent& e)
 	{
-	
-		std::cout<<e<<std::endl;
+		if(Input::IsKeyPressed(ALALBA_SPACE)){
+			auto view = m_Scene->Reg().view<Rigidbody2DComponent>();		
+			// Check if Arrow already exist
+			for(auto en:view)
+			{
+				Entity entity = {en, m_Scene};
+				
+				if(entity.GetComponent<TagComponent>().Tag == "Player")
+				{
+					auto& transform = entity.GetComponent<TransformComponent>();
+					auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+					glm::mat4 rotator = glm::rotate(glm::mat4(1.0f),transform.shootDir.z, glm::vec3{0,0,1});
+					
+					glm::vec4 Vector = rotator * glm::vec4{0,-9.8,0,1};
+					PhysicsSys::AddImpluse(entity,transform.Translation, glm::vec3{Vector.x,Vector.y,0.0f}* (float)(rb2d.Mass * 1.0));
+					entity.GetComponent<TagComponent>().Tag = "Puck";
+				}
 
-		return false;
+				// delete Arrow
+				if(entity.GetComponent<TagComponent>().Tag == "Arrow")
+				{
+					entity.GetComponent<TagComponent>().Tag = "UnusedArrow";
+					entity.RemoveComponent<TransformComponent>();
+					entity.RemoveComponent<Rigidbody2DComponent>();
+					entity.RemoveComponent<TextureComponent>();
+				}
+
+			}
+		}	
 	}
 	bool Application::OnMousePressed(MouseButtonPressedEvent& e)
 	{
-		// If mouse left pressed, put a puck
+		
 		if(Input::IsMouseButtonPressed(ALALBA_MOUSE_BUTTON_LEFT)){
 			std::cout<<e<<std::endl;
-			// For test: place a puck at mouse position
-			Entity* puck  = new Entity(m_Scene->Reg().create(),m_Scene);
-			puck->AddComponent<TextureComponent>(TextureId::AWESOMEFACE);
-			float x = (float)e.GetX();
-			float y = (float)e.GetY();
-			puck->AddComponent<TransformComponent>(glm::vec3(x/Meter2Pix, y/Meter2Pix, 0));
-			puck->AddComponent<Rigidbody2DComponent>();
-			m_Scene->AddEntity(puck,"Puck");
-			// Don't forgget add it into the physics system
-			PhysicsSys::AddEntity(*puck);
-		}
-		// If mouse right pressed, Put a player puch with a velocity
-		if(Input::IsMouseButtonPressed(ALALBA_MOUSE_BUTTON_RIGHT)){
-			std::cout<<e<<std::endl;
+			auto view = m_Scene->Reg().view<Rigidbody2DComponent>();
+		
+			// Check if Player puck already exist
+			for(auto en:view)
+			{
+				Entity entity = {en, m_Scene};
+				if(entity.GetComponent<TagComponent>().Tag == "Player")
+				{
+					return false;
+				}
+			}
 			// For test: place a puck at mouse position
 			Entity* puck  = new Entity(m_Scene->Reg().create(),m_Scene);
 			puck->AddComponent<TextureComponent>(TextureId::AWESOMEFACE);
@@ -97,14 +115,94 @@ namespace Alalba{
 			// Don't forgget add it into the physics system
 			PhysicsSys::AddEntity(*puck);
 		}
+
+		if(Input::IsMouseButtonPressed(ALALBA_MOUSE_BUTTON_RIGHT)){
+
+			auto view = m_Scene->Reg().view<Rigidbody2DComponent>();		
+			// Check if Arrow already exist
+			for(auto en:view)
+			{
+				Entity entity = {en, m_Scene};
+				if(entity.GetComponent<TagComponent>().Tag == "Arrow")
+				{
+					return false;
+				}
+			}			
+			//Place an arrow at mouse position
+			Entity* arrow  = new Entity(m_Scene->Reg().create(),m_Scene);
+			arrow->AddComponent<TextureComponent>(TextureId::ARROW);
+			float x = (float)e.GetX();
+			float y = (float)e.GetY();
+			arrow->AddComponent<TransformComponent>(glm::vec3(x/Meter2Pix, y/Meter2Pix, 0));
+			arrow->GetComponent<TransformComponent>().Scale = glm::vec3{2.0f,2.0f,0.0f} ;
+			arrow->AddComponent<Rigidbody2DComponent>();
+			m_Scene->AddEntity(arrow,"Arrow");
+		}
 		return false;
 	}
-
+	bool Application::OnMouseReleased(MouseButtonReleasedEvent& e)
+	{
+	}
 	bool Application::OnMouseMove(MouseMovedEvent& e)
 	{
 		if(Input::IsMouseButtonPressed(ALALBA_MOUSE_BUTTON_LEFT))
 		{
-			std::cout<<e<<std::endl;
+			
+			float X = e.GetX()/Meter2Pix;
+			float Y = e.GetY()/Meter2Pix;
+			auto view = m_Scene->Reg().view<Rigidbody2DComponent>();
+			// Apply Impulse 
+			for(auto en:view)
+			{
+				Entity entity = {en, m_Scene};
+				if(entity.GetComponent<TagComponent>().Tag == "Player" ||
+					entity.GetComponent<TagComponent>().Tag == "Arrow")
+				{
+					entity.GetComponent<TransformComponent>().Translation 
+								= glm::vec3{X,Y,0};
+				}
+				
+			}
+		}
+		if(Input::IsMouseButtonPressed(ALALBA_MOUSE_BUTTON_RIGHT))
+		{
+			
+			float X = e.GetX()/Meter2Pix;
+			float Y = e.GetY()/Meter2Pix;
+			float theta ;
+			auto view = m_Scene->Reg().view<Rigidbody2DComponent>();
+			for(auto& en:view)
+			{
+				Entity entity = {en, m_Scene};
+				
+				if(entity.GetComponent<TagComponent>().Tag == "Arrow")
+				{
+					auto& transform = entity.GetComponent<TransformComponent>();
+					float origX = transform.Translation.x;
+					float origY = transform.Translation.y;
+					glm::vec3 norm = glm::vec3{0, -1, 0};
+					glm::vec3 Vector = glm::vec3{X-origX, Y-origY, 0};
+					float cos = glm::dot(Vector,norm)/glm::length(Vector);
+					
+					transform.Rotation.z = acos(cos);
+					if(X<origX)
+						transform.Rotation.z = -transform.Rotation.z;
+					theta = transform.Rotation.z;
+				}
+			}
+
+			// assign direction to player
+			for(auto& en:view)
+			{
+				Entity entity = {en, m_Scene};
+				
+				if(entity.GetComponent<TagComponent>().Tag == "Player")
+				{
+					auto& transform = entity.GetComponent<TransformComponent>();
+					transform.shootDir = glm::vec3{0,0,theta}; 
+				}
+
+			}
 		}
 		return false;
 	}
@@ -128,7 +226,7 @@ namespace Alalba{
 			Entity entity = {e, m_Scene};
 			PhysicsSys::AddEntity(entity);
 		}
-		//PhysicsSys::testPh();
+
 		while(m_Running){
 
 			for (int K = 0; K < 10; K++)

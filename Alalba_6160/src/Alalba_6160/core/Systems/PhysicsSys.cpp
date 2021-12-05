@@ -34,34 +34,14 @@ namespace Alalba
 		if(e.GetComponent<Rigidbody2DComponent>().Type == Rigidbody2DComponent::BodyType::Static) return;
 		auto& tranform = e.GetComponent<TransformComponent>();
 		auto rg2d = e.GetComponent<Rigidbody2DComponent>();
-		// tranform.CenterVelocity += p * (float)(1.0/rg2d.Mass);
-		// tranform.AngularVelocity += glm::cross((r - tranform.Translation),p) 
-		// 														* (float)(1.0/rg2d.MomentOfInertia);
 
 		tranform.dV = tranform.dV + p * (float)(1.0/rg2d.Mass);
 		tranform.dW = tranform.dW +glm::cross((r - tranform.Translation),p) 
 																* (float)(1.0/rg2d.MomentOfInertia);
-		// return {dV,dW};
 	}
 
 	void PhysicsSys::OnUpdate(Scene& scene,float t){
 		
-		auto view = scene.Reg().view<Rigidbody2DComponent>();
-		// Apply Impulse caused by gravity
-		for(auto e:view)
-		{
-			Entity entity = {e, &scene};
-			auto& transform = entity.GetComponent<TransformComponent>();
-			auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
-
-			if(entity.GetComponent<TagComponent>().Tag == "Player")
-			{
-				AddImpluse(entity,transform.Translation, glm::vec3(0, -9.8, 0) * (float)(rb2d.Mass * 1.0));
-				entity.GetComponent<TagComponent>().Tag = "Puck";
-			}
-		}
-
-
 		for (int i = 0; i < nEntities; i++)
 			for (int j = i + 1; j < nEntities; j++)
 				TestCircleCollision(m_Entities[i], m_Entities[j]);

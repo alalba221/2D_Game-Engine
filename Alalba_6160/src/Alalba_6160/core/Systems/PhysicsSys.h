@@ -32,9 +32,6 @@ namespace Alalba
 		static int nEntities;
 
 		static std::vector<Contact*> m_Contact;
-	// Graphics *graphics;
-	// vector<Constraint *> constraints;
-	// vector<Constraint *> constantConstraints;
 	};
 
 	class Contact {
@@ -53,8 +50,10 @@ namespace Alalba
 			return centerVelocity + glm::cross(angularVelocity,point-center);
 		}
 	public:
-		Contact(Entity& a, Entity& b, glm::vec3 _p, glm::vec3 _n, float _depth) : A(a), B(b), p(_p), n(_n), depth(_depth) {}
-		
+		Contact(Entity& a, Entity& b, glm::vec3 _p, glm::vec3 _n, float _depth) : A(a), B(b), p(_p), n(_n), depth(_depth) 
+		{
+
+		}
 		void Process() {
 			// b hit a 
 			// v10: vb - va
@@ -67,39 +66,7 @@ namespace Alalba
 			glm::vec3 v = GetPointVelocity(B,p) - GetPointVelocity(A,p) ;
 			
 			if(glm::dot(v,n)>=0.0) return;
-			// /// Matrix form
-			// glm::vec3 vn = n*glm::dot(v,n);
-			
-			// glm::vec3 vt = v-vn;
-			// glm:: vec3 tao = glm:;vec3{-n.y,n.x,n.z};
-			
-			// float mu_n = rb2d_A.Restitution;
-			// float mu_t = rb2d_A.Friction;
-			// // Coulomb's law
-			// float alpha = std::max(float(1-mu_t*(1+mu_n)*glm::length(vn)/glm::length(vt)),0.0f);
-
-			// glm::vec3 vn_new = vn * (-mu_n);
-			// glm::vec3 vt_new = vt * alpha;
-
-			// glm::vec3 v_new = vn_new + vt_new;
-			// glm::vec3 r0 = p - transform_A.Translation, r1 = p - transform_B.Translation;
-			
-			// float K = 1.0/
-			// 					( 1.0 / rb2d_A.Mass + 1.0 / rb2d_B.Mass +
-			// 					(-1)*
-			// 					glm::dot(glm::cross(glm::cross(r0,n) * (float(1.0/rb2d_A.MomentOfInertia)),r0),n)  +
-			// 					(-1)*
-			// 					glm::dot(glm::cross(glm::cross(r1,n) * (float(1.0/rb2d_B.MomentOfInertia)),r1),n)   );
-			
-			// glm::vec3 j = (v_new-v) * (float(1.0/K));
-			
-			// PhysicsSys::AddImpluse(A, p, -j);
-			// PhysicsSys::AddImpluse(B, p, j);
-
-			
-
 //// 
-
 			glm::vec3 r0 = p - transform_A.Translation, r1 = p - transform_B.Translation;
 			// |Vn|
 			
@@ -117,6 +84,7 @@ namespace Alalba
 								( 1.0 / rb2d_A.Mass + 1.0 / rb2d_B.Mass +
 								glm::dot(glm::cross(glm::cross(r0,n) * (float(1.0/rb2d_A.MomentOfInertia)),r0),n)  +
 								glm::dot(glm::cross(glm::cross(r1,n) * (float(1.0/rb2d_B.MomentOfInertia)),r1),n)   );
+			
 			// Coulomb's law
 			float alpha = std::max(float(1-mu_t*(1+mu_n)*abs(vn)/abs(vt)),0.0f);
 			// float j = (alpha-1)* glm::dot(v,tao)/
@@ -125,14 +93,9 @@ namespace Alalba
 								glm::dot(glm::cross(glm::cross(r0,tao) * (float(1.0/rb2d_A.MomentOfInertia)),r0),tao)  +
 								glm::dot(glm::cross(glm::cross(r1,tao) * (float(1.0/rb2d_B.MomentOfInertia)),r1),tao)   );
 
-
 			glm::vec3 impluse = n * J + tao * j;
-
 			PhysicsSys::AddImpluse(A, p, -impluse);
 			PhysicsSys::AddImpluse(B, p, impluse);
 		}
-		// Constraint *Copy() {
-		// 	return new Contact(*this);
-		// }
 	};
 }

@@ -259,7 +259,7 @@ namespace Alalba{
 		TransformComponent(const TransformComponent&) = default;
 		TransformComponent(const glm::vec3& translation , float _w = pucksize, float _h = pucksize)
 			: Translation(translation) {
-			w = _w; h = _h;
+			w = _w ; h = _h;
 			x =  translation.x;
 			y = translation.y;
 		}
@@ -278,11 +278,11 @@ namespace Alalba{
 		}
 
 		float left() const {
-			return Translation.x - w/2.0;
+			return Translation.x - w*Scale.x/2.0;
 		}
 
 		float top() const {
-			return Translation.y - h/2.0;
+			return Translation.y - h*Scale.y/2.0;
 		}
 
 		float bottom() const {
@@ -296,9 +296,16 @@ namespace Alalba{
 		float getCenterY() const {
 			return Translation.y;
 		}
+		float getWidth() const{
+			return w*Scale.x;
+		}
+		float getHeight() const{
+			return h*Scale.y;
+		}
 
 		float w, h;
 		float x, y;
+		glm::vec3 shootDir = glm::vec3{0,-1,0};
 
 		~TransformComponent() override = default;
   };
@@ -316,7 +323,7 @@ namespace Alalba{
 		// TODO(Yan): move into physics material in the future maybe
 		float Density = 1.0f;
 		float Friction = 0.0f;
-		float Restitution = 1.0f;
+		float Restitution = 0.5f;
 		float RestitutionThreshold = 0.5f;
 		
 		// Only for circle

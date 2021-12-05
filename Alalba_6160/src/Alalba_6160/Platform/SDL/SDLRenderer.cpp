@@ -49,11 +49,11 @@ namespace Alalba
 			auto dstRect = SDL_Rect();
 			dstRect.x = (transform.left()- m_Camera->left() + texture.offSetX)*Meter2Pix;
 		  dstRect.y = (transform.top() - m_Camera->top()+ texture.offSetY)*Meter2Pix;
-			// dstRect.x = (transform.left() )*Meter2Pix;
-		  // dstRect.y = (transform.top() )*Meter2Pix;
-			dstRect.w = (texture.w > 0 ? texture.w : transform.w)*Meter2Pix;
-			dstRect.h = (texture.h > 0 ? texture.h : transform.h)*Meter2Pix;
+
+			dstRect.w = (texture.w > 0 ? texture.w : transform.w)*Meter2Pix* transform.Scale.y;
+			dstRect.h = (texture.h > 0 ? texture.h : transform.h)*Meter2Pix* transform.Scale.y;
 			double angle = transform.Rotation.z *RAD2DEG;
+		
 			m_TextureManager->renderTexture(texture.id, dstRect, angle, texture.flipH, texture.flipV);
 		}
   }

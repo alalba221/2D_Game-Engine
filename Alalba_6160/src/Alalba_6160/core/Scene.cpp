@@ -9,17 +9,6 @@
 #include "Alalba_6160/core/Entities/Camera.h"
 namespace Alalba {
 
-	// static b2BodyType Rigidbody2DTypeToBox2DBody(Rigidbody2DComponent::BodyType bodyType)
-	// {
-	// 	switch (bodyType)
-	// 	{
-	// 		case Rigidbody2DComponent::BodyType::Static:		return b2_staticBody;
-	// 		case Rigidbody2DComponent::BodyType::Dynamic:   return b2_dynamicBody;
-	// 		case Rigidbody2DComponent::BodyType::Kinematic: return b2_kinematicBody;
-	// 	}
-	// 	return b2_dynamicBody;
-	// }
-
 	Scene::Scene()
 	{
 		m_Entities.clear();
@@ -37,7 +26,6 @@ namespace Alalba {
 	}
 	void Scene::Init()
 	{
-		//PhysicsSys::Init(*this);
 		// camera
 		Camera* camera = new Camera(m_Registry.create(),this);
 		
@@ -47,13 +35,12 @@ namespace Alalba {
 																		SNES_RESOLUTION_WIDTH);
 		AddEntity(camera, "Camera");
 
-		// Player puck
+		//  puck
 		Entity* player  = new Entity(m_Registry.create(),this);
 		player->AddComponent<TextureComponent>(TextureId::AWESOMEFACE);
-		player->AddComponent<TransformComponent>(glm::vec3(7.7, 12.2 ,0));
+		player->AddComponent<TransformComponent>(glm::vec3(7.1, 12.2 ,0));
 		player->AddComponent<Rigidbody2DComponent>();
-		AddEntity(player,"Player");
-
+		AddEntity(player,"Puck");
 		// puck0
 		Entity* puck0  = new Entity(m_Registry.create(),this);
 		puck0->AddComponent<TextureComponent>(TextureId::AWESOMEFACE);
@@ -65,12 +52,7 @@ namespace Alalba {
 		puck1->AddComponent<TextureComponent>(TextureId::AWESOMEFACE);
 		puck1->AddComponent<TransformComponent>(glm::vec3(7.7, 10, 0));
 		puck1->AddComponent<Rigidbody2DComponent>();
-		AddEntity(puck1,"Puck");
-
-
-		
-
-		
+		AddEntity(puck1,"Puck");		
 	}
 	void Scene::OnUpdate(float t)
 	{
@@ -80,7 +62,6 @@ namespace Alalba {
 		{
 			entity->OnUpdate(t);	
 		}
-		//PhysicsSys::OnUpdate(*this);
 		
 	}
 
