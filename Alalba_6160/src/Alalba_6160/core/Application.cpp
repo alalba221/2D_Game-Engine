@@ -23,7 +23,12 @@ namespace Alalba{
 
 		Renderer::Init(winID, *m_Scene);
 		PhysicsSys::Init(*m_Scene);
-		//MapSys::Init(*m_Scene);
+		
+		player1  = new Entity(m_Scene->Reg().create(),m_Scene);
+		player1->AddComponent<PlayerComponent>();
+		m_Scene->AddEntity(player1);
+		player2  = new Entity(m_Scene->Reg().create(),m_Scene);
+		m_Scene->AddEntity(player2);
 		
 	}
   Application::~Application(){
@@ -41,13 +46,13 @@ namespace Alalba{
 		dispatcher.Dispatch<MouseButtonReleasedEvent>(BIND_ENVENT_FN(Application::OnMouseReleased));
 		auto entities = m_Scene->GetEntities();
 	
-		for(auto entity: entities)
-		{
-			if(entity->GetComponent<TagComponent>().Tag == "Player")
-			{
-				entity->OnEvent(e);	
-			}
-		}
+		// for(auto entity: entities)
+		// {
+		// 	if(entity->GetComponent<TagComponent>().Tag == "Player")
+		// 	{
+		// 		entity->OnEvent(e);	
+		// 	}
+		// }
 
 	}
 	void Application::OnUpdate(float t){
@@ -65,7 +70,8 @@ namespace Alalba{
 			{
 				Entity entity = {en, m_Scene};
 				
-				if(entity.GetComponent<TagComponent>().Tag == "Player")
+				if(entity.GetComponent<TagComponent>().Tag == "Player1" || 
+					entity.GetComponent<TagComponent>().Tag == "Player2")
 				{
 					auto& transform = entity.GetComponent<TransformComponent>();
 					auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
@@ -73,7 +79,10 @@ namespace Alalba{
 					
 					glm::vec4 Vector = rotator * glm::vec4{0,-9.8,0,1};
 					PhysicsSys::AddImpluse(entity,transform.Translation, glm::vec3{Vector.x,Vector.y,0.0f}* (float)(rb2d.Mass * 1.0));
-					entity.GetComponent<TagComponent>().Tag = "Puck";
+					if(entity.GetComponent<TagComponent>().Tag == "Player1")
+						entity.GetComponent<TagComponent>().Tag = "Puck1";
+					else 
+						entity.GetComponent<TagComponent>().Tag = "Puck2";
 				}
 
 				// delete Arrow
@@ -85,6 +94,16 @@ namespace Alalba{
 					entity.RemoveComponent<TextureComponent>();
 				}
 
+			}
+			// switch shooter
+			if(player1->HasComponent<PlayerComponent>()){
+				player1->RemoveComponent<PlayerComponent>();
+				player2->AddComponent<PlayerComponent>();
+				
+			} else if(player2->HasComponent<PlayerComponent>()){
+				player2->RemoveComponent<PlayerComponent>();
+				player1->AddComponent<PlayerComponent>();
+				
 			}
 		}	
 	}
@@ -99,19 +118,32 @@ namespace Alalba{
 			for(auto en:view)
 			{
 				Entity entity = {en, m_Scene};
-				if(entity.GetComponent<TagComponent>().Tag == "Player")
+				if(entity.GetComponent<TagComponent>().Tag == "Player1" || entity.GetComponent<TagComponent>().Tag == "Player2")
 				{
 					return false;
 				}
 			}
 			// For test: place a puck at mouse position
 			Entity* puck  = new Entity(m_Scene->Reg().create(),m_Scene);
-			puck->AddComponent<TextureComponent>(TextureId::AWESOMEFACE);
+			
 			float x = (float)e.GetX();
 			float y = (float)e.GetY();
 			puck->AddComponent<TransformComponent>(glm::vec3(x/Meter2Pix, y/Meter2Pix, 0));
 			puck->AddComponent<Rigidbody2DComponent>();
-			m_Scene->AddEntity(puck,"Player");
+			//Check 2 players
+			if(player1->HasComponent<PlayerComponent>())
+			{
+				puck->AddComponent<TextureComponent>(TextureId::AWESOMEFACE);
+				m_Scene->AddEntity(puck,"Player1");
+				
+			}
+			else if(player2->HasComponent<PlayerComponent>())
+			{
+				puck->AddComponent<TextureComponent>(TextureId::AWESOMEFACEINV);
+				m_Scene->AddEntity(puck,"Player2");
+				
+			}
+			
 			// Don't forgget add it into the physics system
 			PhysicsSys::AddEntity(*puck);
 		}
@@ -155,7 +187,8 @@ namespace Alalba{
 			for(auto en:view)
 			{
 				Entity entity = {en, m_Scene};
-				if(entity.GetComponent<TagComponent>().Tag == "Player" ||
+				if(entity.GetComponent<TagComponent>().Tag == "Player1" ||
+					entity.GetComponent<TagComponent>().Tag == "Player2" ||
 					entity.GetComponent<TagComponent>().Tag == "Arrow")
 				{
 					entity.GetComponent<TransformComponent>().Translation 
@@ -196,7 +229,8 @@ namespace Alalba{
 			{
 				Entity entity = {en, m_Scene};
 				
-				if(entity.GetComponent<TagComponent>().Tag == "Player")
+				if(entity.GetComponent<TagComponent>().Tag == "Player1" ||
+					entity.GetComponent<TagComponent>().Tag == "Player2")
 				{
 					auto& transform = entity.GetComponent<TransformComponent>();
 					transform.shootDir = glm::vec3{0,0,theta}; 
@@ -220,12 +254,12 @@ namespace Alalba{
   void Application::Run(){
 	
 		// For collision
-		auto view = m_Scene->Reg().view<Rigidbody2DComponent>();
-		for(auto e:view)
-		{
-			Entity entity = {e, m_Scene};
-			PhysicsSys::AddEntity(entity);
-		}
+		// auto view = m_Scene->Reg().view<Rigidbody2DComponent>();
+		// for(auto e:view)
+		// {
+		// 	Entity entity = {e, m_Scene};
+		// 	PhysicsSys::AddEntity(entity);
+		// }
 
 		while(m_Running){
 

@@ -28,7 +28,7 @@ namespace Alalba
 		
 		static bool TestCircleCollision(Entity& a, Entity& b);
 	//private:
-		static	Entity m_Entities[20];
+		static	Entity m_Entities[40];
 		static int nEntities;
 
 		static std::vector<Contact*> m_Contact;

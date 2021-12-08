@@ -39,7 +39,7 @@ namespace Alalba {
 		Entity* table  = new Entity(m_Registry.create(),this);
 		table->AddComponent<TextureComponent>(TextureId::TABLE);
 		table->AddComponent<TransformComponent>(glm::vec3(15, 12 ,0));
-		table->GetComponent<TransformComponent>().Scale = glm::vec3(30, 40 ,0);
+		table->GetComponent<TransformComponent>().Scale = glm::vec3(10, 40 ,0);
 		//table->AddComponent<Rigidbody2DComponent>();
 		AddEntity(table,"Table");
 	}

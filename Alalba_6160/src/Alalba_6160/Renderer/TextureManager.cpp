@@ -16,7 +16,14 @@ namespace Alalba{
 		tempSurface = IMG_Load("../../../asset/arrow.png");
 		textureArrow = SDL_CreateTextureFromSurface(renderer, tempSurface);
 		SDL_FreeSurface(tempSurface);
-		ShuffleBoardTextures.insert_or_assign(TextureId::ARROW, textureArrow);		
+		ShuffleBoardTextures.insert_or_assign(TextureId::ARROW, textureArrow);
+
+		//
+		// Add inverse face
+		tempSurface = IMG_Load("../../../asset/awesomefaceinvert.png");
+		texture2 = SDL_CreateTextureFromSurface(renderer, tempSurface);
+		SDL_FreeSurface(tempSurface);
+		ShuffleBoardTextures.insert_or_assign(TextureId::AWESOMEFACEINV, texture2);		
 
 
 		tempSurface = IMG_Load("../../../asset/table.png");

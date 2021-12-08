@@ -25,9 +25,7 @@ namespace Alalba{
 	};
   
 
-  struct PlayerComponent : public Component {
-		PlayerComponent() = default;
-  };
+
   struct SolidComponent : public Component {
 		SolidComponent() = default;
   };
@@ -308,6 +306,15 @@ namespace Alalba{
 		glm::vec3 shootDir = glm::vec3{0,-1,0};
 
 		~TransformComponent() override = default;
+  };
+	
+	struct CurrentPuck : public Component
+	{
+		CurrentPuck() = default;
+	};
+	struct PlayerComponent : public Component {
+		PlayerComponent() = default;
+		bool Enable = true;
   };
 	struct Rigidbody2DComponent : public Component
 	{

@@ -4,22 +4,12 @@ namespace Alalba
 {
 	
 	int PhysicsSys::nEntities = 0;
-	Entity PhysicsSys::m_Entities[20];
+	Entity PhysicsSys::m_Entities[40];
 	std::vector<Contact*> PhysicsSys::m_Contact;
 	
 	void PhysicsSys::Init(Scene& scene){
 		std::cout<<"Physic system init"<<std::endl;
-		// auto view = scene.Reg().view<Rigidbody2DComponent>();
-		// // Apply Impulse 
-		// for(auto e:view)
-		// {
-		// 	Entity entity = {e, &scene};
-		// 	auto& transform = entity.GetComponent<TransformComponent>();
-		// 	auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
 
-		// 	if(entity.GetComponent<TagComponent>().Tag == "Player")
-		// 		AddImpluse(entity,transform.Translation, glm::vec3(0, 9.8, 0) * (float)(rb2d.Mass * 1.0));
-		// }
 	}
 	void PhysicsSys::AddEntity(Entity& e){
 		m_Entities[nEntities] = e;
@@ -61,19 +51,22 @@ namespace Alalba
 
 	bool PhysicsSys::TestCircleCollision(Entity& a, Entity& b) {
 		
-		auto& transform_a = a.GetComponent<TransformComponent>();
-		auto& rb2d_a = a.GetComponent<Rigidbody2DComponent>();
-		
-		auto& transform_b = b.GetComponent<TransformComponent>();
-		auto& rb2d_b = b.GetComponent<Rigidbody2DComponent>();
+		if(a.HasComponent<Rigidbody2DComponent>() && b.HasComponent<Rigidbody2DComponent>())
+		{
+			auto& transform_a = a.GetComponent<TransformComponent>();
+			auto& rb2d_a = a.GetComponent<Rigidbody2DComponent>();
+			
+			auto& transform_b = b.GetComponent<TransformComponent>();
+			auto& rb2d_b = b.GetComponent<Rigidbody2DComponent>();
 
-		glm::vec3 n = transform_b.Translation - transform_a.Translation;
-		float depth = rb2d_a.CircleRadius + rb2d_b.CircleRadius - glm::length(n);
-		
-		if (depth < 0.0) return false;
-		
-		glm::vec3 norm = glm::normalize(n);
-		m_Contact.push_back(new Contact(a, b, transform_a.Translation + norm * rb2d_a.CircleRadius, norm, depth));
+			glm::vec3 n = transform_b.Translation - transform_a.Translation;
+			float depth = rb2d_a.CircleRadius + rb2d_b.CircleRadius - glm::length(n);
+			
+			if (depth < 0.0) return false;
+			
+			glm::vec3 norm = glm::normalize(n);
+			m_Contact.push_back(new Contact(a, b, transform_a.Translation + norm * rb2d_a.CircleRadius, norm, depth));
+		}
 		return true;
 	}
 	void PhysicsSys::testPh(){

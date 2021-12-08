@@ -9,6 +9,7 @@ namespace Alalba{
 	enum  TextureId {
 		EMPTY = 0,
 		AWESOMEFACE,
+		AWESOMEFACEINV,
 		ARROW,
 		TABLE
 
@@ -22,6 +23,7 @@ namespace Alalba{
 		void renderTexture(TextureId textureId, SDL_Rect& dstRect, double angle, bool flipH = false, bool flipV = false);
 
 		SDL_Texture* texture;
+		SDL_Texture* texture2;
 		SDL_Texture* textureArrow;
 		SDL_Texture* textureBoard;
 
