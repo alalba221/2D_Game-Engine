@@ -11,7 +11,9 @@ namespace Alalba{
 		AWESOMEFACE,
 		AWESOMEFACEINV,
 		ARROW,
-		TABLE
+		TABLE,
+		RED,
+		BLUE
 
 	};
 

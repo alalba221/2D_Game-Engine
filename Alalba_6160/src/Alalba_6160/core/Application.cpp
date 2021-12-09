@@ -115,6 +115,8 @@ namespace Alalba{
 	bool Application::OnKeyPressed(KeyPressedEvent& e)
 	{
 		if(Input::IsKeyPressed(ALALBA_SPACE)){
+
+
 			auto view = m_Scene->Reg().view<Rigidbody2DComponent>();		
 			// Check if Arrow already exist
 			for(auto en:view)
@@ -126,7 +128,20 @@ namespace Alalba{
 				{
 					auto& transform = entity.GetComponent<TransformComponent>();
 					transform.strength = 1.1 *transform.strength;
-					std::cout<< transform.strength <<std::endl;
+					
+					// update TXT info
+					auto txtview = m_Scene->Reg().view<TextComponent>();		
+					for(auto& txt : txtview){
+						Entity txtentity = {txt, m_Scene};
+						if(txtentity.GetComponent<TagComponent>().Tag =="Strength")
+						{		
+							txtentity.RemoveComponent<TextComponent>();
+							txtentity.AddComponent<TextComponent>();
+							txtentity.GetComponent<TextComponent>().text = std::to_string(transform.strength);
+							txtentity.GetComponent<TextComponent>().color = {0,255,0};
+						}		
+					}
+
 					if(transform.strength > 2)
 						transform.strength = 0.1;
 				}
@@ -160,13 +175,13 @@ namespace Alalba{
 			//Check 2 players
 			if(player1->HasComponent<PlayerComponent>())
 			{
-				puck->AddComponent<TextureComponent>(TextureId::AWESOMEFACE);
+				puck->AddComponent<TextureComponent>(TextureId::RED);
 				m_Scene->AddEntity(puck,"Player1");
 				
 			}
 			else if(player2->HasComponent<PlayerComponent>())
 			{
-				puck->AddComponent<TextureComponent>(TextureId::AWESOMEFACEINV);
+				puck->AddComponent<TextureComponent>(TextureId::BLUE);
 				m_Scene->AddEntity(puck,"Player2");
 				
 			}

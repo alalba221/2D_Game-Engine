@@ -2,15 +2,15 @@
 namespace Alalba{
 	TextureManager::TextureManager(SDL_Renderer* renderer) : renderer{renderer} \
 	{
-		SDL_Surface* tempSurface = IMG_Load("../../../asset/awesomeface.png");
+		SDL_Surface* tempSurface = IMG_Load("../../../asset/red_puck.png");
 		if (!tempSurface) {
 				std::cout << "[Texture manager] Unable to load texture: " << IMG_GetError() << std::endl;
 				throw std::invalid_argument("Unable to load texture");
 		}
 		texture = SDL_CreateTextureFromSurface(renderer, tempSurface);
 		SDL_FreeSurface(tempSurface);
-		textures.insert_or_assign(TextureId::AWESOMEFACE, new SDL_Rect{12*17, 4*17, TILE_SIZE, TILE_SIZE});
-		ShuffleBoardTextures.insert_or_assign(TextureId::AWESOMEFACE, texture);		
+		//textures.insert_or_assign(TextureId::RED, new SDL_Rect{12*17, 4*17, TILE_SIZE, TILE_SIZE});
+		ShuffleBoardTextures.insert_or_assign(TextureId::RED, texture);		
 		
 		// Add arrow and board images
 		tempSurface = IMG_Load("../../../asset/arrow.png");
@@ -20,10 +20,10 @@ namespace Alalba{
 
 		//
 		// Add inverse face
-		tempSurface = IMG_Load("../../../asset/awesomefaceinvert.png");
+		tempSurface = IMG_Load("../../../asset/blue_puck.png");
 		texture2 = SDL_CreateTextureFromSurface(renderer, tempSurface);
 		SDL_FreeSurface(tempSurface);
-		ShuffleBoardTextures.insert_or_assign(TextureId::AWESOMEFACEINV, texture2);		
+		ShuffleBoardTextures.insert_or_assign(TextureId::BLUE, texture2);		
 
 
 		tempSurface = IMG_Load("../../../asset/table.png");

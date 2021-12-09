@@ -319,8 +319,17 @@ namespace Alalba{
   };
 
 	struct TextComponent : public Component {
-    TextComponent(std::string&& text) : text{std::move(text)} {}
 
+		
+
+		TextComponent() = default;
+		TextComponent(const TextComponent&) = default;
+		TextComponent(const std::string& text)
+			: text(text) {}
+
+
+		// TextComponent() = default;
+		// TextComponent(const TextComponent&) = default;
     std::string text;
     SDL_Texture* texture = nullptr;
 		SDL_Color color = {255, 255, 255};
