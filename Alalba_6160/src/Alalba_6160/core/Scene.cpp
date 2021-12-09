@@ -42,6 +42,17 @@ namespace Alalba {
 		table->GetComponent<TransformComponent>().Scale = glm::vec3(10, 40 ,0);
 		//table->AddComponent<Rigidbody2DComponent>();
 		AddEntity(table,"Table");
+
+
+		//  test ttf
+		Entity* text  = new Entity(m_Registry.create(),this);
+		//table->AddComponent<TextureComponent>(TextureId::TABLE);
+		text->AddComponent<TransformComponent>(glm::vec3(3, 4 ,0));
+		text->GetComponent<TransformComponent>().Scale = glm::vec3(2, 2 ,0);
+		text->AddComponent<TextComponent>("SSS");
+		//text->GetComponent<TextComponent>().text = "AAA";
+		//table->AddComponent<Rigidbody2DComponent>();
+		AddEntity(text,"Text");
 	}
 	void Scene::OnUpdate(float t)
 	{

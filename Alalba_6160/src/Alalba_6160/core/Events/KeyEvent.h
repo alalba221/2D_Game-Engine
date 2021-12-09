@@ -17,6 +17,8 @@ namespace Alalba {
 		int m_KeyCode;
 	};
 
+
+
 	class ALALBA_API KeyPressedEvent : public KeyEvent
 	{
 	public:

@@ -1,6 +1,7 @@
 #pragma once
 #include "Alalba_6160/Renderer/Renderer.h"
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include "Alalba_6160/Renderer/TextureManager.h"
 #include "Alalba_6160/core/Entities/Entity.h"
 namespace Alalba
@@ -26,5 +27,6 @@ namespace Alalba
 		frametime, framestart;
 		TextureManager* m_TextureManager;
 		CameraComponent* m_Camera;
+		TTF_Font* font;
   };
 }

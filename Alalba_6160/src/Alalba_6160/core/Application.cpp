@@ -44,15 +44,16 @@ namespace Alalba{
 		dispatcher.Dispatch<KeyPressedEvent>(BIND_ENVENT_FN(Application::OnKeyPressed));
 		dispatcher.Dispatch<MouseMovedEvent>(BIND_ENVENT_FN(Application::OnMouseMove));
 		dispatcher.Dispatch<MouseButtonReleasedEvent>(BIND_ENVENT_FN(Application::OnMouseReleased));
+		dispatcher.Dispatch<KeyReleasedEvent>(BIND_ENVENT_FN(Application::OnKeyReleased));
 		auto entities = m_Scene->GetEntities();
 	
-		// for(auto entity: entities)
-		// {
-		// 	if(entity->GetComponent<TagComponent>().Tag == "Player")
-		// 	{
-		// 		entity->OnEvent(e);	
-		// 	}
-		// }
+		for(auto entity: entities)
+		{
+			if(entity->GetComponent<TagComponent>().Tag == "Player")
+			{
+				entity->OnEvent(e);	
+			}
+		}
 
 	}
 	void Application::OnUpdate(float t){
@@ -61,9 +62,9 @@ namespace Alalba{
 		m_Scene->OnUpdate(t);
 		
 	}
-	bool Application::OnKeyPressed(KeyPressedEvent& e)
-	{
-		if(Input::IsKeyPressed(ALALBA_SPACE)){
+	bool Application::OnKeyReleased(KeyReleasedEvent& e){
+	
+		if(Input::IsKeyReleased(ALALBA_SPACE)){
 			auto view = m_Scene->Reg().view<Rigidbody2DComponent>();		
 			// Check if Arrow already exist
 			for(auto en:view)
@@ -73,12 +74,15 @@ namespace Alalba{
 				if(entity.GetComponent<TagComponent>().Tag == "Player1" || 
 					entity.GetComponent<TagComponent>().Tag == "Player2")
 				{
+					
 					auto& transform = entity.GetComponent<TransformComponent>();
 					auto& rb2d = entity.GetComponent<Rigidbody2DComponent>();
+
+					
 					glm::mat4 rotator = glm::rotate(glm::mat4(1.0f),transform.shootDir.z, glm::vec3{0,0,1});
 					
 					glm::vec4 Vector = rotator * glm::vec4{0,-9.8,0,1};
-					PhysicsSys::AddImpluse(entity,transform.Translation, glm::vec3{Vector.x,Vector.y,0.0f}* (float)(rb2d.Mass * 1.0));
+					PhysicsSys::AddImpluse(entity,transform.Translation, glm::vec3{Vector.x,Vector.y,0.0f}* (float)(rb2d.Mass * transform.strength));
 					if(entity.GetComponent<TagComponent>().Tag == "Player1")
 						entity.GetComponent<TagComponent>().Tag = "Puck1";
 					else 
@@ -106,6 +110,29 @@ namespace Alalba{
 				
 			}
 		}	
+	}
+
+	bool Application::OnKeyPressed(KeyPressedEvent& e)
+	{
+		if(Input::IsKeyPressed(ALALBA_SPACE)){
+			auto view = m_Scene->Reg().view<Rigidbody2DComponent>();		
+			// Check if Arrow already exist
+			for(auto en:view)
+			{
+				Entity entity = {en, m_Scene};
+				
+				if(entity.GetComponent<TagComponent>().Tag == "Player1" || 
+					entity.GetComponent<TagComponent>().Tag == "Player2")
+				{
+					auto& transform = entity.GetComponent<TransformComponent>();
+					transform.strength = 1.1 *transform.strength;
+					std::cout<< transform.strength <<std::endl;
+					if(transform.strength > 2)
+						transform.strength = 0.1;
+				}
+
+			}
+		}
 	}
 	bool Application::OnMousePressed(MouseButtonPressedEvent& e)
 	{

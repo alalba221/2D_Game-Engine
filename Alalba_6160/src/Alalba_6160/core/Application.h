@@ -34,6 +34,7 @@ namespace Alalba{
 		bool OnMouseReleased(MouseButtonReleasedEvent& e);
 		bool OnMouseMove(MouseMovedEvent& e);
 		bool OnKeyPressed(KeyPressedEvent& e);
+		bool OnKeyReleased(KeyReleasedEvent& e);
 	private:
 		std::unique_ptr<Window> m_Window;
 		unsigned int winID;

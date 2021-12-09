@@ -62,7 +62,8 @@ project "Alalba_6160"
 		"pthread",
 		-- "ImGui",
 		"SDL2",
-		"SDL2_image"
+		"SDL2_image",
+		"SDL2_ttf"
 		-- , "Box2D"
 	}
 	filter "system:linux"

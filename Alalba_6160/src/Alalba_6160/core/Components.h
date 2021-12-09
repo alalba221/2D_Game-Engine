@@ -304,6 +304,7 @@ namespace Alalba{
 		float w, h;
 		float x, y;
 		glm::vec3 shootDir = glm::vec3{0,-1,0};
+		float strength = 0.1f;
 
 		~TransformComponent() override = default;
   };
@@ -316,6 +317,17 @@ namespace Alalba{
 		PlayerComponent() = default;
 		bool Enable = true;
   };
+
+	struct TextComponent : public Component {
+    TextComponent(std::string&& text) : text{std::move(text)} {}
+
+    std::string text;
+    SDL_Texture* texture = nullptr;
+		SDL_Color color = {255, 255, 255};
+    ~TextComponent() override {
+        SDL_DestroyTexture(texture);
+    }
+};
 	struct Rigidbody2DComponent : public Component
 	{
 		enum class BodyType { Static = 0, Dynamic, Kinematic };

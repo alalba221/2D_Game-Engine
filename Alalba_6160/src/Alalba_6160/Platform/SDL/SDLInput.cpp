@@ -11,7 +11,11 @@ namespace Alalba {
 		const unsigned char *state = SDL_GetKeyboardState(NULL); 
   	return (state[keycode]==1);
 	}
-
+	bool SDLInput::IsKeyReleasedImpl(int keycode)
+	{
+		const unsigned char *state = SDL_GetKeyboardState(NULL); 
+  	return (state[keycode]==0);
+	}
 	bool SDLInput::IsMouseButtonPressedImpl(int button)
 	{
     int x, y;
