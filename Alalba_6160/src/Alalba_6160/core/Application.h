@@ -46,5 +46,7 @@ namespace Alalba{
 		Scene* m_Scene;
 		Entity* player1;
 		Entity* player2;
+		// temporary
+		int count = 8;
   };
 }

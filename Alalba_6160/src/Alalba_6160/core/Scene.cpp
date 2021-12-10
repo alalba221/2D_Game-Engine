@@ -94,6 +94,21 @@ namespace Alalba {
 		strength->AddComponent<TextComponent>("0.000000");
 		AddEntity(strength,"Strength");
 
+
+		// init dictator
+		for(int i=0;i<4;i++)
+		{
+			redDictator[i]  = new Entity(m_Registry.create(),this);
+			redDictator[i]->AddComponent<TransformComponent>(glm::vec3(3+i, 20 ,0));
+			redDictator[i]->AddComponent<TextureComponent>(TextureId::RED);
+			this->AddEntity(redDictator[i]);
+
+			blueDictator[i]  = new Entity(m_Registry.create(),this);
+			blueDictator[i]->AddComponent<TransformComponent>(glm::vec3(24+i, 20 ,0));
+			blueDictator[i]->AddComponent<TextureComponent>(TextureId::BLUE);
+			this->AddEntity(blueDictator[i]);
+		}
+
 	}
 	void Scene::OnUpdate(float t)
 	{

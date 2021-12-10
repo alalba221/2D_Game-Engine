@@ -117,6 +117,7 @@ namespace Alalba{
 
 	void Application::Clear(){
 		PhysicsSys::m_Contact.clear();
+		count = 8;
 		// player1->GetComponent<PlayerComponent>().score = 0;
 		// player2->GetComponent<PlayerComponent>().score = 0;
 		auto view = m_Scene->Reg().view<TextureComponent>();
@@ -128,6 +129,17 @@ namespace Alalba{
 				entity.RemoveComponent<Rigidbody2DComponent>();
 			
 		}
+
+		// recovery dictator
+		for(int i=0;i<4;i++)
+		{
+
+			m_Scene->redDictator[i]->AddComponent<TextureComponent>(TextureId::RED);
+
+			m_Scene->blueDictator[i]->AddComponent<TextureComponent>(TextureId::BLUE);
+
+		}
+
 	}
 
 	bool Application::OnKeyPressed(KeyPressedEvent& e)
@@ -173,7 +185,8 @@ namespace Alalba{
 	}
 	bool Application::OnMousePressed(MouseButtonPressedEvent& e)
 	{
-		
+		if(count==0)
+			return false;
 		if(Input::IsMouseButtonPressed(ALALBA_MOUSE_BUTTON_LEFT)){
 			std::cout<<e<<std::endl;
 			auto view = m_Scene->Reg().view<Rigidbody2DComponent>();
@@ -187,6 +200,12 @@ namespace Alalba{
 					return false;
 				}
 			}
+			if(count%2==0)
+				m_Scene->redDictator[count/2-1]->RemoveComponent<TextureComponent>();
+			else
+				m_Scene->blueDictator[count/2]->RemoveComponent<TextureComponent>();
+			count--;
+			
 			// For test: place a puck at mouse position
 			Entity* puck  = new Entity(m_Scene->Reg().create(),m_Scene);
 			
