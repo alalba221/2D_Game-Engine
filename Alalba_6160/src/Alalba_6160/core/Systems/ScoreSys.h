@@ -12,6 +12,8 @@ namespace Alalba
 		static void Init(Scene& scene);
 		static void OnUpdate(Scene& scene);
 		static void UpdateScoreTxt(Scene& scene, int score, const std::string& tag);
+		static int redscore;
+		static int bluescore;
 	};
 
 

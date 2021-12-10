@@ -2,13 +2,16 @@
 
 namespace Alalba
 {
-	
+	int ScoreSys::redscore;
+	int ScoreSys::bluescore;
 
 	void ScoreSys::Init(Scene& scene){
 		std::cout<<"ScoreSys system init"<<std::endl;
-
+		redscore = 0;
+		bluescore = 0;
 	}
 	
+
 	void ScoreSys:: UpdateScoreTxt(Scene& scene, int score,const std::string& tag){
 		
 		auto view = scene.Reg().view<TextComponent>();
@@ -25,8 +28,8 @@ namespace Alalba
 	}
 	void ScoreSys::OnUpdate(Scene& scene){
 		
-		int redscore = 0;
-		int bluescore = 0;
+		redscore = 0;
+		bluescore = 0;
 		
 		auto view = scene.Reg().view<Rigidbody2DComponent>();
 		for (auto e:view)

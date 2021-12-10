@@ -136,6 +136,12 @@ namespace Alalba{
 				entity.RemoveComponent<Rigidbody2DComponent>();
 			
 		}
+		auto txtview = m_Scene->Reg().view<TextComponent>();
+		for(auto en:txtview){
+			Entity entity = {en, m_Scene};
+			if(entity.GetComponent<TagComponent>().Tag=="winner")
+				entity.RemoveComponent<TextComponent>();
+		}
 
 		// recovery dictator
 		for(int i=0;i<4;i++)
@@ -199,10 +205,14 @@ namespace Alalba{
 	}
 	bool Application::OnMousePressed(MouseButtonPressedEvent& e)
 	{
-		if(m_Scene->getScreen() == 0)
+		if(m_Scene->getScreen() == 0 || m_Scene->getScreen() == 2)
 			return false;
 		if(count==0)
+		{
+			m_Scene->dictateScreen(2);
+			m_Scene->Init();
 			return false;
+		}
 		if(Input::IsMouseButtonPressed(ALALBA_MOUSE_BUTTON_LEFT)){
 			std::cout<<e<<std::endl;
 			auto view = m_Scene->Reg().view<Rigidbody2DComponent>();

@@ -7,6 +7,7 @@
 #include "Vec2.h"
 #include "Alalba_6160/core/Entities/Entity.h"
 #include "Alalba_6160/core/Entities/Camera.h"
+#include "Alalba_6160/core/Systems/ScoreSys.h"
 namespace Alalba {
 
 	Scene::Scene()
@@ -34,7 +35,7 @@ namespace Alalba {
 																		SNES_RESOLUTION_WIDTH,
 																		SNES_RESOLUTION_WIDTH);
 		AddEntity(camera, "Camera");
-		if(screenNum == 1)
+		if(screenNum == 1 || screenNum == 2)
 		{
 			//  table
 			Entity* table  = new Entity(m_Registry.create(),this);
@@ -94,6 +95,40 @@ namespace Alalba {
 			strength->GetComponent<TransformComponent>().Scale = glm::vec3(4, 2 ,0);
 			strength->AddComponent<TextComponent>("0.000000");
 			AddEntity(strength,"Strength");
+			if(screenNum == 2)
+			{
+				//printf("%d\n", stoi(BlueScore->GetComponent<TextComponent>().text));
+				if(ScoreSys::redscore < ScoreSys::bluescore)
+				{
+					Entity* winner  = new Entity(m_Registry.create(),this);
+					winner->AddComponent<TransformComponent>(glm::vec3(23, 10 ,0),0.5,0.5);
+					winner->GetComponent<TransformComponent>().Scale = glm::vec3(10, 6 ,0);
+					winner->AddComponent<TextComponent>();
+					winner->GetComponent<TextComponent>().text = "Blue Wins!";
+					winner->GetComponent<TextComponent>().color = {0,0,0};
+					AddEntity(winner,"winner");
+				}
+				else if(ScoreSys::redscore > ScoreSys::bluescore)
+				{
+					Entity* winner  = new Entity(m_Registry.create(),this);
+					winner->AddComponent<TransformComponent>(glm::vec3(23, 10 ,0),0.5,0.5);
+					winner->GetComponent<TransformComponent>().Scale = glm::vec3(10, 6 ,0);
+					winner->AddComponent<TextComponent>();
+					winner->GetComponent<TextComponent>().text = "Red Wins!";
+					winner->GetComponent<TextComponent>().color = {0,0,0};
+					AddEntity(winner,"winner");
+				}
+				else
+				{
+					Entity* winner  = new Entity(m_Registry.create(),this);
+					winner->AddComponent<TransformComponent>(glm::vec3(23, 10 ,0),0.5,0.5);
+					winner->GetComponent<TransformComponent>().Scale = glm::vec3(10, 6 ,0);
+					winner->AddComponent<TextComponent>();
+					winner->GetComponent<TextComponent>().text = "It's a Tie!";
+					winner->GetComponent<TextComponent>().color = {0,0,0};
+					AddEntity(winner,"winner");
+				}
+			}
 		}
 		else if(screenNum == 0)
 		{
@@ -104,15 +139,7 @@ namespace Alalba {
 			sScreen->GetComponent<TransformComponent>().Scale = glm::vec3(60, 50 ,0);
 			AddEntity(sScreen,"sScreen");
 		}
-		else if(screenNum == 2)
-		{
-			Entity* eScreen  = new Entity(m_Registry.create(),this);
-			eScreen->AddComponent<TextureComponent>(TextureId::END);
-														//position of center of image
-			eScreen->AddComponent<TransformComponent>(glm::vec3(15, 12 ,0),0.5,0.5);
-			eScreen->GetComponent<TransformComponent>().Scale = glm::vec3(60, 50 ,0);
-			AddEntity(eScreen,"eScreen");
-		}
+		
 
 		if(screenNum == 1)
 		{
