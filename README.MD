@@ -39,6 +39,14 @@ We got it done!!!!, but we still will come back to this!!
 ## Final
 Thanks to
 - Dillon Ranwala <dranwal@g.clemson.edu> 
+> - Designed the game mechanics
+> - Designed the In-Game HUD
+> - Lead all the team meeting 
+> - Designed the In-Game UI
+> - Programmer on In-Game Scene
 - Stuart Saletan <ssaleta@g.clemson.edu>
+> - Designed the start and end scene
+> - Implement the switching mechanics beweent the start , in-game and end scene
+> - Without him, we cann't make the start and end scene work in time. He saved this project at the last minute!
 
 
