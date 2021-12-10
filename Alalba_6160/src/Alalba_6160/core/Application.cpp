@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "Events/ApplicationEvent.h"
 #include "Alalba_6160/core/Systems/PhysicsSys.h"
+#include "Alalba_6160/core/Systems/ScoreSys.h"
 // #include "Alalba/Core/Log.h"
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_timer.h>
@@ -23,12 +24,13 @@ namespace Alalba{
 
 		Renderer::Init(winID, *m_Scene);
 		PhysicsSys::Init(*m_Scene);
-		
+		ScoreSys::Init(*m_Scene);
+
 		player1  = new Entity(m_Scene->Reg().create(),m_Scene);
 		player1->AddComponent<PlayerComponent>();
-		m_Scene->AddEntity(player1);
+		m_Scene->AddEntity(player1,"Shooter1");
 		player2  = new Entity(m_Scene->Reg().create(),m_Scene);
-		m_Scene->AddEntity(player2);
+		m_Scene->AddEntity(player2,"Shooter2");
 		
 	}
   Application::~Application(){
@@ -59,11 +61,12 @@ namespace Alalba{
 	void Application::OnUpdate(float t){
 		
 		PhysicsSys::OnUpdate(*m_Scene , t);
+	
 		m_Scene->OnUpdate(t);
 		
 	}
 	bool Application::OnKeyReleased(KeyReleasedEvent& e){
-	
+		
 		if(Input::IsKeyReleased(ALALBA_SPACE)){
 			auto view = m_Scene->Reg().view<Rigidbody2DComponent>();		
 			// Check if Arrow already exist
@@ -112,11 +115,29 @@ namespace Alalba{
 		}	
 	}
 
+	void Application::Clear(){
+		PhysicsSys::m_Contact.clear();
+		// player1->GetComponent<PlayerComponent>().score = 0;
+		// player2->GetComponent<PlayerComponent>().score = 0;
+		auto view = m_Scene->Reg().view<TextureComponent>();
+		for(auto en:view){
+			Entity entity = {en, m_Scene};
+			if(entity.GetComponent<TagComponent>().Tag!="Table")
+				entity.RemoveComponent<TextureComponent>();
+			if (entity.HasComponent<Rigidbody2DComponent>())
+				entity.RemoveComponent<Rigidbody2DComponent>();
+			
+		}
+	}
+
 	bool Application::OnKeyPressed(KeyPressedEvent& e)
 	{
+
+		if(Input::IsKeyPressed(ALALBA_R)){
+			Clear();
+		
+		}
 		if(Input::IsKeyPressed(ALALBA_SPACE)){
-
-
 			auto view = m_Scene->Reg().view<Rigidbody2DComponent>();		
 			// Check if Arrow already exist
 			for(auto en:view)
@@ -130,18 +151,19 @@ namespace Alalba{
 					transform.strength = 1.1 *transform.strength;
 					
 					// update TXT info
-					auto txtview = m_Scene->Reg().view<TextComponent>();		
-					for(auto& txt : txtview){
-						Entity txtentity = {txt, m_Scene};
-						if(txtentity.GetComponent<TagComponent>().Tag =="Strength")
-						{		
-							txtentity.RemoveComponent<TextComponent>();
-							txtentity.AddComponent<TextComponent>();
-							txtentity.GetComponent<TextComponent>().text = std::to_string(transform.strength);
-							txtentity.GetComponent<TextComponent>().color = {0,255,0};
-						}		
+					{
+						auto txtview = m_Scene->Reg().view<TextComponent>();		
+						for(auto& txt : txtview){
+							Entity txtentity = {txt, m_Scene};
+							if(txtentity.GetComponent<TagComponent>().Tag =="Strength")
+							{		
+								txtentity.RemoveComponent<TextComponent>();
+								txtentity.AddComponent<TextComponent>();
+								txtentity.GetComponent<TextComponent>().text = std::to_string(transform.strength);
+								txtentity.GetComponent<TextComponent>().color = {0,255,0};
+							}		
+						}
 					}
-
 					if(transform.strength > 2)
 						transform.strength = 0.1;
 				}
@@ -308,6 +330,7 @@ namespace Alalba{
 			for (int K = 0; K < 10; K++)
 				this->OnUpdate(0.0005);
 			m_Window->OnUpdate();
+			ScoreSys::OnUpdate(*m_Scene);
 			Renderer::Submit(*m_Scene);
 			Renderer::Render();
 		}

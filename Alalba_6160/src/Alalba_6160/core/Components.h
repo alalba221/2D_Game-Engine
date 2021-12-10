@@ -316,6 +316,9 @@ namespace Alalba{
 	struct PlayerComponent : public Component {
 		PlayerComponent() = default;
 		bool Enable = true;
+		int score = 0;
+		int scores[4];
+		int count = 4;
   };
 
 	struct TextComponent : public Component {

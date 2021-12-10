@@ -38,8 +38,8 @@ namespace Alalba {
 		//  table
 		Entity* table  = new Entity(m_Registry.create(),this);
 		table->AddComponent<TextureComponent>(TextureId::TABLE);
-		table->AddComponent<TransformComponent>(glm::vec3(15, 12 ,0));
-		table->GetComponent<TransformComponent>().Scale = glm::vec3(10, 40 ,0);
+		table->AddComponent<TransformComponent>(glm::vec3(15, 12 ,0),0.5,0.5);
+		table->GetComponent<TransformComponent>().Scale = glm::vec3(tablewidth, tablelength ,0);
 		//table->AddComponent<Rigidbody2DComponent>();
 		AddEntity(table,"Table");
 
@@ -47,36 +47,51 @@ namespace Alalba {
 		//  Red score table
 		Entity* Red  = new Entity(m_Registry.create(),this);
 		//table->AddComponent<TextureComponent>(TextureId::TABLE);
-		Red->AddComponent<TransformComponent>(glm::vec3(3, 4 ,0));
+		Red->AddComponent<TransformComponent>(glm::vec3(3, 4 ,0),0.5,0.5);
 		Red->GetComponent<TransformComponent>().Scale = glm::vec3(2, 2 ,0);
 		Red->AddComponent<TextComponent>("Red");
 		Red->GetComponent<TextComponent>().color = {255,0,0};
 		AddEntity(Red,"Red");
 
+		Entity* RedScore  = new Entity(m_Registry.create(),this);
+		//table->AddComponent<TextureComponent>(TextureId::TABLE);
+		RedScore->AddComponent<TransformComponent>(glm::vec3(6, 4 ,0),0.5,0.5);
+		RedScore->GetComponent<TransformComponent>().Scale = glm::vec3(2, 2 ,0);
+		RedScore->AddComponent<TextComponent>("0");
+		RedScore->GetComponent<TextComponent>().color = {255,0,0};
+		AddEntity(RedScore,"RedScore");
+
+
+
 		//  blue score table
 		Entity* Blue  = new Entity(m_Registry.create(),this);
 		//table->AddComponent<TextureComponent>(TextureId::TABLE);
-		Blue->AddComponent<TransformComponent>(glm::vec3(27, 4 ,0));
+		Blue->AddComponent<TransformComponent>(glm::vec3(24, 4 ,0),0.5,0.5);
 		Blue->GetComponent<TransformComponent>().Scale = glm::vec3(2, 2 ,0);
 		Blue->AddComponent<TextComponent>("Blue");
 		Blue->GetComponent<TextComponent>().color = {0,255,0};
 		AddEntity(Blue,"Blue");
+		Entity* BlueScore  = new Entity(m_Registry.create(),this);
+		//table->AddComponent<TextureComponent>(TextureId::TABLE);
+		BlueScore->AddComponent<TransformComponent>(glm::vec3(27, 4 ,0),0.5,0.5);
+		BlueScore->GetComponent<TransformComponent>().Scale = glm::vec3(2, 2 ,0);
+		BlueScore->AddComponent<TextComponent>("0");
+		BlueScore->GetComponent<TextComponent>().color = {0,255,0};
+		AddEntity(BlueScore,"BlueScore");
 
 		//  Strength info
 		Entity* info  = new Entity(m_Registry.create(),this);
 		//table->AddComponent<TextureComponent>(TextureId::TABLE);
-		info->AddComponent<TransformComponent>(glm::vec3(3, 15 ,0));
+		info->AddComponent<TransformComponent>(glm::vec3(3, 15 ,0),0.5,0.5);
 		info->GetComponent<TransformComponent>().Scale = glm::vec3(4, 2 ,0);
 		info->AddComponent<TextComponent>();
 		info->GetComponent<TextComponent>().text = "Strength";
 		info->GetComponent<TextComponent>().color = {0,255,0};
 		AddEntity(info,"Info");
 		Entity* strength  = new Entity(m_Registry.create(),this);
-		strength->AddComponent<TransformComponent>(glm::vec3(6, 15 ,0));
+		strength->AddComponent<TransformComponent>(glm::vec3(6, 15 ,0),0.5,0.5);
 		strength->GetComponent<TransformComponent>().Scale = glm::vec3(4, 2 ,0);
-		strength->AddComponent<TextComponent>();
-		strength->GetComponent<TextComponent>().text = "";
-		strength->GetComponent<TextComponent>().color = {0,255,0};
+		strength->AddComponent<TextComponent>("0.000000");
 		AddEntity(strength,"Strength");
 
 	}

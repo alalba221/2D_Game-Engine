@@ -21,11 +21,15 @@ namespace Alalba {
 			transform.Translation += transform.CenterVelocity * t; 
 			transform.Rotation += transform.AngularVelocity * t;
 
-			if(transform.Translation.x <15-7.5/2 || transform.Translation.x > 15+7.5/2 )
-				{
-					transform.CenterVelocity = glm::vec3{0,0,0};
-					this->RemoveComponent<Rigidbody2DComponent>();
-				}
+			//int score = 0;
+			if(transform.Translation.x <15-tablewidth/4 || transform.Translation.x > 15+tablewidth/4 || transform.Translation.y < 12 - tablelength/4)
+			{
+				transform.CenterVelocity = glm::vec3{0,0,0};
+				//score = 0;
+				this->RemoveComponent<Rigidbody2DComponent>();
+				this->RemoveComponent<TextureComponent>();
+			}
+			
 			transform.dV = glm::vec3{0,0,0};
 			transform.dW = glm::vec3{0,0,0};
 		}
