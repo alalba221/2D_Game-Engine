@@ -44,6 +44,7 @@ namespace Alalba{
 		Renderer* m_Renderer;
 		static Application* s_Instance;
 		Scene* m_Scene;
+		Scene * s_Scene;
 		Entity* player1;
 		Entity* player2;
 		// temporary

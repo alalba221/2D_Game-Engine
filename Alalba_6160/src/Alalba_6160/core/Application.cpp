@@ -22,6 +22,13 @@ namespace Alalba{
 		m_Scene = new Scene();
 		m_Scene->Init();
 
+		// s_Scene = new Scene();
+		//s_Scene->Init_Start();
+
+		// Renderer::Init(winID, *s_Scene);
+		// PhysicsSys::Init(*s_Scene);
+		// ScoreSys::Init(*s_Scene);
+
 		Renderer::Init(winID, *m_Scene);
 		PhysicsSys::Init(*m_Scene);
 		ScoreSys::Init(*m_Scene);
@@ -149,6 +156,13 @@ namespace Alalba{
 			Clear();
 		
 		}
+
+		if(Input::IsKeyPressed(ALALBA_RETURN)){
+			m_Scene->dictateScreen(1);
+			m_Scene->clearEntities();
+			m_Scene->Init();
+		
+		}
 		if(Input::IsKeyPressed(ALALBA_SPACE)){
 			auto view = m_Scene->Reg().view<Rigidbody2DComponent>();		
 			// Check if Arrow already exist
@@ -185,6 +199,8 @@ namespace Alalba{
 	}
 	bool Application::OnMousePressed(MouseButtonPressedEvent& e)
 	{
+		if(m_Scene->getScreen() == 0)
+			return false;
 		if(count==0)
 			return false;
 		if(Input::IsMouseButtonPressed(ALALBA_MOUSE_BUTTON_LEFT)){
@@ -352,6 +368,7 @@ namespace Alalba{
 			ScoreSys::OnUpdate(*m_Scene);
 			Renderer::Submit(*m_Scene);
 			Renderer::Render();
+			printf("%d\n", m_Scene->getScreen());
 		}
   }
 }

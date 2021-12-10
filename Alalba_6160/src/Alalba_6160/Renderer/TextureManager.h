@@ -13,7 +13,9 @@ namespace Alalba{
 		ARROW,
 		TABLE,
 		RED,
-		BLUE
+		BLUE,
+		START,
+		END
 
 	};
 
@@ -28,6 +30,8 @@ namespace Alalba{
 		SDL_Texture* texture2;
 		SDL_Texture* textureArrow;
 		SDL_Texture* textureBoard;
+		SDL_Texture* textureStart;
+		SDL_Texture* textureEnd;
 
 		~TextureManager();
 

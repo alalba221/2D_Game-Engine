@@ -31,6 +31,18 @@ namespace Alalba{
 		SDL_FreeSurface(tempSurface);
 		ShuffleBoardTextures.insert_or_assign(TextureId::TABLE, textureBoard);		
 		// textures.insert_or_assign(TextureId::ARROW, new SDL_Rect{12*17, 4*17, TILE_SIZE, TILE_SIZE});
+
+		//Start texture
+		tempSurface = IMG_Load("../../../asset/startScreen.png");
+		textureStart = SDL_CreateTextureFromSurface(renderer, tempSurface);
+		SDL_FreeSurface(tempSurface);
+		ShuffleBoardTextures.insert_or_assign(TextureId::START, textureStart);		
+
+		//end texture
+		tempSurface = IMG_Load("../../../asset/endScreen.png");
+		textureEnd = SDL_CreateTextureFromSurface(renderer, tempSurface);
+		SDL_FreeSurface(tempSurface);
+		ShuffleBoardTextures.insert_or_assign(TextureId::END, textureEnd);		
 	}
 
 	void TextureManager::renderTexture(TextureId textureId, SDL_Rect& dstRect, double angle, bool flipH, bool flipV) {
