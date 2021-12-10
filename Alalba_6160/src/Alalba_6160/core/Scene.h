@@ -23,9 +23,6 @@ namespace Alalba
 		entt::registry m_Registry;
 		std::list<Entity*> m_Entities;
 		friend class Entity;
-
-
-
 		// physics
 	};
 }
